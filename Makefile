@@ -31,20 +31,19 @@ MID_GRAY =		\033[38;5;245m
 DARK_GREEN =	\033[38;2;75;179;82m
 DARK_YELLOW =	\033[38;5;143m
 
-NAME = so_long
+NAME = Cube_3D
 
-SRC_DIR = 		src
+SRC_DIR = ./ ./Execute ./Parse
 LIBMLX	= Library/MLX42
 FT_PRINTF = Library/ft_printf
 LIBFT	= Library/Libft
 
-SRC_FILES =		$(wildcard $(SRC_DIR)/*.c)
-SRC = 			$(addprefix $(SRC_DIR)/, $(SRC_FILES))
+SRC_FILES =		$(shell find $(SRC_DIR) -name '*.c')
 LIBS	= $(LIBMLX)/build/libmlx42.a $(LIBFT)/libft.a -ldl -lglfw -pthread -lm  -L"/Users/$(USER)/.brew/opt/glfw/lib/" -pthread -lm $(FT_PRINTF)/ft_printf.a -ldl -lglfw -L"/Users/$(USER)/.brew/opt/glfw/lib/" -pthread -lm
-OBJ_SRC		=	$(SRC_FILES:.c=.o)
+OBJ_SRC		=	Parse/check_errors.c Parse/input_parse.c
 
 HEADER_DIR	=	includes
-HEADER_SRCS	=	so_long.h \
+HEADER_SRCS	=	cube3D.h \
 HEADER		=	$(addprefix $(HEADER_DIR)/, $(HEADER_SRCS))
 
 CC = gcc
