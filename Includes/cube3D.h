@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 12:48:34 by cagarci2          #+#    #+#             */
-/*   Updated: 2024/12/09 14:12:42 by jeandrad         ###   ########.fr       */
+/*   Updated: 2024/12/11 18:03:24 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <limits.h>
-# include "../Library/MLX42/include/MLX42/MLX42.h"
+# include "../MLX42/include/MLX42/MLX42.h"
 # include "../Library/Libft/libft.h"
 # include "../Library/ft_printf/ft_printf.h"
 
@@ -42,7 +42,7 @@
 # include <unistd.h>
 # include <stdint.h>
 # include "../Library/Libft/libft.h"
-# include "../Library/MLX42/include/MLX42/MLX42.h"
+# include "../MLX42/include/MLX42/MLX42.h"
 
 
 // Todo esto deberia ir en una structura con valores fijos

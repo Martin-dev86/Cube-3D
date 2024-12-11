@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cagarci2 <cagarci2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 12:35:37 by cagarci2          #+#    #+#             */
-/*   Updated: 2024/07/24 10:41:05 by cagarci2         ###   ########.fr       */
+/*   Updated: 2024/12/11 17:30:24 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,19 @@ void	ft_lstdelone(t_list *lst, void (*del)(void*));
 void	ft_lstclear(t_list **lst, void (*del)(void*));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+
+// get_next_line
+void	ft_free(char **str);
+size_t	count_len(char *str);
+char	*search_char(char *str, int c);
+int		search_newline(char *str);
+char	*join_str(char *str1, char *str2);
+
+// BUFFER_SIZE
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 32
+# endif
+
+
 
 #endif
