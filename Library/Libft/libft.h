@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 12:35:37 by cagarci2          #+#    #+#             */
-/*   Updated: 2024/12/11 17:30:24 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/13 18:45:19 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ size_t	count_len(char *str);
 char	*search_char(char *str, int c);
 int		search_newline(char *str);
 char	*join_str(char *str1, char *str2);
+char	*get_next_line(int fd);
+
 
 // BUFFER_SIZE
 # ifndef BUFFER_SIZE

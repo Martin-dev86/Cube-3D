@@ -1,5 +1,5 @@
 # Name: raycasting
-NAME = cub3d
+NAME = cub3d_prueba
 
 # Compiler
 CC = clang
@@ -11,7 +11,7 @@ FLAGS = -g -Wall -Werror -Wextra -Iinclude #-fsanitize=address
 GLFW = -ldl -lglfw -pthread -lm 
 
 # Source files for libft
-LIBFT_PATH = ./Libft
+LIBFT_PATH = ./Library/Libft
 
 # Compiled libft
 LIBFT = $(LIBFT_PATH)/libft.a
@@ -23,7 +23,9 @@ MLX_PATH = ./MLX42
 MLX = $(MLX_PATH)/libmlx42.a
 
 # Source files for mandatory
-FILES = execute/drawing.c cub3d.c execute/movement.c execute/render.c execute/load_textures.c\
+FILES = cub3d.c execute/drawing.c execute/movement.c execute/render.c execute/textures.c\
+		execute/mov_forward.c execute/turn_mov.c execute/side_mov.c execute/key_a.c\
+		execute/wall_texture.c
 
 # Object files
 OBJS = $(FILES:.c=.o)
