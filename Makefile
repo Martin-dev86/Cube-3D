@@ -1,14 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: cagarci2 <cagarci2@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/03/22 12:45:34 by cagarci2          #+#    #+#              #
-#    Updated: 2024/03/22 12:45:34 by cagarci2         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
 # Name: raycasting
 NAME = cub3d
 
@@ -22,7 +11,7 @@ FLAGS = -g -Wall -Werror -Wextra -Iinclude #-fsanitize=address
 GLFW = -ldl -lglfw -pthread -lm 
 
 # Source files for libft
-LIBFT_PATH = ./Library/Libft
+LIBFT_PATH = ./Libft
 
 # Compiled libft
 LIBFT = $(LIBFT_PATH)/libft.a
@@ -34,7 +23,7 @@ MLX_PATH = ./MLX42
 MLX = $(MLX_PATH)/libmlx42.a
 
 # Source files for mandatory
-FILES = execute/drawing.c execute/movement.c execute/render.c cub3d.c
+FILES = execute/drawing.c cub3d.c execute/movement.c execute/render.c
 
 # Object files
 OBJS = $(FILES:.c=.o)

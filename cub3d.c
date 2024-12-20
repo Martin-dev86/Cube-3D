@@ -6,46 +6,88 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:23:11 by jeandrad          #+#    #+#             */
-/*   Updated: 2024/12/11 17:57:44 by jeandrad         ###   ########.fr       */
+/*   Updated: 2024/12/20 18:02:22 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Includes/cube3D.h"
+#include "Includes/cub3d.h"
 
-int main()
+void	free_map(char **map, int mapHeight)
 {
-    t_game game;
+	for (int i = 0; i < mapHeight; i++)
+		free(map[i]);
+	free(map);
+}
 
-    int worldMap[MAPWIDTH][MAPHEIGHT] =
-    {
-    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-    {1, 0, 0, 0, 1, 0, 0, 0, 0, 1},
-    {1, 0, 1, 0, 1, 0, 1, 0, 1, 1},
-    {1, 0, 1, 0, 3, 0, 1, 0, 3, 1},
-    {1, 0, 0, 0, 1, 0, 0, 0, 1, 1},
-    {1, 0, 1, 1, 1, 1, 1, 0, 1, 1},
-    {1, 0, 0, 0, 0, 0, 1, 0, 1, 1},
-    {1, 0, 1, 1, 0, 0, 1, 0, 0, 1},
-    {1, 0, 0, 0, 0, 0, 3, 1, 0, 1},
-    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
-    };
+char	**initialize_map(const char *mapData[], int mapHeight)
+{
+	char	**map;
 
-    memcpy(game.worldMap, worldMap, sizeof(worldMap));
+	map = malloc(mapHeight * sizeof(char *));
+	if (!map)
+		return (NULL);
+	for (int i = 0; i < mapHeight; i++)
+	{
+		map[i] = strdup(mapData[i]);
+		if (!map[i])
+		{
+			free_map(map, i);
+			return (NULL);
+		}
+	}
+	return (map);
+}
 
-    game.mlx = mlx_init(SCREENWIDTH, SCREENHEIGHT, "cub3d", false);  // Inicializa MLX42
-    game.image = mlx_new_image(game.mlx, SCREENWIDTH, SCREENHEIGHT);
+int	main(void)
+{
+	t_game		game;
+	const char	*mapData[] = {"11111111",
+                              "10010001",
+                              "10030101",
+                              "10000001",
+			                  "10000001",
+                              "11111111"};
+	int			mapHeight;
+	int			mapWidth;
 
-    game.posX = 5.0;
-    game.posY = 5.0;
-    game.dirX = -1.0;
-    game.dirY = 0.0;
-    game.planeX = 0.0;
-    game.planeY = 0.66;
-
-    mlx_loop_hook(game.mlx, update_and_render, &game); // Actualiza el renderizado
-    mlx_key_hook(game.mlx, move_player, &game); // Maneja la entrada del teclado
-
-    mlx_loop(game.mlx); // Inicia el bucle del evento
-    
-    return 0;
+	// Datos iniciales del mapa
+	mapHeight = sizeof(mapData) / sizeof(mapData[0]);
+	mapWidth = strlen(mapData[0]);
+	game.mapHeight = mapHeight;
+	game.mapWidth = mapWidth;
+	game.worldMap = initialize_map(mapData, mapHeight);
+	if (!game.worldMap)
+	{
+		fprintf(stderr, "Error: no se pudo inicializar el mapa.\n");
+		return (1);
+	}
+	game.mlx = mlx_init(SCREENWIDTH, SCREENHEIGHT, "Cub3D", true);
+	if (!game.mlx)
+	{
+		fprintf(stderr, "Error: no se pudo inicializar MLX42.\n");
+		free_map(game.worldMap, mapHeight);
+		return (1);
+	}
+	game.image = mlx_new_image(game.mlx, SCREENWIDTH, SCREENHEIGHT);
+	if (!game.image)
+	{
+		fprintf(stderr, "Error: no se pudo crear la imagen.\n");
+		mlx_terminate(game.mlx);
+		free_map(game.worldMap, mapHeight);
+		return (1);
+	}
+	// Posición inicial del jugador
+	game.posX = 1.5;
+	game.posY = 1.5;
+	game.dirX = -1;
+	game.dirY = 0;
+	game.planeX = 0;
+	game.planeY = 0.66;
+	mlx_loop_hook(game.mlx, &update_and_render, &game);
+	mlx_key_hook(game.mlx, &move_player, &game);
+	mlx_loop(game.mlx);
+	// Liberar recursos
+	free_map(game.worldMap, mapHeight);
+	mlx_terminate(game.mlx);
+	return (0);
 }

@@ -6,101 +6,126 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:26:30 by jeandrad          #+#    #+#             */
-/*   Updated: 2024/12/11 18:05:38 by jeandrad         ###   ########.fr       */
+/*   Updated: 2024/12/20 18:02:17 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Includes/cube3D.h"
+#include "../Includes/cub3d.h"
 
-// Función para actualizar y renderizar la imagen
-void update_and_render(void *param)
+void coloring(t_lines *lines, t_game *game, t_ray *ray)
 {
-    t_game *game = (t_game *)param;
-    clear_image(game->image, 0x000000FF); // Limpiar pantalla
-
-    for (int x = 0; x < SCREENWIDTH; x++) {
-        // Calculamos la dirección del rayo
-        double cameraX = 2 * x / (double)SCREENWIDTH - 1; // Mapeo de la pantalla en [-1, 1]
-        double rayDirX = game->dirX + game->planeX * cameraX;
-        double rayDirY = game->dirY + game->planeY * cameraX;
-
-        // Posición inicial del rayo
-        int mapX = (int)game->posX;
-        int mapY = (int)game->posY;
-
-        // Longitudes del rayo
-        double sideDistX, sideDistY;
-
-        // Dirección de los pasos en cada eje
-        int stepX, stepY;
-
-        // Variables de distancia
-        double deltaDistX = fabs(1 / rayDirX);
-        double deltaDistY = fabs(1 / rayDirY);
-        double perpWallDist;
-
-        // Determinar el paso en cada eje
-        if (rayDirX < 0)
-        {
-            stepX = -1;
-            sideDistX = (game->posX - mapX) * deltaDistX;
-        } else
-        {
-            stepX = 1;
-            sideDistX = (mapX + 1.0 - game->posX) * deltaDistX;
-        }
-
-        if (rayDirY < 0)
-        {
-            stepY = -1;
-            sideDistY = (game->posY - mapY) * deltaDistY;
-        } else
-        {
-            stepY = 1;
-            sideDistY = (mapY + 1.0 - game->posY) * deltaDistY;
-        }
-
-        // Realizar el "DDA" (Digital Differential Analyzer) para encontrar la intersección del rayo con las paredes
-        int hit = 0;
-        while (hit == 0)
-        {
-            // Si el rayo golpea una pared en el eje X
-            if (sideDistX < sideDistY) {
-                sideDistX += deltaDistX;
-                mapX += stepX;
-                if (game->worldMap[mapX][mapY] > 0) hit = 1;
-            } else {
-                sideDistY += deltaDistY;
-                mapY += stepY;
-                if (game->worldMap[mapX][mapY] > 0) hit = 1;
-            }
-        }
-
-        // Calcular la distancia hasta el punto de intersección del rayo
-        if (sideDistX < sideDistY)
-            perpWallDist = (mapX - game->posX + (1 - stepX) / 2) / rayDirX;
-        else
-            perpWallDist = (mapY - game->posY + (1 - stepY) / 2) / rayDirY;
-
-
-        // Calcular la altura de la pared
-        int lineHeight = (int)(SCREENHEIGHT / perpWallDist);
-
-        // Calcular el inicio y final de la pared en la pantalla
-        int drawStart = -lineHeight / 2 + SCREENHEIGHT / 2;
-        if (drawStart < 0) drawStart = 0;
-        int drawEnd = lineHeight / 2 + SCREENHEIGHT / 2;
-        if (drawEnd >= SCREENHEIGHT) drawEnd = SCREENHEIGHT - 1;
-
-        // Determinar el color de la pared
-        uint32_t color;
-        switch (game->worldMap[mapX][mapY])
-        {
-            case 1: color = 0x00FF7FFF; break; // Paredes verdes
-            default: color = 0xFFFFFF; break;  // Blanco
-        }
-        // Dibujar la pared
-        draw_line(game, x, drawStart, drawEnd, color);
+    switch (game->worldMap[ray->mapY][ray->mapX])
+    {
+    case '1':
+        lines->color = 0x00FF7FFF;
+        break ; // Verde
+    case '3':
+        lines->color = 0xFF0000FF;
+        break ; // Rojo
+    default:
+        lines->color = 0xFFFFFF;
+        break ; // Blanco
     }
-    mlx_image_to_window(game->mlx, game->image, 0, 0); // Mostrar la imagen en la ventana
+    if (lines->side == 1)
+        lines->color = lines->color / 2; // Make y-side walls darker
+}
+
+void ray_y(t_game game, t_ray *ray)
+{
+    if (ray->rayDirY < 0)
+    {
+        ray->stepY = -1;
+        ray->sideDistY = (game.posY - ray->mapY) * ray->deltaDistY;
+    }
+    else
+    {
+        ray->stepY = 1;
+        ray->sideDistY = (ray->mapY + 1.0 - game.posY) * ray->deltaDistY;
+    }
+}
+
+void	dda_function(t_ray *ray, t_game *game, int *hit, int *side)
+{
+	while (*hit == 0)
+	{
+		if (ray->sideDistX < ray->sideDistY)
+		{
+			ray->sideDistX += ray->deltaDistX;
+			ray->mapX += ray->stepX;
+			*side = 0;
+		}
+		else
+		{
+			ray->sideDistY += ray->deltaDistY;
+			ray->mapY += ray->stepY;
+			*side = 1;
+		}
+		if (game->worldMap[ray->mapY][ray->mapX] > '0')
+			*hit = 1;
+	}
+	if (*side == 0)
+		ray->perpWallDist = (ray->mapX - game->posX + (1 - ray->stepX) / 2)
+			/ ray->rayDirX;
+	else
+		ray->perpWallDist = (ray->mapY - game->posY + (1 - ray->stepY) / 2)
+			/ ray->rayDirY;
+}
+
+void	init_ray(t_ray *ray, t_game *game, int x)
+{
+	ray->cameraX = 2 * x / (double)SCREENWIDTH - 1;
+	ray->rayDirX = game->dirX + game->planeX * ray->cameraX;
+	ray->rayDirY = game->dirY + game->planeY * ray->cameraX;
+	ray->mapX = (int)game->posX;
+	ray->mapY = (int)game->posY;
+	ray->deltaDistX = fabs(1 / ray->rayDirX);
+	ray->deltaDistY = fabs(1 / ray->rayDirY);
+	if (ray->rayDirX < 0)
+	{
+		ray->stepX = -1;
+		ray->sideDistX = (game->posX - ray->mapX) * ray->deltaDistX;
+	}
+	else
+	{
+		ray->stepX = 1;
+		ray->sideDistX = (ray->mapX + 1.0 - game->posX) * ray->deltaDistX;
+	}
+    ray_y(*game, ray);
+}
+
+void draw_floor_and_ceiling(t_game *game, int x, int drawEnd, int drawStart)
+{
+    draw_line(game, x, drawEnd + 1, SCREENHEIGHT, 0xAAAAAAFF); // Color gris claro
+    draw_line(game, x, 0, drawStart, 0x87CEEBFF); // Color azul claro para el cielo
+}
+
+
+void	update_and_render(void *param)
+{
+    t_lines lines;
+	t_game	*game;
+	t_ray   ray;
+    
+
+	lines.x = 0;
+	game = (t_game *)param;
+	clear_image(game->image, 0x000000FF); // Limpiar pantalla
+	while (lines.x < SCREENWIDTH)
+	{
+		init_ray(&ray, game, lines.x);
+		lines.hit = 0;
+		dda_function(&ray, game, &lines.hit, &lines.side);
+		lines.lineHeight = (int)(SCREENHEIGHT / ray.perpWallDist);
+		lines.drawStart = -lines.lineHeight / 2 + SCREENHEIGHT / 2;
+		if (lines.drawStart < 0)
+			lines.drawStart = 0;
+		lines.drawEnd = lines.lineHeight / 2 + SCREENHEIGHT / 2;
+		if (lines.drawEnd >= SCREENHEIGHT)
+			lines.drawEnd = SCREENHEIGHT - 1;
+        coloring(&lines, game, &ray);
+		draw_line(game, lines.x, lines.drawStart, lines.drawEnd, lines.color);
+		draw_floor_and_ceiling(game, lines.x, lines.drawEnd, lines.drawStart);
+		lines.x++;
+	}
+	mlx_image_to_window(game->mlx, game->image, 0, 0);
 }
