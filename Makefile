@@ -1,9 +1,5 @@
 # Name: raycasting
-<<<<<<< HEAD
-NAME = cub3d_prueba
-=======
 NAME = cub3d
->>>>>>> dbc6ffb (now the hardcoded game without textures works)
 
 # Compiler
 CC = clang
@@ -15,11 +11,7 @@ FLAGS = -g -Wall -Werror -Wextra -Iinclude #-fsanitize=address
 GLFW = -ldl -lglfw -pthread -lm 
 
 # Source files for libft
-<<<<<<< HEAD
 LIBFT_PATH = ./Library/Libft
-=======
-LIBFT_PATH = ./Libft
->>>>>>> dbc6ffb (now the hardcoded game without textures works)
 
 # Compiled libft
 LIBFT = $(LIBFT_PATH)/libft.a
@@ -31,13 +23,9 @@ MLX_PATH = ./MLX42
 MLX = $(MLX_PATH)/libmlx42.a
 
 # Source files for mandatory
-<<<<<<< HEAD
 FILES = cub3d.c execute/drawing.c execute/movement.c execute/render.c execute/textures.c\
 		execute/mov_forward.c execute/turn_mov.c execute/side_mov.c execute/key_a.c\
 		execute/wall_texture.c
-=======
-FILES = execute/drawing.c cub3d.c execute/movement.c execute/render.c
->>>>>>> dbc6ffb (now the hardcoded game without textures works)
 
 # Object files
 OBJS = $(FILES:.c=.o)
