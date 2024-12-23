@@ -11,6 +11,8 @@
 # include <string.h>
 # include <unistd.h>
 
+//Este el el archivo de cabezera de cub3dq que uso
+
 // Todo esto deberia ir en una structura con valores fijos
 # define MAPWIDTH 10
 # define MAPHEIGHT 10
