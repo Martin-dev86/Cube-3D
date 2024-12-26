@@ -22,6 +22,7 @@
 # define SCREENHEIGHT 1280
 # define MOVE_SPEED 0.1
 # define ROT_SPEED 0.03
+# define PLAYER_RADIUS 0.2
 
 typedef struct
 {
