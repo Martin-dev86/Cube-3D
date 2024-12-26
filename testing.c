@@ -1,5 +1,7 @@
 #include "raycasting.h"
 
+// Desabilitar cursor en la mlx para mayor fluidez
+
 #define WIDTH 640
 #define HEIGHT 640
 #define TILE_SIZE 64
