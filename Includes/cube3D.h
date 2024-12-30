@@ -6,7 +6,7 @@
 /*   By: cagarci2 <cagarci2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 12:48:34 by cagarci2          #+#    #+#             */
-/*   Updated: 2024/12/04 13:54:09 by cagarci2         ###   ########.fr       */
+/*   Updated: 2024/12/30 12:55:26 by cagarci2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,20 @@
 # define WALL '1'
 # define FLOOR '0'
 
-typedef struct game_3d
+typedef struct s_game_3d
 {
 	int		file_size;
 	int		read_cont;
 	char	**maps;
-}
+}	t_game_3d;
+typedef struct s_element
+{
+	char	*north;
+	char	*south;
+	char	*west;
+	char	*east;
+	char	*floor;
+	char	*ceiling;
+}	t_element;
 
 #endif
