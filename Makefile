@@ -23,7 +23,7 @@ MLX_PATH = ./MLX42
 MLX = $(MLX_PATH)/libmlx42.a
 
 # Source files for mandatory
-FILES = execute/drawing.c cub3d.c execute/movement.c execute/render.c
+FILES = execute/drawing.c cub3d.c execute/movement.c execute/render.c execute/load_textures.c
 
 # Object files
 OBJS = $(FILES:.c=.o)

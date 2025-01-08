@@ -6,12 +6,61 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:26:30 by jeandrad          #+#    #+#             */
-/*   Updated: 2024/12/20 18:02:17 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/08 18:05:27 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/cub3d.h"
 
+#include "../Includes/cub3d.h"
+
+void draw_texture(t_game *game, t_lines *lines, t_ray *ray, int x)
+{
+    int texX;
+    int texY;
+    double wallX;
+    double step;
+    double texPos;
+    int color;
+    mlx_texture_t *texture;
+
+    // Determine which texture to use based on the wall hit
+    if (lines->side == 0 && ray->rayDirX > 0)
+        texture = game->textures.east;
+    else if (lines->side == 0 && ray->rayDirX < 0)
+        texture = game->textures.west;
+    else if (lines->side == 1 && ray->rayDirY > 0)
+        texture = game->textures.south;
+    else
+        texture = game->textures.north;
+
+    // Calculate the x coordinate on the texture
+    if (lines->side == 0)
+        wallX = game->posY + ray->perpWallDist * ray->rayDirY;
+    else
+        wallX = game->posX + ray->perpWallDist * ray->rayDirX;
+    wallX -= floor(wallX);
+
+    texX = (int)(wallX * (double)(texture->width));
+    if (lines->side == 0 && ray->rayDirX > 0)
+        texX = texture->width - texX - 1;
+    if (lines->side == 1 && ray->rayDirY < 0)
+        texX = texture->width - texX - 1;
+
+    // Calculate the step and initial texture coordinate
+    step = 1.0 * texture->height / lines->lineHeight;
+    texPos = (lines->drawStart - SCREENHEIGHT / 2 + lines->lineHeight / 2) * step;
+
+    for (int y = lines->drawStart; y < lines->drawEnd; y++)
+    {
+        texY = (int)texPos & (texture->height - 1);
+        texPos += step;
+        color = ((int *)texture->pixels)[texture->height * texY + texX];
+        if (lines->side == 1)
+            color = (color >> 1) & 8355711; // Make y-side walls darker
+        game->image->pixels[y * SCREENWIDTH + x] = color;
+    }
+}
 void coloring(t_lines *lines, t_game *game, t_ray *ray)
 {
     switch (game->worldMap[ray->mapY][ray->mapX])
@@ -100,32 +149,52 @@ void draw_floor_and_ceiling(t_game *game, int x, int drawEnd, int drawStart)
 }
 
 
-void	update_and_render(void *param)
+void update_and_render(void *param)
 {
     t_lines lines;
-	t_game	*game;
-	t_ray   ray;
-    
+    t_game *game;
+    t_ray ray;
 
-	lines.x = 0;
-	game = (t_game *)param;
-	clear_image(game->image, 0x000000FF); // Limpiar pantalla
-	while (lines.x < SCREENWIDTH)
-	{
-		init_ray(&ray, game, lines.x);
-		lines.hit = 0;
-		dda_function(&ray, game, &lines.hit, &lines.side);
-		lines.lineHeight = (int)(SCREENHEIGHT / ray.perpWallDist);
-		lines.drawStart = -lines.lineHeight / 2 + SCREENHEIGHT / 2;
-		if (lines.drawStart < 0)
-			lines.drawStart = 0;
-		lines.drawEnd = lines.lineHeight / 2 + SCREENHEIGHT / 2;
-		if (lines.drawEnd >= SCREENHEIGHT)
-			lines.drawEnd = SCREENHEIGHT - 1;
-        coloring(&lines, game, &ray);
-		draw_line(game, lines.x, lines.drawStart, lines.drawEnd, lines.color);
-		draw_floor_and_ceiling(game, lines.x, lines.drawEnd, lines.drawStart);
-		lines.x++;
-	}
-	mlx_image_to_window(game->mlx, game->image, 0, 0);
+    lines.x = 0;
+    game = (t_game *)param;
+    clear_image(game->image, 0x000000FF); // Limpiar pantalla
+    while (lines.x < SCREENWIDTH)
+    {
+        init_ray(&ray, game, lines.x);
+        lines.hit = 0;
+        dda_function(&ray, game, &lines.hit, &lines.side);
+        lines.lineHeight = (int)(SCREENHEIGHT / ray.perpWallDist);
+        lines.drawStart = -lines.lineHeight / 2 + SCREENHEIGHT / 2;
+        if (lines.drawStart < 0)
+            lines.drawStart = 0;
+        lines.drawEnd = lines.lineHeight / 2 + SCREENHEIGHT / 2;
+        if (lines.drawEnd >= SCREENHEIGHT)
+            lines.drawEnd = SCREENHEIGHT - 1;
+
+        // Determine the texture number based on the map value
+        // Removed lines.texNum assignment as it does not exist in the struct
+        switch (game->worldMap[ray.mapY][ray.mapX])
+        {
+        case '1':
+            // North texture
+            break;
+        case '2':
+            // South texture
+            break;
+        case '3':
+            // West texture
+            break;
+        case '4':
+            // East texture
+            break;
+        default:
+            // Default to North texture
+            break;
+        }
+
+        draw_texture(game, &lines, &ray, lines.x);
+        draw_floor_and_ceiling(game, lines.x, lines.drawEnd, lines.drawStart);
+        lines.x++;
+    }
+    mlx_image_to_window(game->mlx, game->image, 0, 0);
 }
