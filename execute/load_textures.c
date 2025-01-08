@@ -6,7 +6,6 @@ void error(void)
     printf("Es aquí\n");
     exit(EXIT_FAILURE);
 }
-
 void load_walls(t_game *game)
 {
     xpm_t *xpm;
@@ -26,7 +25,7 @@ void load_walls(t_game *game)
         error();
     game->textures.west = &xpm->texture;
 
-    xpm = mlx_load_xpm42("textures/pillar.xpm42");
+    xpm = mlx_load_xpm42("textures/redbrick.xpm42");
     if (!xpm)
         error();
     game->textures.east = &xpm->texture;

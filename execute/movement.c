@@ -6,9 +6,11 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:27:00 by jeandrad          #+#    #+#             */
-/*   Updated: 2024/12/26 16:40:49 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/08 19:58:48 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "../Includes/cub3d.h"
 
 #include "../Includes/cub3d.h"
 
@@ -31,21 +33,21 @@ void foward_and_back_mov(mlx_key_data_t keydata, void *param)
     double moveSpeed = MOVE_SPEED;
     if (keydata.key == MLX_KEY_W)
     {
-        if (game->worldMap[(int)(game->posY)][(int)(game->posX + game->dirX * moveSpeed + PLAYER_RADIUS)] == '0'\
-        && game->worldMap[(int)(game->posY)][(int)(game->posX + game->dirX * moveSpeed - PLAYER_RADIUS)] == '0')
-            game->posX += game->dirX * moveSpeed;
-        if (game->worldMap[(int)(game->posY + game->dirY * moveSpeed + PLAYER_RADIUS)][(int)(game->posX)] == '0'\
-        && game->worldMap[(int)(game->posY + game->dirY * moveSpeed - PLAYER_RADIUS)][(int)(game->posX)] == '0')
-            game->posY += game->dirY * moveSpeed;
+        if (game->worldMap[(int)(game->player_pos_y)][(int)(game->player_pos_x + game->player_dir_x * moveSpeed + PLAYER_RADIUS)] == '0'\
+        && game->worldMap[(int)(game->player_pos_y)][(int)(game->player_pos_x + game->player_dir_x * moveSpeed - PLAYER_RADIUS)] == '0')
+            game->player_pos_x += game->player_dir_x * moveSpeed;
+        if (game->worldMap[(int)(game->player_pos_y + game->player_dir_y * moveSpeed + PLAYER_RADIUS)][(int)(game->player_pos_x)] == '0'\
+        && game->worldMap[(int)(game->player_pos_y + game->player_dir_y * moveSpeed - PLAYER_RADIUS)][(int)(game->player_pos_x)] == '0')
+            game->player_pos_y += game->player_dir_y * moveSpeed;
     }
     if (keydata.key == MLX_KEY_S)
     {
-        if (game->worldMap[(int)(game->posY)][(int)(game->posX - game->dirX * moveSpeed + PLAYER_RADIUS)] == '0'\
-        && game->worldMap[(int)(game->posY)][(int)(game->posX - game->dirX * moveSpeed - PLAYER_RADIUS)] == '0')
-            game->posX -= game->dirX * moveSpeed;
-        if (game->worldMap[(int)(game->posY - game->dirY * moveSpeed + PLAYER_RADIUS)][(int)(game->posX)] == '0'\
-        && game->worldMap[(int)(game->posY - game->dirY * moveSpeed - PLAYER_RADIUS)][(int)(game->posX)] == '0')
-            game->posY -= game->dirY * moveSpeed;
+        if (game->worldMap[(int)(game->player_pos_y)][(int)(game->player_pos_x - game->player_dir_x * moveSpeed + PLAYER_RADIUS)] == '0'\
+        && game->worldMap[(int)(game->player_pos_y)][(int)(game->player_pos_x - game->player_dir_x * moveSpeed - PLAYER_RADIUS)] == '0')
+            game->player_pos_x -= game->player_dir_x * moveSpeed;
+        if (game->worldMap[(int)(game->player_pos_y - game->player_dir_y * moveSpeed + PLAYER_RADIUS)][(int)(game->player_pos_x)] == '0'\
+        && game->worldMap[(int)(game->player_pos_y - game->player_dir_y * moveSpeed - PLAYER_RADIUS)][(int)(game->player_pos_x)] == '0')
+            game->player_pos_y -= game->player_dir_y * moveSpeed;
     }
 }
 
@@ -57,21 +59,21 @@ void side_mov(mlx_key_data_t keydata, void *param)
 
     if (keydata.key == MLX_KEY_D)
     {
-        if (game->worldMap[(int)(game->posY)][(int)(game->posX + game->planeX * moveSpeed + PLAYER_RADIUS)] == '0'\
-        && game->worldMap[(int)(game->posY)][(int)(game->posX + game->planeX * moveSpeed - PLAYER_RADIUS)] == '0')
-            game->posX += game->planeX * moveSpeed;
-        if (game->worldMap[(int)(game->posY + game->planeY * moveSpeed + PLAYER_RADIUS)][(int)(game->posX)] == '0'\
-        && game->worldMap[(int)(game->posY + game->planeY * moveSpeed - PLAYER_RADIUS)][(int)(game->posX)] == '0')
-            game->posY += game->planeY * moveSpeed;
+        if (game->worldMap[(int)(game->player_pos_y)][(int)(game->player_pos_x + game->plane_x * moveSpeed + PLAYER_RADIUS)] == '0'\
+        && game->worldMap[(int)(game->player_pos_y)][(int)(game->player_pos_x + game->plane_x * moveSpeed - PLAYER_RADIUS)] == '0')
+            game->player_pos_x += game->plane_x * moveSpeed;
+        if (game->worldMap[(int)(game->player_pos_y + game->plane_y * moveSpeed + PLAYER_RADIUS)][(int)(game->player_pos_x)] == '0'\
+        && game->worldMap[(int)(game->player_pos_y + game->plane_y * moveSpeed - PLAYER_RADIUS)][(int)(game->player_pos_x)] == '0')
+            game->player_pos_y += game->plane_y * moveSpeed;
     }
     if (keydata.key == MLX_KEY_A)
     {
-        if (game->worldMap[(int)(game->posY)][(int)(game->posX - game->planeX * moveSpeed + PLAYER_RADIUS)] == '0'\
-        && game->worldMap[(int)(game->posY)][(int)(game->posX - game->planeX * moveSpeed - PLAYER_RADIUS)] == '0')
-            game->posX -= game->planeX * moveSpeed;
-        if (game->worldMap[(int)(game->posY - game->planeY * moveSpeed + PLAYER_RADIUS)][(int)(game->posX)] == '0'\
-        && game->worldMap[(int)(game->posY - game->planeY * moveSpeed - PLAYER_RADIUS)][(int)(game->posX)] == '0')
-            game->posY -= game->planeY * moveSpeed;
+        if (game->worldMap[(int)(game->player_pos_y)][(int)(game->player_pos_x - game->plane_x * moveSpeed + PLAYER_RADIUS)] == '0'\
+        && game->worldMap[(int)(game->player_pos_y)][(int)(game->player_pos_x - game->plane_x * moveSpeed - PLAYER_RADIUS)] == '0')
+            game->player_pos_x -= game->plane_x * moveSpeed;
+        if (game->worldMap[(int)(game->player_pos_y - game->plane_y * moveSpeed + PLAYER_RADIUS)][(int)(game->player_pos_x)] == '0'\
+        && game->worldMap[(int)(game->player_pos_y - game->plane_y * moveSpeed - PLAYER_RADIUS)][(int)(game->player_pos_x)] == '0')
+            game->player_pos_y -= game->plane_y * moveSpeed;
     }
 }
 
@@ -80,24 +82,24 @@ void turn_mov(mlx_key_data_t keydata, void *param)
     t_game *game = (t_game *)param;
 
     double rotSpeed = ROT_SPEED;
-    
+
     if (keydata.key == MLX_KEY_RIGHT)
     {
-        double oldDirX = game->dirX;
-        game->dirX = game->dirX * cos(-rotSpeed) - game->dirY * sin(-rotSpeed);
-        game->dirY = oldDirX * sin(-rotSpeed) + game->dirY * cos(-rotSpeed);
-        double oldPlaneX = game->planeX;
-        game->planeX = game->planeX * cos(-rotSpeed) - game->planeY * sin(-rotSpeed);
-        game->planeY = oldPlaneX * sin(-rotSpeed) + game->planeY * cos(-rotSpeed);
+        double oldDirX = game->player_dir_x;
+        game->player_dir_x = game->player_dir_x * cos(-rotSpeed) - game->player_dir_y * sin(-rotSpeed);
+        game->player_dir_y = oldDirX * sin(-rotSpeed) + game->player_dir_y * cos(-rotSpeed);
+        double oldPlaneX = game->plane_x;
+        game->plane_x = game->plane_x * cos(-rotSpeed) - game->plane_y * sin(-rotSpeed);
+        game->plane_y = oldPlaneX * sin(-rotSpeed) + game->plane_y * cos(-rotSpeed);
     }
     if (keydata.key == MLX_KEY_LEFT)
     {
-        double oldDirX = game->dirX;
-        game->dirX = game->dirX * cos(rotSpeed) - game->dirY * sin(rotSpeed);
-        game->dirY = oldDirX * sin(rotSpeed) + game->dirY * cos(rotSpeed);
-        double oldPlaneX = game->planeX;
-        game->planeX = game->planeX * cos(rotSpeed) - game->planeY * sin(rotSpeed);
-        game->planeY = oldPlaneX * sin(rotSpeed) + game->planeY * cos(rotSpeed);
+        double oldDirX = game->player_dir_x;
+        game->player_dir_x = game->player_dir_x * cos(rotSpeed) - game->player_dir_y * sin(rotSpeed);
+        game->player_dir_y = oldDirX * sin(rotSpeed) + game->player_dir_y * cos(rotSpeed);
+        double oldPlaneX = game->plane_x;
+        game->plane_x = game->plane_x * cos(rotSpeed) - game->plane_y * sin(rotSpeed);
+        game->plane_y = oldPlaneX * sin(rotSpeed) + game->plane_y * cos(rotSpeed);
     }
 }
 

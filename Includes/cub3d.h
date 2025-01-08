@@ -12,10 +12,6 @@
 # include "../Libft/libft.h"
 # include "../MLX42/include/MLX42/MLX42.h"
 
-
-//Este el el archivo de cabezera de cub3dq que uso
-
-// Todo esto deberia ir en una structura con valores fijos
 # define MAPWIDTH 10
 # define MAPHEIGHT 10
 # define SCREENWIDTH 1920
@@ -24,30 +20,30 @@
 # define ROT_SPEED 0.03
 # define PLAYER_RADIUS 0.2
 
-typedef struct
-{
+typedef struct s_textures {
     mlx_texture_t *north;
     mlx_texture_t *south;
     mlx_texture_t *west;
     mlx_texture_t *east;
 } t_textures;
 
-typedef struct
-{
+typedef struct s_game {
+    t_textures textures;
     mlx_t *mlx;
     mlx_image_t *image;
-    double posX, posY;    // Posición del jugador
-    double dirX, dirY;    // Dirección de la cámara
-    double planeX, planeY; // Plano de la cámara (para la perspectiva)
-    char **worldMap;      // Mapa del mundo
-    int mapWidth;
+    int screen_width;
+    int screen_height;
+    double player_pos_x;
+    double player_pos_y;
+    double player_dir_x;
+    double player_dir_y;
+    double plane_x;
+    double plane_y;
+    char **worldMap;
     int mapHeight;
-    t_textures textures;
-
 } t_game;
 
-typedef struct
-{
+typedef struct {
     double cameraX;
     double rayDirX;
     double rayDirY;
@@ -62,26 +58,24 @@ typedef struct
     double perpWallDist;
 } t_ray;
 
-typedef struct lines
-{
-    int     x;   
-    int     hit;
-    int     side;   
-	int		lineHeight;
-	int		drawStart;
-	int		drawEnd;
-	uint32_t color;
+typedef struct lines {
+    int x;   
+    int hit;
+    int side;   
+    int lineHeight;
+    int drawStart;
+    int drawEnd;
+    uint32_t color;
 } t_lines;
 
-//funciones
+// Funciones
 void clear_image(mlx_image_t *image, uint32_t color);
 void draw_line(t_game *game, int x, int start, int end, uint32_t color);
 void move_player(mlx_key_data_t keydata, void *param);
-void update_and_render(void *param);
+void render_floor_and_ceiling(t_game *game);
+void render_walls(void *param);;
 char **initialize_map(const char *mapData[], int mapHeight);
 void load_walls(t_game *game);
 void free_map(char **map, int mapHeight);
-
-
 
 #endif

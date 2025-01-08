@@ -6,22 +6,22 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:23:11 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/08 18:14:43 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/08 19:55:48 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Includes/cub3d.h"
 
-void	free_map(char **map, int mapHeight)
+void free_map(char **map, int mapHeight)
 {
     for (int i = 0; i < mapHeight; i++)
         free(map[i]);
     free(map);
 }
 
-char	**initialize_map(const char *mapData[], int mapHeight)
+char **initialize_map(const char *mapData[], int mapHeight)
 {
-    char	**map;
+    char **map;
 
     map = malloc(mapHeight * sizeof(char *));
     if (!map)
@@ -38,75 +38,69 @@ char	**initialize_map(const char *mapData[], int mapHeight)
     return (map);
 }
 
-int	main(void)
+int main(void)
 {
-    t_game		game;
-    const char	*mapData[] = {
-        "11111111",
-        "10010001",
-        "10010101",
-        "1000100111",
-        "10000001 1",
+    t_game game;
+    const char *mapData[] = {
         "1111111111",
-        "10000001",
-        "11111111",
-        "",
-        "11111111",
-        "10000001",
-        "11111111"
+        "1000000001",
+        "1000010001",
+        "1000100001",
+        "1000100001",
+        "1000010001",
+        "1000100001",
+        "1000010001",
+        "1000000001",
+        "1111111111"
     };
-    int			mapHeight;
-    int			mapWidth;
+    int mapHeight = sizeof(mapData) / sizeof(mapData[0]);
 
-    // Datos iniciales del mapa
-    mapHeight = sizeof(mapData) / sizeof(mapData[0]);
-    mapWidth = strlen(mapData[0]);
-    game.mapHeight = mapHeight;
-    game.mapWidth = mapWidth;
+    // Inicializar el mapa
     game.worldMap = initialize_map(mapData, mapHeight);
     if (!game.worldMap)
     {
         fprintf(stderr, "Error: no se pudo inicializar el mapa.\n");
         return (1);
     }
-    printf("Mapa inicializado correctamente.\n");
-    game.mlx = mlx_init(SCREENWIDTH, SCREENHEIGHT, "Cub3D", true);
-    if (!game.mlx)
+
+    // Configurar la estructura de juego y MLX
+    game.screen_width = SCREENWIDTH;
+    game.screen_height = SCREENHEIGHT;
+    game.player_pos_x = 1.5;
+    game.player_pos_y = 1.5;
+    game.player_dir_x = -1;
+    game.player_dir_y = 0;
+    game.plane_x = 0;
+    game.plane_y = 0.66;
+
+    mlx_t *mlx = mlx_init(game.screen_width, game.screen_height, "Cub3D", true);
+    if (!mlx)
     {
         fprintf(stderr, "Error: no se pudo inicializar MLX42.\n");
         free_map(game.worldMap, mapHeight);
         return (1);
     }
-    printf("MLX42 inicializado correctamente.\n");
-    game.image = mlx_new_image(game.mlx, SCREENWIDTH, SCREENHEIGHT);
+    game.mlx = mlx;
+
+    game.image = mlx_new_image(mlx, game.screen_width, game.screen_height);
     if (!game.image)
     {
         fprintf(stderr, "Error: no se pudo crear la imagen.\n");
-        mlx_terminate(game.mlx);
+        mlx_terminate(mlx);
         free_map(game.worldMap, mapHeight);
         return (1);
     }
-    // Posición inicial del jugador
-    game.posX = 1.5;
-    game.posY = 1.5;
-    game.dirX = -1;
-    game.dirY = 0;
-    game.planeX = 0;
-    game.planeY = 0.66;
 
     // Cargar texturas
     load_walls(&game);
 
-    printf("Jugador inicializado correctamente.\n");
-    mlx_loop_hook(game.mlx, &update_and_render, &game);
-    printf("Bucle principal iniciado.\n");
+    // Configurar hooks y bucle principal
+    mlx_loop_hook(game.mlx, &render_walls, &game);
     mlx_key_hook(game.mlx, &move_player, &game);
-    printf("Movimiento del jugador habilitado.\n");
     mlx_loop(game.mlx);
-    printf("MLX42 terminado.\n");
+
     // Liberar recursos
     free_map(game.worldMap, mapHeight);
-    printf("Mapa liberado.\n");
     mlx_terminate(game.mlx);
     return (0);
 }
