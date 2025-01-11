@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:23:11 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/08 19:55:48 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/11 12:02:53 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,35 +21,33 @@ void free_map(char **map, int mapHeight)
 
 char **initialize_map(const char *mapData[], int mapHeight)
 {
-    char **map;
-
-    map = malloc(mapHeight * sizeof(char *));
+    char **map = calloc(mapHeight, sizeof(char *));
     if (!map)
-        return (NULL);
+        return NULL;
+
     for (int i = 0; i < mapHeight; i++)
     {
         map[i] = strdup(mapData[i]);
         if (!map[i])
         {
             free_map(map, i);
-            return (NULL);
+            return NULL;
         }
     }
-    return (map);
+    return map;
 }
-
 int main(void)
 {
     t_game game;
     const char *mapData[] = {
         "1111111111",
         "1000000001",
-        "1000010001",
+        "1000000001",
+        "1000000001",
+        "1000000001",
         "1000100001",
-        "1000100001",
-        "1000010001",
-        "1000100001",
-        "1000010001",
+        "1000000001",
+        "1000000001",
         "1000000001",
         "1111111111"
     };
