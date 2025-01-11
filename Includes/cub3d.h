@@ -10,6 +10,7 @@
 # include <unistd.h>
 # include <stdint.h>
 # include "../Libft/libft.h"
+#include "../Library/ft_printf/ft_printf.h"
 # include "../MLX42/include/MLX42/MLX42.h"
 
 //pantalla
@@ -31,14 +32,27 @@
 # define BLACK 0x000000
 # define GRAY 0x808080
 
-typedef struct s_textures {
+typedef struct s_textures
+{
     mlx_texture_t *north;
     mlx_texture_t *south;
     mlx_texture_t *west;
     mlx_texture_t *east;
 } t_textures;
 
-typedef struct s_game {
+typedef struct s_draw_params
+{
+    int x;
+    int draw_start;
+    int draw_end;
+    int tex_x;
+    double tex_pos;
+    double step;
+    mlx_texture_t *texture;
+} t_draw_params;
+
+typedef struct s_game
+{
     t_textures textures;
     mlx_t *mlx;
     mlx_image_t *image;
@@ -55,28 +69,36 @@ typedef struct s_game {
 } t_game;
 
 typedef struct {
-    double cameraX;
-    double rayDirX;
-    double rayDirY;
-    int mapX;
-    int mapY;
-    double sideDistX;
-    double sideDistY;
-    int stepX;
-    int stepY;
-    double deltaDistX;
-    double deltaDistY;
-    double perpWallDist;
+    double camera_x;
+    double ray_dir_x;
+    double ray_dir_y;
+    int map_x;
+    int map_y;
+    double side_dist_x;
+    double side_dist_y;
+    double delta_dist_x;
+    double delta_dist_y;
+    int step_x;
+    int step_y;
+    int side;
+    int hit;
+    int ray;
+    double perp_wall_dist;
 } t_ray;
 
-typedef struct lines {
+typedef struct lines
+{
     int x;   
     int hit;
     int side;   
     int lineHeight;
     int drawStart;
     int drawEnd;
+    int tex_x;
+    double tex_pos;
+    double step;
     uint32_t color;
+    mlx_texture_t *texture;
 } t_lines;
 
 // Funciones
@@ -88,5 +110,7 @@ void render_walls(void *param);;
 char **initialize_map(const char *mapData[], int mapHeight);
 void load_walls(t_game *game);
 void free_map(char **map, int mapHeight);
+void error(char *str, t_game *game);
+
 
 #endif
