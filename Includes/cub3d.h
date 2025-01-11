@@ -40,6 +40,15 @@ typedef struct s_textures
     mlx_texture_t *east;
 } t_textures;
 
+typedef struct colors
+{
+    uint32_t floor;
+    uint32_t ceiling;
+    uint32_t player;
+    uint32_t wall;
+    uint32_t corridor;
+} t_colors;
+
 typedef struct s_draw_params
 {
     int x;
@@ -56,6 +65,7 @@ typedef struct s_game
     t_textures textures;
     mlx_t *mlx;
     mlx_image_t *image;
+    t_colors colors;
     int screen_width;
     int screen_height;
     double player_pos_x;
