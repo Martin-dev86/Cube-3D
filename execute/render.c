@@ -6,252 +6,150 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:26:30 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/11 12:50:10 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/11 14:23:47 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/cub3d.h"
 
-void	put_pixel_to_image(mlx_image_t *image, int x, int y, int color)
+void draw_wall_with_texture(t_game *game, t_ray *ray, int x, t_lines *lines)
 {
-	int	index;
+    mlx_texture_t *texture;
+    double wallX;
+    int texX, texY;
+    int y;
+    uint32_t color;
 
-	if (x >= 0 && x < (int)image->width && y >= 0 && y < (int)image->height)
-	{
-		index = (y * image->width + x) * 4;
-		image->pixels[index + 0] = (color >> 0) & 0xFF;
-		image->pixels[index + 1] = (color >> 8) & 0xFF;
-		image->pixels[index + 2] = (color >> 16) & 0xFF;
-		image->pixels[index + 3] = (color >> 24) & 0xFF;
-	}
+    if (lines->side == 0 && ray->rayDirX > 0)
+        texture = game->textures.east;
+    else if (lines->side == 0 && ray->rayDirX < 0)
+        texture = game->textures.west;
+    else if (lines->side == 1 && ray->rayDirY > 0)
+        texture = game->textures.south;
+    else
+        texture = game->textures.north;
+
+    if (lines->side == 0)
+        wallX = game->posY + ray->perpWallDist * ray->rayDirY;
+    else
+        wallX = game->posX + ray->perpWallDist * ray->rayDirX;
+    wallX -= floor(wallX);
+
+    texX = (int)(wallX * (double)texture->width);
+    if ((lines->side == 0 && ray->rayDirX > 0) || (lines->side == 1 && ray->rayDirY < 0))
+        texX = texture->width - texX - 1;
+
+    for (y = lines->drawStart; y < lines->drawEnd; y++) {
+        int d = y * 256 - SCREENHEIGHT * 128 + lines->lineHeight * 128;
+        texY = ((d * texture->height) / lines->lineHeight) / 256;
+        uint8_t *pixel = texture->pixels + (texY * texture->width + texX) * 4;
+        color = (pixel[0] << 24) | (pixel[1] << 16) | (pixel[2] << 8) | pixel[3];
+        mlx_put_pixel(game->image, x, y, color);
+    }
 }
 
-// minimapa
-void	draw_mini(t_game *game)
+void ray_y(t_game game, t_ray *ray)
 {
-	int	map_x;
-	int	map_y;
-	int	color;
+    if (ray->rayDirY < 0)
+    {
+        ray->stepY = -1;
+        ray->sideDistY = (game.posY - ray->mapY) * ray->deltaDistY;
+    }
+    else
+    {
+        ray->stepY = 1;
+        ray->sideDistY = (ray->mapY + 1.0 - game.posY) * ray->deltaDistY;
+    }
+}
 
-	int mini_map_scale = 20;
-	int mini_map_size = 40;
-	for (int y = 0; y < mini_map_size; y++)
+void	dda_function(t_ray *ray, t_game *game, int *hit, int *side)
+{
+	while (*hit == 0)
 	{
-		for (int x = 0; x < mini_map_size; x++)
+		if (ray->sideDistX < ray->sideDistY)
 		{
-			map_x = (int)game->player_pos_x - mini_map_size / 2 + x;
-			map_y = (int)game->player_pos_y - mini_map_size / 2 + y;
-			if (map_x >= 0 && map_x < MAPWIDTH && map_y >= 0
-				&& map_y < MAPHEIGHT)
-			{
-				color = (game->worldMap[map_y][map_x] == '1') ? 0xFFFFFF : 0x000000;
-				if (map_x == (int)game->player_pos_x
-					&& map_y == (int)game->player_pos_y)
-					color = 0xFF0000;
-				for (int i = 0; i < mini_map_scale; i++)
-				{
-					for (int j = 0; j < mini_map_scale; j++)
-					{
-						put_pixel_to_image(game->image, x * mini_map_scale + i,
-							y * mini_map_scale + j, color);
-					}
-				}
-			}
-		}
-	}
-}
-
-void	check_collisions(t_game *game)
-{
-	int	player_x;
-	int	player_y;
-
-	player_x = (int)game->player_pos_x;
-	player_y = (int)game->player_pos_y;
-	if (game->worldMap[player_y][player_x] == '1')
-	{
-		printf("Collision detected at (%d, %d)\n", player_x, player_y);
-	}
-}
-
-void	render_floor_and_ceiling(t_game *game)
-{
-    game->colors.floor = GRAY;
-    game->colors.ceiling = BLUE;
-	for (int y = 0; y < game->screen_height / 2; y++)
-	{
-		for (int x = 0; x < game->screen_width; x++)
-		{
-			put_pixel_to_image(game->image, x, y, game->colors.ceiling);
-		}
-	}
-	for (int y = game->screen_height / 2; y < game->screen_height; y++)
-	{
-		for (int x = 0; x < game->screen_width; x++)
-		{
-			put_pixel_to_image(game->image, x, y, game->colors.floor);
-		}
-	}
-}
-// Obtiene el color de un píxel en la textura
-int	get_texture_pixel(mlx_texture_t *texture, int x, int y)
-{
-	int index = (y * texture->width + x) * 4; // Asumiendo 4 canales (RGBA)
-	return (*(int *)&texture->pixels[index]);
-}
-
-void	calculate_ray_position_and_direction(t_game *game, int x,
-		double *camera_x, double *ray_dir_x, double *ray_dir_y)
-{
-	*camera_x = 2 * x / (double)game->screen_width - 1;
-	*ray_dir_x = game->player_dir_x + game->plane_x * (*camera_x);
-	*ray_dir_y = game->player_dir_y + game->plane_y * (*camera_x);
-}
-
-mlx_texture_t	*select_texture(t_game *game, int side, double ray_dir_x,
-		double ray_dir_y)
-{
-	if (side == 0 && ray_dir_x > 0)
-		return (game->textures.east);
-	else if (side == 0 && ray_dir_x < 0)
-		return (game->textures.west);
-	else if (side == 1 && ray_dir_y > 0)
-		return (game->textures.south);
-	else
-		return (game->textures.north);
-}
-
-void	wall_drawing(t_game *game, t_draw_params *params)
-{
-	int	i;
-	int	tex_y;
-	int	color;
-
-	i = params->draw_start;
-	while (i < params->draw_end)
-	{
-		tex_y = (int)(params->tex_pos) & (params->texture->height - 1);
-		params->tex_pos += params->step;
-		color = get_texture_pixel(params->texture, params->tex_x, tex_y);
-		put_pixel_to_image(game->image, params->x, i, color);
-		i++;
-	}
-}
-void	init_ray(t_game *game, int x, t_ray *ray)
-{
-	ray->camera_x = 2 * x / (double)game->screen_width - 1;
-	ray->ray_dir_x = game->player_dir_x + game->plane_x * ray->camera_x;
-	ray->ray_dir_y = game->player_dir_y + game->plane_y * ray->camera_x;
-	ray->map_x = (int)game->player_pos_x;
-	ray->map_y = (int)game->player_pos_y;
-	ray->delta_dist_x = fabs(1 / ray->ray_dir_x);
-	ray->delta_dist_y = fabs(1 / ray->ray_dir_y);
-	ray->hit = 0;
-}
-
-void	calculate_ray(t_game *game, int x, t_ray *ray)
-{
-	init_ray(game, x, ray);
-	if (ray->ray_dir_x < 0)
-	{
-		ray->step_x = -1;
-		ray->side_dist_x = (game->player_pos_x - ray->map_x)
-			* ray->delta_dist_x;
-	}
-	else
-	{
-		ray->step_x = 1;
-		ray->side_dist_x = (ray->map_x + 1.0 - game->player_pos_x)
-			* ray->delta_dist_x;
-	}
-	if (ray->ray_dir_y < 0)
-	{
-		ray->step_y = -1;
-		ray->side_dist_y = (game->player_pos_y - ray->map_y)
-			* ray->delta_dist_y;
-	}
-	else
-	{
-		ray->step_y = 1;
-		ray->side_dist_y = (ray->map_y + 1.0 - game->player_pos_y)
-			* ray->delta_dist_y;
-	}
-}
-
-void	perform_dda(t_game *game, t_ray *ray)
-{
-	while (!ray->hit)
-	{
-		if (ray->side_dist_x < ray->side_dist_y)
-		{
-			ray->side_dist_x += ray->delta_dist_x;
-			ray->map_x += ray->step_x;
-			ray->side = 0;
+			ray->sideDistX += ray->deltaDistX;
+			ray->mapX += ray->stepX;
+			*side = 0;
 		}
 		else
 		{
-			ray->side_dist_y += ray->delta_dist_y;
-			ray->map_y += ray->step_y;
-			ray->side = 1;
+			ray->sideDistY += ray->deltaDistY;
+			ray->mapY += ray->stepY;
+			*side = 1;
 		}
-		if (game->worldMap[ray->map_x][ray->map_y] == '1')
-			ray->hit = 1;
+		if (game->worldMap[ray->mapY][ray->mapX] > '0')
+			*hit = 1;
 	}
-	if (ray->side == 0)
-		ray->perp_wall_dist = (ray->map_x - game->player_pos_x + (1
-					- ray->step_x) / 2) / ray->ray_dir_x;
+	if (*side == 0)
+		ray->perpWallDist = (ray->mapX - game->posX + (1 - ray->stepX) / 2)
+			/ ray->rayDirX;
 	else
-		ray->perp_wall_dist = (ray->map_y - game->player_pos_y + (1
-					- ray->step_y) / 2) / ray->ray_dir_y;
+		ray->perpWallDist = (ray->mapY - game->posY + (1 - ray->stepY) / 2)
+			/ ray->rayDirY;
 }
 
-void	draw_wall(t_game *game, int x, t_ray *ray)
+void	init_ray(t_ray *ray, t_game *game, int x)
 {
-	int				line_height;
-	int				draw_start;
-	int				draw_end;
-	mlx_texture_t	*texture;
-	double			wall_x;
-	int				tex_x;
-	double			step;
-	double			tex_pos;
-
-	line_height = (int)(game->screen_height / ray->perp_wall_dist);
-	draw_start = -line_height / 2 + game->screen_height / 2;
-	if (draw_start < 0)
-		draw_start = 0;
-	draw_end = line_height / 2 + game->screen_height / 2;
-	if (draw_end >= game->screen_height)
-		draw_end = game->screen_height - 1;
-	texture = select_texture(game, ray->side, ray->ray_dir_x, ray->ray_dir_y);
-	if (ray->side == 0)
-		wall_x = game->player_pos_y + ray->perp_wall_dist * ray->ray_dir_y;
-	else
-		wall_x = game->player_pos_x + ray->perp_wall_dist * ray->ray_dir_x;
-	wall_x -= floor(wall_x);
-	tex_x = (int)(wall_x * (double)texture->width);
-	if ((ray->side == 0 && ray->ray_dir_x > 0) || (ray->side == 1
-			&& ray->ray_dir_y < 0))
-		tex_x = texture->width - tex_x - 1;
-	step = 1.0 * texture->height / line_height;
-	tex_pos = (draw_start - game->screen_height / 2 + line_height / 2) * step;
-	wall_drawing(game, &(t_draw_params){x, draw_start, draw_end, tex_x, tex_pos,
-		step, texture});
-}
-
-void	render_walls(void *param)
-{
-	t_game	*game;
-	t_ray	ray;
-
-	game = (t_game *)param;
-	render_floor_and_ceiling(game);
-	for (int x = 0; x < game->screen_width; x++)
+	ray->cameraX = 2 * x / (double)SCREENWIDTH - 1;
+	ray->rayDirX = game->dirX + game->planeX * ray->cameraX;
+	ray->rayDirY = game->dirY + game->planeY * ray->cameraX;
+	ray->mapX = (int)game->posX;
+	ray->mapY = (int)game->posY;
+	ray->deltaDistX = fabs(1 / ray->rayDirX);
+	ray->deltaDistY = fabs(1 / ray->rayDirY);
+	if (ray->rayDirX < 0)
 	{
-		calculate_ray(game, x, &ray);
-		perform_dda(game, &ray);
-		draw_wall(game, x, &ray);
+		ray->stepX = -1;
+		ray->sideDistX = (game->posX - ray->mapX) * ray->deltaDistX;
 	}
-	check_collisions(game);
-	mlx_image_to_window(game->mlx, game->image, 0, 0);
+	else
+	{
+		ray->stepX = 1;
+		ray->sideDistX = (ray->mapX + 1.0 - game->posX) * ray->deltaDistX;
+	}
+    ray_y(*game, ray);
+}
+
+void draw_floor_and_ceiling(t_game *game, int x, int drawEnd, int drawStart)
+{
+    draw_line(game, x, drawEnd + 1, SCREENHEIGHT, 0xAAAAAAFF); // Color gris claro
+    draw_line(game, x, 0, drawStart, 0x87CEEBFF); // Color azul claro para el cielo
+}
+
+
+void update_and_render(void *param)
+{
+    t_lines lines;
+    t_game *game;
+    t_ray ray;
+
+    lines.x = 0;
+    game = (t_game *)param;
+    clear_image(game->image, 0x000000FF); // Limpiar pantalla
+
+    // Dibujar el cielo y el suelo en color sólido
+    for (int x = 0; x < SCREENWIDTH; x++) {
+        draw_line(game, x, 0, SCREENHEIGHT / 2, 0x87CEEBFF); // Color azul claro para el cielo
+        draw_line(game, x, SCREENHEIGHT / 2, SCREENHEIGHT, 0x228B22FF); // Color verde para el suelo
+    }
+
+    while (lines.x < SCREENWIDTH)
+    {
+        init_ray(&ray, game, lines.x);
+        lines.hit = 0;
+        dda_function(&ray, game, &lines.hit, &lines.side);
+        lines.lineHeight = (int)(SCREENHEIGHT / ray.perpWallDist);
+        lines.drawStart = -lines.lineHeight / 2 + SCREENHEIGHT / 2;
+        if (lines.drawStart < 0)
+            lines.drawStart = 0;
+        lines.drawEnd = lines.lineHeight / 2 + SCREENHEIGHT / 2;
+        if (lines.drawEnd >= SCREENHEIGHT)
+            lines.drawEnd = SCREENHEIGHT - 1;
+
+        // Dibujar la pared con textura
+        draw_wall_with_texture(game, &ray, lines.x, &lines);
+        lines.x++;
+    }
+    mlx_image_to_window(game->mlx, game->image, 0, 0);
 }
