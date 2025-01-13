@@ -6,12 +6,17 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:26:30 by jeandrad          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/01/13 18:46:33 by jeandrad         ###   ########.fr       */
+=======
+/*   Updated: 2024/12/20 18:02:17 by jeandrad         ###   ########.fr       */
+>>>>>>> dbc6ffb (now the hardcoded game without textures works)
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/cub3d.h"
 
+<<<<<<< HEAD
 void	ray_y(t_game game, t_ray *ray)
 {
 	if (ray->rayDirY < 0)
@@ -24,6 +29,38 @@ void	ray_y(t_game game, t_ray *ray)
 		ray->stepY = 1;
 		ray->sideDistY = (ray->mapY + 1.0 - game.posY) * ray->deltaDistY;
 	}
+=======
+void coloring(t_lines *lines, t_game *game, t_ray *ray)
+{
+    switch (game->worldMap[ray->mapY][ray->mapX])
+    {
+    case '1':
+        lines->color = 0x00FF7FFF;
+        break ; // Verde
+    case '3':
+        lines->color = 0xFF0000FF;
+        break ; // Rojo
+    default:
+        lines->color = 0xFFFFFF;
+        break ; // Blanco
+    }
+    if (lines->side == 1)
+        lines->color = lines->color / 2; // Make y-side walls darker
+}
+
+void ray_y(t_game game, t_ray *ray)
+{
+    if (ray->rayDirY < 0)
+    {
+        ray->stepY = -1;
+        ray->sideDistY = (game.posY - ray->mapY) * ray->deltaDistY;
+    }
+    else
+    {
+        ray->stepY = 1;
+        ray->sideDistY = (ray->mapY + 1.0 - game.posY) * ray->deltaDistY;
+    }
+>>>>>>> dbc6ffb (now the hardcoded game without textures works)
 }
 
 void	dda_function(t_ray *ray, t_game *game, int *hit, int *side)
@@ -72,6 +109,7 @@ void	init_ray(t_ray *ray, t_game *game, int x)
 		ray->stepX = 1;
 		ray->sideDistX = (ray->mapX + 1.0 - game->posX) * ray->deltaDistX;
 	}
+<<<<<<< HEAD
 	ray_y(*game, ray);
 }
 
@@ -93,6 +131,30 @@ void	update_and_render(void *param)
 	while (lines.x < SCREENWIDTH)
 	{
 		draw_floor_and_ceiling(game, lines.x);
+=======
+    ray_y(*game, ray);
+}
+
+void draw_floor_and_ceiling(t_game *game, int x, int drawEnd, int drawStart)
+{
+    draw_line(game, x, drawEnd + 1, SCREENHEIGHT, 0xAAAAAAFF); // Color gris claro
+    draw_line(game, x, 0, drawStart, 0x87CEEBFF); // Color azul claro para el cielo
+}
+
+
+void	update_and_render(void *param)
+{
+    t_lines lines;
+	t_game	*game;
+	t_ray   ray;
+    
+
+	lines.x = 0;
+	game = (t_game *)param;
+	clear_image(game->image, 0x000000FF); // Limpiar pantalla
+	while (lines.x < SCREENWIDTH)
+	{
+>>>>>>> dbc6ffb (now the hardcoded game without textures works)
 		init_ray(&ray, game, lines.x);
 		lines.hit = 0;
 		dda_function(&ray, game, &lines.hit, &lines.side);
@@ -103,7 +165,13 @@ void	update_and_render(void *param)
 		lines.drawEnd = lines.lineHeight / 2 + SCREENHEIGHT / 2;
 		if (lines.drawEnd >= SCREENHEIGHT)
 			lines.drawEnd = SCREENHEIGHT - 1;
+<<<<<<< HEAD
 		draw_wall_with_texture(game, &ray, lines.x, &lines);
+=======
+        coloring(&lines, game, &ray);
+		draw_line(game, lines.x, lines.drawStart, lines.drawEnd, lines.color);
+		draw_floor_and_ceiling(game, lines.x, lines.drawEnd, lines.drawStart);
+>>>>>>> dbc6ffb (now the hardcoded game without textures works)
 		lines.x++;
 	}
 	mlx_image_to_window(game->mlx, game->image, 0, 0);

@@ -6,12 +6,17 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:23:11 by jeandrad          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/01/13 18:43:21 by jeandrad         ###   ########.fr       */
+=======
+/*   Updated: 2024/12/20 18:02:22 by jeandrad         ###   ########.fr       */
+>>>>>>> dbc6ffb (now the hardcoded game without textures works)
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Includes/cub3d.h"
 
+<<<<<<< HEAD
 char	**read_map_from_file(const char *filename, int *mapHeight)
 {
 	int		fd;
@@ -72,6 +77,16 @@ void	free_map(char **map, int mapHeight)
 }
 
 char	**initialize_map(char **mapData, int mapHeight, t_game *game)
+=======
+void	free_map(char **map, int mapHeight)
+{
+	for (int i = 0; i < mapHeight; i++)
+		free(map[i]);
+	free(map);
+}
+
+char	**initialize_map(const char *mapData[], int mapHeight)
+>>>>>>> dbc6ffb (now the hardcoded game without textures works)
 {
 	char	**map;
 
@@ -86,6 +101,7 @@ char	**initialize_map(char **mapData, int mapHeight, t_game *game)
 			free_map(map, i);
 			return (NULL);
 		}
+<<<<<<< HEAD
 		for (int j = 0; j < ft_strlen(mapData[i]); j++)
 		{
 			if (map[i][j] == 'N' || map[i][j] == 'S' || map[i][j] == 'E'
@@ -98,10 +114,13 @@ char	**initialize_map(char **mapData, int mapHeight, t_game *game)
 					// Reemplazar la posición inicial con un espacio vacío
 			}
 		}
+=======
+>>>>>>> dbc6ffb (now the hardcoded game without textures works)
 	}
 	return (map);
 }
 
+<<<<<<< HEAD
 void	set_initial_orientation(t_game *game)
 {
 	if (game->initialOrientation == 'N')
@@ -157,12 +176,35 @@ int	main(int argc, char **argv)
 	game.mapHeight = mapHeight;
 	game.mapWidth = mapWidth;
 	game.worldMap = initialize_map(mapData, mapHeight, &game);
+=======
+int	main(void)
+{
+	t_game		game;
+	const char	*mapData[] = {"11111111",
+                              "10010001",
+                              "10030101",
+                              "10000001",
+			                  "10000001",
+                              "11111111"};
+	int			mapHeight;
+	int			mapWidth;
+
+	// Datos iniciales del mapa
+	mapHeight = sizeof(mapData) / sizeof(mapData[0]);
+	mapWidth = strlen(mapData[0]);
+	game.mapHeight = mapHeight;
+	game.mapWidth = mapWidth;
+	game.worldMap = initialize_map(mapData, mapHeight);
+>>>>>>> dbc6ffb (now the hardcoded game without textures works)
 	if (!game.worldMap)
 	{
 		fprintf(stderr, "Error: no se pudo inicializar el mapa.\n");
 		return (1);
 	}
+<<<<<<< HEAD
 	// Inicializar el juego a cero todo
+=======
+>>>>>>> dbc6ffb (now the hardcoded game without textures works)
 	game.mlx = mlx_init(SCREENWIDTH, SCREENHEIGHT, "Cub3D", true);
 	if (!game.mlx)
 	{
@@ -178,10 +220,20 @@ int	main(int argc, char **argv)
 		free_map(game.worldMap, mapHeight);
 		return (1);
 	}
+<<<<<<< HEAD
 	// Cargar texturas
 	load_walls(&game);
 	// Establecer la orientación inicial del jugador
 	set_initial_orientation(&game);
+=======
+	// Posición inicial del jugador
+	game.posX = 1.5;
+	game.posY = 1.5;
+	game.dirX = -1;
+	game.dirY = 0;
+	game.planeX = 0;
+	game.planeY = 0.66;
+>>>>>>> dbc6ffb (now the hardcoded game without textures works)
 	mlx_loop_hook(game.mlx, &update_and_render, &game);
 	mlx_key_hook(game.mlx, &move_player, &game);
 	mlx_loop(game.mlx);
