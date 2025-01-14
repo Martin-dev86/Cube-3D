@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:26:30 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/14 15:36:08 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/14 15:45:56 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,15 @@ void	init_ray(t_ray *ray, t_game *game, int x)
 
 void	draw_floor_and_ceiling(t_game *game, int x)
 {
-	draw_line(game, x, 0, SCREENHEIGHT / 2, 0x87CEEBFF);
-	draw_line(game, x, SCREENHEIGHT / 2, SCREENHEIGHT, 0x228B22FF);
+	t_draw_line_params	params;
+
+	params.x = x;
+	params.start = 0;
+	params.end = SCREENHEIGHT / 2;
+	draw_line(game, 0x87CEEBFF, &params);
+	params.start = SCREENHEIGHT / 2;
+	params.end = SCREENHEIGHT;
+	draw_line(game, 0x228B22FF, &params);
 }
 
 void	update_and_render(void *param)

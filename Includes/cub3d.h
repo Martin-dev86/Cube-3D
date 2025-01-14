@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 15:22:18 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/14 15:30:05 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/14 15:46:25 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ typedef struct s_game
 	uint32_t		color;
 }					t_game;
 
-typedef struct
+typedef struct s_ray
 {
 	double			camera_x;
 	double			raydir_x;
@@ -85,7 +85,7 @@ typedef struct
 	double			perpwalldist;
 }					t_ray;
 
-typedef struct lines
+typedef struct s_lines
 {
 	int				x;
 	int				hit;
@@ -105,10 +105,17 @@ typedef struct s_old
 	double			plane_x;
 }					t_old;
 
+typedef struct s_draw_line_params
+{
+	int				x;
+	int				start;
+	int				end;
+}					t_draw_line_params;
+
 // funciones
 void				clear_image(mlx_image_t *image, uint32_t color);
-void				draw_line(t_game *game, int x, int start, int end,
-						uint32_t color);
+void				draw_line(t_game *game, uint32_t color, \
+						t_draw_line_params *params);
 void				move_player(mlx_key_data_t keydata, void *param);
 void				update_and_render(void *param);
 char				**initialize_map(char *mapData[], int mapHeight,
