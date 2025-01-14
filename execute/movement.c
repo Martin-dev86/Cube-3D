@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:27:00 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/14 15:07:52 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/14 15:37:22 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,34 +20,34 @@ void	escape_key(mlx_key_data_t keydata, void *param)
 	if (keydata.key == MLX_KEY_ESCAPE)
 	{
 		mlx_close_window(game->mlx);
-		free_map(game->worldMap, game->mapHeight);
+		free_map(game->world_map, game->map_height);
 		exit(0);
 	}
 }
 
 void	move_backward(t_game *game, double moveSpeed)
 {
-	if (game->worldMap[(int)(game->posY - game->dirY * moveSpeed
-			+ PLAYER_RADIUS)][(int)(game->posX)] == '0'
-		&& game->worldMap[(int)(game->posY - game->dirY * moveSpeed
-			- PLAYER_RADIUS)][(int)(game->posX)] == '0'
-		&& game->worldMap[(int)(game->posY - game->dirY
-			* moveSpeed)][(int)(game->posX + PLAYER_RADIUS)] == '0'
-		&& game->worldMap[(int)(game->posY - game->dirY
-			* moveSpeed)][(int)(game->posX - PLAYER_RADIUS)] == '0')
+	if (game->world_map[(int)(game->pos_y - game->dir_y * moveSpeed
+			+ PLAYER_RADIUS)][(int)(game->pos_x)] == '0'
+		&& game->world_map[(int)(game->pos_y - game->dir_y * moveSpeed
+			- PLAYER_RADIUS)][(int)(game->pos_x)] == '0'
+		&& game->world_map[(int)(game->pos_y - game->dir_y
+			* moveSpeed)][(int)(game->pos_x + PLAYER_RADIUS)] == '0'
+		&& game->world_map[(int)(game->pos_y - game->dir_y
+			* moveSpeed)][(int)(game->pos_x - PLAYER_RADIUS)] == '0')
 	{
-		game->posY -= game->dirY * moveSpeed;
+		game->pos_y -= game->dir_y * moveSpeed;
 	}
-	if (game->worldMap[(int)(game->posY)][(int)(game->posX - game->dirX
+	if (game->world_map[(int)(game->pos_y)][(int)(game->pos_x - game->dir_x
 			* moveSpeed + PLAYER_RADIUS)] == '0'
-		&& game->worldMap[(int)(game->posY)][(int)(game->posX - game->dirX
+		&& game->world_map[(int)(game->pos_y)][(int)(game->pos_x - game->dir_x
 			* moveSpeed - PLAYER_RADIUS)] == '0'
-		&& game->worldMap[(int)(game->posY + PLAYER_RADIUS)][(int)(game->posX
-			- game->dirX * moveSpeed)] == '0' && game->worldMap[(int)(game->posY
-			- PLAYER_RADIUS)][(int)(game->posX - game->dirX
-			* moveSpeed)] == '0')
+		&& game->world_map[(int)(game->pos_y + PLAYER_RADIUS)][(int)(game->pos_x
+			- game->dir_x * moveSpeed)] == '0'
+		&& game->world_map[(int)(game->pos_y - PLAYER_RADIUS)][(int)(game->pos_x
+			- game->dir_x * moveSpeed)] == '0')
 	{
-		game->posX -= game->dirX * moveSpeed;
+		game->pos_x -= game->dir_x * moveSpeed;
 	}
 }
 

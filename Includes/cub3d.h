@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/14 15:22:18 by jeandrad          #+#    #+#             */
+/*   Updated: 2025/01/14 15:30:05 by jeandrad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB3D_H
 # define CUB3D_H
 
@@ -11,9 +23,12 @@
 # include <string.h>
 # include <unistd.h>
 
-//Este el el archivo de cabezera de cub3dq que uso
-
-// Todo esto deberia ir en una structura con valores fijos
+// Constants values for the game
+// Width and height of the map
+// Width and height of the screen
+// Speed of movement of the player
+// Speed of the rotation of the player
+// Radius of the player for improved collisions
 # define MAPWIDTH 10
 # define MAPHEIGHT 10
 # define SCREENWIDTH 1920
@@ -22,7 +37,8 @@
 # define ROT_SPEED 0.03
 # define PLAYER_RADIUS 0.2
 
-typedef struct
+// For the wall textures
+typedef struct s_texture
 {
 	mlx_texture_t	*north;
 	mlx_texture_t	*south;
@@ -30,39 +46,43 @@ typedef struct
 	mlx_texture_t	*east;
 }					t_textures;
 
-typedef struct
+// Main structure for the game
+// POSX and POSY are the position of the player
+// DIRX and DIRY are the direction of the camera
+// PLANEX and PLANEY are the plane of the camera
+typedef struct s_game
 {
 	mlx_t			*mlx;
 	mlx_image_t		*image;
 	t_textures		textures;
 	mlx_texture_t	*texture;
-	double			posX;
-	double posY; // Posición del jugador
-	double			dirX;
-	double dirY; // Dirección de la cámara
-	double			planeX;
-	double planeY;   // Plano de la cámara (para la perspectiva)
-	char **worldMap; // Mapa del mundo
-	int				mapWidth;
-	int				mapHeight;
-	char initialOrientation; // Orientación inicial del jugador
+	double			pos_x;
+	double			pos_y;
+	double			dir_x;
+	double			dir_y;
+	double			plane_x;
+	double			plane_y;
+	char			**world_map;
+	int				map_width;
+	int				map_height;
+	char			initial_orientation;
 	uint32_t		color;
 }					t_game;
 
 typedef struct
 {
-	double			cameraX;
-	double			rayDirX;
-	double			rayDirY;
-	int				mapX;
-	int				mapY;
-	double			sideDistX;
-	double			sideDistY;
-	int				stepX;
-	int				stepY;
-	double			deltaDistX;
-	double			deltaDistY;
-	double			perpWallDist;
+	double			camera_x;
+	double			raydir_x;
+	double			raydir_y;
+	int				map_x;
+	int				map_y;
+	double			sidedist_x;
+	double			sidedist_y;
+	int				step_x;
+	int				step_y;
+	double			deltadist_x;
+	double			deltadist_y;
+	double			perpwalldist;
 }					t_ray;
 
 typedef struct lines
@@ -70,9 +90,9 @@ typedef struct lines
 	int				x;
 	int				hit;
 	int				side;
-	int				lineHeight;
-	int				drawStart;
-	int				drawEnd;
+	int				lineheight;
+	int				drawstart;
+	int				drawend;
 	int				tex_x;
 	int				tex_y;
 	double			wall_x;
@@ -81,8 +101,8 @@ typedef struct lines
 
 typedef struct s_old
 {
-	double			dirX;
-	double			planeX;
+	double			dir_x;
+	double			plane_x;
 }					t_old;
 
 // funciones

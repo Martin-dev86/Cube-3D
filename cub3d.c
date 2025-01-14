@@ -6,13 +6,13 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:23:11 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/14 15:07:07 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/14 15:40:20 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Includes/cub3d.h"
 
-char	**read_map_from_file(const char *filename, int *mapHeight)
+char	**read_map_from_file(const char *filename, int *map_height)
 {
 	int		fd;
 	char	**map;
@@ -54,16 +54,16 @@ char	**read_map_from_file(const char *filename, int *mapHeight)
 		map[height++] = line;
 	}
 	close(fd);
-	*mapHeight = height;
+	*map_height = height;
 	return (map);
 }
 
-void	free_map(char **map, int mapHeight)
+void	free_map(char **map, int map_height)
 {
 	int	i;
 
 	i = 0;
-	while (i < mapHeight)
+	while (i < map_height)
 	{
 		free(map[i]);
 		i++;
@@ -71,14 +71,14 @@ void	free_map(char **map, int mapHeight)
 	free(map);
 }
 
-char	**initialize_map(char **mapData, int mapHeight, t_game *game)
+char	**initialize_map(char **mapData, int map_height, t_game *game)
 {
 	char	**map;
 
-	map = malloc(mapHeight * sizeof(char *));
+	map = malloc(map_height * sizeof(char *));
 	if (!map)
 		return (NULL);
-	for (int i = 0; i < mapHeight; i++)
+	for (int i = 0; i < map_height; i++)
 	{
 		map[i] = strdup(mapData[i]);
 		if (!map[i])
@@ -91,9 +91,9 @@ char	**initialize_map(char **mapData, int mapHeight, t_game *game)
 			if (map[i][j] == 'N' || map[i][j] == 'S' || map[i][j] == 'E'
 				|| map[i][j] == 'W')
 			{
-				game->posX = j + 0.5;
-				game->posY = i + 0.5;
-				game->initialOrientation = map[i][j];
+				game->pos_x = j + 0.5;
+				game->pos_y = i + 0.5;
+				game->initial_orientation = map[i][j];
 				map[i][j] = '0';
 					// Reemplazar la posición inicial con un espacio vacío
 			}
@@ -104,40 +104,40 @@ char	**initialize_map(char **mapData, int mapHeight, t_game *game)
 
 void	set_initial_orientation(t_game *game)
 {
-	if (game->initialOrientation == 'N')
+	if (game->initial_orientation == 'N')
 	{
-		game->dirX = 0;
-		game->dirY = -1;
-		game->planeX = 0.66;
-		game->planeY = 0;
+		game->dir_x = 0;
+		game->dir_y = -1;
+		game->plane_x = 0.66;
+		game->plane_y = 0;
 	}
-	else if (game->initialOrientation == 'S')
+	else if (game->initial_orientation == 'S')
 	{
-		game->dirX = 0;
-		game->dirY = 1;
-		game->planeX = -0.66;
-		game->planeY = 0;
+		game->dir_x = 0;
+		game->dir_y = 1;
+		game->plane_x = -0.66;
+		game->plane_y = 0;
 	}
-	else if (game->initialOrientation == 'E')
+	else if (game->initial_orientation == 'E')
 	{
-		game->dirX = 1;
-		game->dirY = 0;
-		game->planeX = 0;
-		game->planeY = 0.66;
+		game->dir_x = 1;
+		game->dir_y = 0;
+		game->plane_x = 0;
+		game->plane_y = 0.66;
 	}
-	else if (game->initialOrientation == 'W')
+	else if (game->initial_orientation == 'W')
 	{
-		game->dirX = -1;
-		game->dirY = 0;
-		game->planeX = 0;
-		game->planeY = -0.66;
+		game->dir_x = -1;
+		game->dir_y = 0;
+		game->plane_x = 0;
+		game->plane_y = -0.66;
 	}
 }
 
 int	main(int argc, char **argv)
 {
 	t_game	game;
-	int		mapHeight;
+	int		map_height;
 	int		mapWidth;
 	char	**mapData;
 
@@ -147,17 +147,17 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	// Leer el mapa desde el archivo
-	mapData = read_map_from_file(argv[1], &mapHeight);
+	mapData = read_map_from_file(argv[1], &map_height);
 	if (!mapData)
 	{
 		fprintf(stderr, "Error: no se pudo leer el mapa del archivo.\n");
 		return (1);
 	}
 	mapWidth = strlen(mapData[0]);
-	game.mapHeight = mapHeight;
-	game.mapWidth = mapWidth;
-	game.worldMap = initialize_map(mapData, mapHeight, &game);
-	if (!game.worldMap)
+	game.map_height = map_height;
+	game.map_width = mapWidth;
+	game.world_map = initialize_map(mapData, map_height, &game);
+	if (!game.world_map)
 	{
 		fprintf(stderr, "Error: no se pudo inicializar el mapa.\n");
 		return (1);
@@ -167,7 +167,7 @@ int	main(int argc, char **argv)
 	if (!game.mlx)
 	{
 		fprintf(stderr, "Error: no se pudo inicializar MLX42.\n");
-		free_map(game.worldMap, mapHeight);
+		free_map(game.world_map, map_height);
 		return (1);
 	}
 	game.image = mlx_new_image(game.mlx, SCREENWIDTH, SCREENHEIGHT);
@@ -175,7 +175,7 @@ int	main(int argc, char **argv)
 	{
 		fprintf(stderr, "Error: no se pudo crear la imagen.\n");
 		mlx_terminate(game.mlx);
-		free_map(game.worldMap, mapHeight);
+		free_map(game.world_map, map_height);
 		return (1);
 	}
 	// Cargar texturas
@@ -186,7 +186,7 @@ int	main(int argc, char **argv)
 	mlx_key_hook(game.mlx, &move_player, &game);
 	mlx_loop(game.mlx);
 	// Liberar recursos
-	free_map(game.worldMap, mapHeight);
+	free_map(game.world_map, map_height);
 	mlx_terminate(game.mlx);
 	return (0);
 }

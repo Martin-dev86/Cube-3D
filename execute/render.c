@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:26:30 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/13 19:50:20 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/14 15:36:08 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 void	ray_y(t_game game, t_ray *ray)
 {
-	if (ray->rayDirY < 0)
+	if (ray->raydir_y < 0)
 	{
-		ray->stepY = -1;
-		ray->sideDistY = (game.posY - ray->mapY) * ray->deltaDistY;
+		ray->step_y = -1;
+		ray->sidedist_y = (game.pos_y - ray->map_y) * ray->deltadist_y;
 	}
 	else
 	{
-		ray->stepY = 1;
-		ray->sideDistY = (ray->mapY + 1.0 - game.posY) * ray->deltaDistY;
+		ray->step_y = 1;
+		ray->sidedist_y = (ray->map_y + 1.0 - game.pos_y) * ray->deltadist_y;
 	}
 }
 
@@ -30,47 +30,47 @@ void	dda_function(t_ray *ray, t_game *game, int *hit, int *side)
 {
 	while (*hit == 0)
 	{
-		if (ray->sideDistX < ray->sideDistY)
+		if (ray->sidedist_x < ray->sidedist_y)
 		{
-			ray->sideDistX += ray->deltaDistX;
-			ray->mapX += ray->stepX;
+			ray->sidedist_x += ray->deltadist_x;
+			ray->map_x += ray->step_x;
 			*side = 0;
 		}
 		else
 		{
-			ray->sideDistY += ray->deltaDistY;
-			ray->mapY += ray->stepY;
+			ray->sidedist_y += ray->deltadist_y;
+			ray->map_y += ray->step_y;
 			*side = 1;
 		}
-		if (game->worldMap[ray->mapY][ray->mapX] > '0')
+		if (game->world_map[ray->map_y][ray->map_x] > '0')
 			*hit = 1;
 	}
 	if (*side == 0)
-		ray->perpWallDist = (ray->mapX - game->posX + (1 - ray->stepX) / 2)
-			/ ray->rayDirX;
+		ray->perpwalldist = (ray->map_x - game->pos_x + (1 - ray->step_x) / 2)
+			/ ray->raydir_x;
 	else
-		ray->perpWallDist = (ray->mapY - game->posY + (1 - ray->stepY) / 2)
-			/ ray->rayDirY;
+		ray->perpwalldist = (ray->map_y - game->pos_y + (1 - ray->step_y) / 2)
+			/ ray->raydir_y;
 }
 
 void	init_ray(t_ray *ray, t_game *game, int x)
 {
-	ray->cameraX = 2 * x / (double)SCREENWIDTH - 1;
-	ray->rayDirX = game->dirX + game->planeX * ray->cameraX;
-	ray->rayDirY = game->dirY + game->planeY * ray->cameraX;
-	ray->mapX = (int)game->posX;
-	ray->mapY = (int)game->posY;
-	ray->deltaDistX = fabs(1 / ray->rayDirX);
-	ray->deltaDistY = fabs(1 / ray->rayDirY);
-	if (ray->rayDirX < 0)
+	ray->camera_x = 2 * x / (double)SCREENWIDTH - 1;
+	ray->raydir_x = game->dir_x + game->plane_x * ray->camera_x;
+	ray->raydir_y = game->dir_y + game->plane_y * ray->camera_x;
+	ray->map_x = (int)game->pos_x;
+	ray->map_y = (int)game->pos_y;
+	ray->deltadist_x = fabs(1 / ray->raydir_x);
+	ray->deltadist_y = fabs(1 / ray->raydir_y);
+	if (ray->raydir_x < 0)
 	{
-		ray->stepX = -1;
-		ray->sideDistX = (game->posX - ray->mapX) * ray->deltaDistX;
+		ray->step_x = -1;
+		ray->sidedist_x = (game->pos_x - ray->map_x) * ray->deltadist_x;
 	}
 	else
 	{
-		ray->stepX = 1;
-		ray->sideDistX = (ray->mapX + 1.0 - game->posX) * ray->deltaDistX;
+		ray->step_x = 1;
+		ray->sidedist_x = (ray->map_x + 1.0 - game->pos_x) * ray->deltadist_x;
 	}
 	ray_y(*game, ray);
 }
@@ -96,13 +96,13 @@ void	update_and_render(void *param)
 		init_ray(&ray, game, lines.x);
 		lines.hit = 0;
 		dda_function(&ray, game, &lines.hit, &lines.side);
-		lines.lineHeight = (int)(SCREENHEIGHT / ray.perpWallDist);
-		lines.drawStart = -lines.lineHeight / 2 + SCREENHEIGHT / 2;
-		if (lines.drawStart < 0)
-			lines.drawStart = 0;
-		lines.drawEnd = lines.lineHeight / 2 + SCREENHEIGHT / 2;
-		if (lines.drawEnd >= SCREENHEIGHT)
-			lines.drawEnd = SCREENHEIGHT - 1;
+		lines.lineheight = (int)(SCREENHEIGHT / ray.perpwalldist);
+		lines.drawstart = -lines.lineheight / 2 + SCREENHEIGHT / 2;
+		if (lines.drawstart < 0)
+			lines.drawstart = 0;
+		lines.drawend = lines.lineheight / 2 + SCREENHEIGHT / 2;
+		if (lines.drawend >= SCREENHEIGHT)
+			lines.drawend = SCREENHEIGHT - 1;
 		draw_wall_with_texture(game, &ray, lines.x, &lines);
 		lines.x++;
 	}

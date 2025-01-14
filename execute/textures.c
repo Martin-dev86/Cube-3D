@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 18:30:26 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/13 18:46:38 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/14 15:31:40 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	error(const char *message, t_game *game)
 {
 	fprintf(stderr, "Error: %s\n", message);
-	free_map(game->worldMap, game->mapHeight);
+	free_map(game->world_map, game->map_height);
 	exit(1);
 }
 
