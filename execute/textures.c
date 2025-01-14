@@ -6,12 +6,13 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 18:30:26 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/14 15:31:40 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/14 16:11:55 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/cub3d.h"
 
+// Function to exit with and error message
 void	error(const char *message, t_game *game)
 {
 	fprintf(stderr, "Error: %s\n", message);
@@ -19,6 +20,8 @@ void	error(const char *message, t_game *game)
 	exit(1);
 }
 
+// Function to load the textures of the walls
+// the format is xpm42 for better performance
 void	load_walls(t_game *game)
 {
 	xpm_t	*xpm;

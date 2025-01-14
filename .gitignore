@@ -1,4 +1,4 @@
 .vscode/settings.json
 debug_log.txt
 *.o
-cub3d
+cub3D

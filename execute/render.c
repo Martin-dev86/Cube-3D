@@ -6,12 +6,13 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:26:30 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/14 15:45:56 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/14 16:10:51 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/cub3d.h"
 
+// Function to calculate the y coordinate of the ray
 void	ray_y(t_game game, t_ray *ray)
 {
 	if (ray->raydir_y < 0)
@@ -26,6 +27,9 @@ void	ray_y(t_game game, t_ray *ray)
 	}
 }
 
+// Function to perform the DDA algorithm
+// The digital differential analyzer algorithm is used to calculate the distance
+// of the player with the walls
 void	dda_function(t_ray *ray, t_game *game, int *hit, int *side)
 {
 	while (*hit == 0)
@@ -53,6 +57,8 @@ void	dda_function(t_ray *ray, t_game *game, int *hit, int *side)
 			/ ray->raydir_y;
 }
 
+// Function to initialize the ray
+// It gives the initial values to the ray
 void	init_ray(t_ray *ray, t_game *game, int x)
 {
 	ray->camera_x = 2 * x / (double)SCREENWIDTH - 1;
@@ -75,6 +81,8 @@ void	init_ray(t_ray *ray, t_game *game, int x)
 	ray_y(*game, ray);
 }
 
+// Function to draw the floor and the ceiling
+// Solid color for the floor and the ceiling
 void	draw_floor_and_ceiling(t_game *game, int x)
 {
 	t_draw_line_params	params;
@@ -88,6 +96,9 @@ void	draw_floor_and_ceiling(t_game *game, int x)
 	draw_line(game, 0x228B22FF, &params);
 }
 
+// Main function to render the game
+// It updates where the player is looking and 
+// renders floor, ceiling and the walls
 void	update_and_render(void *param)
 {
 	t_lines	lines;

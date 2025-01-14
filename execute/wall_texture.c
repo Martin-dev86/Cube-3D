@@ -6,12 +6,14 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 18:24:37 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/14 15:30:21 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/14 16:13:28 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/cub3d.h"
 
+// Function to get the texture of the wall
+// It returns the texture depending on the orientation of the wall
 mlx_texture_t	*get_texture(t_game *game, t_ray *ray, t_lines *lines)
 {
 	if (lines->side == 0 && ray->raydir_x > 0)
@@ -24,6 +26,7 @@ mlx_texture_t	*get_texture(t_game *game, t_ray *ray, t_lines *lines)
 		return (game->textures.north);
 }
 
+// Function to calculate the x coordinate of the wall
 double	calculate_wall_x(t_game *game, t_ray *ray, t_lines *lines)
 {
 	if (lines->side == 0)
@@ -32,6 +35,9 @@ double	calculate_wall_x(t_game *game, t_ray *ray, t_lines *lines)
 		return (game->pos_x + ray->perpwalldist * ray->raydir_x);
 }
 
+// Function to draw the wall with the texture
+// It calculates the texture x and y coordinates
+// and draws the wall with the texture
 void	draw_wall_with_texture(t_game *game, t_ray *ray, int x, t_lines *lines)
 {
 	int		y;

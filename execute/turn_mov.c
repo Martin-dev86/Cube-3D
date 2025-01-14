@@ -6,12 +6,13 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 17:58:52 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/14 15:31:02 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/14 16:12:38 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/cub3d.h"
 
+// Function to turn the player to the left
 void	turn_left(t_game *game, double rotSpeed)
 {
 	t_old	old;
@@ -26,6 +27,7 @@ void	turn_left(t_game *game, double rotSpeed)
 		* cos(-rotSpeed);
 }
 
+// Function to turn the player to the right
 void	turn_right(t_game *game, double rotSpeed)
 {
 	t_old	old;
@@ -39,6 +41,8 @@ void	turn_right(t_game *game, double rotSpeed)
 	game->plane_y = old.plane_x * sin(rotSpeed) + game->plane_y * cos(rotSpeed);
 }
 
+// Function to turn the player to the left or right
+// It just rotates the player
 void	turn_mov(mlx_key_data_t keydata, void *param)
 {
 	t_game	*game;
