@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 15:22:18 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/14 15:46:25 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/14 17:42:06 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,5 +128,6 @@ void				key_a(mlx_key_data_t keydata, void *param);
 void				side_mov(mlx_key_data_t keydata, void *param);
 void				draw_wall_with_texture(t_game *game, t_ray *ray, int x,
 						t_lines *lines);
+void				free_textures(t_game *game);
 
 #endif

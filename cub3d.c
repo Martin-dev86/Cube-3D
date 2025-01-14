@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:23:11 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/14 15:48:16 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/14 17:45:30 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ void	free_map(char **map, int map_height)
 		free(map[i]);
 		i++;
 	}
-	free(map);
 }
 
 char	**initialize_map(char **mapData, int map_height, t_game *game)
@@ -186,6 +185,7 @@ int	main(int argc, char **argv)
 	mlx_loop(game.mlx);
 	// Liberar recursos
 	free_map(game.world_map, map_height);
+	free_textures(&game);
 	mlx_terminate(game.mlx);
 	return (0);
 }

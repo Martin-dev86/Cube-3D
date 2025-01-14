@@ -25,7 +25,7 @@ MLX = $(MLX_PATH)/libmlx42.a
 # Source files for mandatory
 FILES = cub3d.c execute/drawing.c execute/movement.c execute/render.c execute/textures.c\
 		execute/mov_forward.c execute/turn_mov.c execute/side_mov.c execute/key_a.c\
-		execute/wall_texture.c
+		execute/wall_texture.c execute/free_textures.c
 
 # Object files
 OBJS = $(FILES:.c=.o)
