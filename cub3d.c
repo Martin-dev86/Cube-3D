@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:23:11 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/14 15:40:20 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/14 15:48:16 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,6 @@ int	main(int argc, char **argv)
 		free_map(game.world_map, map_height);
 		return (1);
 	}
-	// Cargar texturas
 	load_walls(&game);
 	// Establecer la orientación inicial del jugador
 	set_initial_orientation(&game);

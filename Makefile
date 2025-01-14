@@ -1,5 +1,5 @@
 # Name: raycasting
-NAME = cub3d
+NAME = cub3D
 
 # Compiler
 CC = clang
