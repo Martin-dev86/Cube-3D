@@ -37,6 +37,7 @@ typedef struct s_game_3d
 	int		file_size;
 	int		read_cont;
 	char	**maps;
+<<<<<<< HEAD
 }	t_game_3d;
 typedef struct s_element
 {
@@ -47,5 +48,12 @@ typedef struct s_element
 	char	*floor;
 	char	*ceiling;
 }	t_element;
+=======
+} t_game_3d;
+>>>>>>> Master
 
+int	check_extension(char *file);
+int check_header(t_game_3d *game_3d);
+int	size_file(char *file, t_game_3d *game_3d);
+int	check_error(char input, t_game_3d *game_3d);
 #endif

@@ -22,6 +22,28 @@ int	check_extension(char *file)
 		return (0);
 	return (1);
 }
+int check_header(t_game_3d *game_3d)
+{
+	int	i;
+	int	j;
+	
+	i = 0;
+	j = 0;
+	while(i < 6 || game->maps[j][1] != '1' || game->maps[j][1] != ' ')
+	{
+		if(game->maps[j] == '\n')
+			j++;
+		else
+			i++;
+	}
+	if (i == 6)
+		return (1);
+	return(0);
+}
+// int check_textures_and_colours(t_game_3d *game_3d)
+// {
+
+// }
 
 char	*get_content(char *line)
 {
@@ -91,4 +113,7 @@ int	check_error(char input, t_game_3d *game_3d)
 		return (1);
 	if (!(size_file(input, game_3d)))
 		return (1);
+	if (!(check_header(game_3d)))
+		return (1);
+
 }
