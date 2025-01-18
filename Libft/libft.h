@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 12:35:37 by cagarci2          #+#    #+#             */
-/*   Updated: 2025/01/13 18:45:19 by jeandrad         ###   ########.fr       */
+/*   Updated: 2024/10/09 16:20:13 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ typedef struct s_list
 {
 	void			*content;
 	struct s_list	*next;
-}					t_list;
+}	t_list;
 
 int		ft_isalnum(int c);
 int		ft_isalpha(int c);
@@ -66,21 +66,10 @@ void	ft_lstdelone(t_list *lst, void (*del)(void*));
 void	ft_lstclear(t_list **lst, void (*del)(void*));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
-
-// get_next_line
-void	ft_free(char **str);
-size_t	count_len(char *str);
-char	*search_char(char *str, int c);
-int		search_newline(char *str);
-char	*join_str(char *str1, char *str2);
-char	*get_next_line(int fd);
-
-
-// BUFFER_SIZE
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 32
-# endif
-
-
+int		ft_strcmp(const char *s1, const char *s2);
+char	*ft_strncpy(char *dest, const char *src, size_t n);
+char	*ft_strndup(const char *s, size_t n);
+char	*ft_realloc(char *ptr, int n);
+char	*ft_strcpy(char *s1, char *s2);
 
 #endif

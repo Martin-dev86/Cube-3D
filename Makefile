@@ -1,91 +1,68 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: cagarci2 <cagarci2@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/03/22 12:45:34 by cagarci2          #+#    #+#              #
-#    Updated: 2024/03/22 12:45:34 by cagarci2         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+# Name: raycasting
+NAME = cub3D
 
+# Compiler
+CC = clang
 
-DEL_LINE =		\033[2K
-ITALIC =		\033[3m
-BOLD =			\033[1m
-DEF_COLOR =		\033[0;39m
-GRAY =			\033[0;90m
-RED =			\033[0;91m
-GREEN =			\033[0;92m
-YELLOW =		\033[0;93m
-BLUE =			\033[0;94m
-MAGENTA =		\033[0;95m
-CYAN =			\033[0;96m
-WHITE =			\033[0;97m
-BLACK =			\033[0;99m
-ORANGE =		\033[38;5;209m
-BROWN =			\033[38;2;184;143;29m
-DARK_GRAY =		\033[38;5;234m
-MID_GRAY =		\033[38;5;245m
-DARK_GREEN =	\033[38;2;75;179;82m
-DARK_YELLOW =	\033[38;5;143m
+# Compiler flags
+FLAGS = -g -Wall -Werror -Wextra -Iinclude -I$(LIBFT) #-fsanitize=address
 
-NAME = Cube_3D
+# GLFW for MLX42 linux
+GLFW = -ldl -lglfw -pthread -lm 
 
-SRC_DIR = ./ ./Execute ./Parse
-LIBMLX	= Library/MLX42
-FT_PRINTF = Library/ft_printf
-LIBFT	= Library/Libft
+# Source files for libft
+LIBFT_PATH = ./Library/Libft
 
-SRC_FILES =		$(shell find $(SRC_DIR) -name '*.c')
-LIBS	= $(LIBMLX)/build/libmlx42.a $(LIBFT)/libft.a -ldl -lglfw -pthread -lm  -L"/Users/$(USER)/.brew/opt/glfw/lib/" -pthread -lm $(FT_PRINTF)/ft_printf.a -ldl -lglfw -L"/Users/$(USER)/.brew/opt/glfw/lib/" -pthread -lm
-OBJ_SRC		=	Parse/check_errors.c Parse/input_parse.c
+# Compiled libft
+LIBFT = $(LIBFT_PATH)/libft.a
 
-HEADER_DIR	=	includes
-HEADER_SRCS	=	cube3D.h \
-HEADER		=	$(addprefix $(HEADER_DIR)/, $(HEADER_SRCS))
+# Source files for mlx42
+MLX_PATH = ./MLX42
 
-CC = gcc
+# Compiled mlx42
+MLX = $(MLX_PATH)/libmlx42.a
 
-CFLAGS = -Wall -Werror -Wextra -g -I$(LIBMLX)/include/MLX42 -Iincludes -I$(LIBFT) -I$(FT_PRINTF)
+# Source files for mandatory
+FILES = cub3d.c execute/drawing.c execute/movement.c execute/render.c execute/textures.c\
+		execute/mov_forward.c execute/turn_mov.c execute/side_mov.c execute/key_a.c\
+		execute/wall_texture.c execute/free_textures.c Parse/check_errors.c
 
-RM = rm -f
+# Object files
+OBJS = $(FILES:.c=.o)
 
-all: 	libmlx libft ft_printf $(NAME) 
+# Compile rule
+%.o: %.c
+	@$(CC) $(FLAGS) -c $< -o $@
 
-libmlx:
-	@cmake $(LIBMLX) -B $(LIBMLX)/build > /dev/null 2>&1 && make --no-print-directory -C $(LIBMLX)/build -j4
+# Build rule for mandatory
+$(NAME): $(LIBFT) $(MLX) $(OBJS)
+	@$(CC) $(FLAGS) $(GLFW) $(OBJS) $(LIBFT) $(MLX) -o $(NAME)
+	@echo "cub3d created"
 
-libft:
-	@make --no-print-directory -C $(LIBFT)
+# Build rule for libft
+$(LIBFT):
+	@make -C $(LIBFT_PATH) all
 
-ft_printf:
-	@make --no-print-directory -C $(FT_PRINTF)
+# Build rule for mlx42
+$(MLX):
+	@make -C $(MLX_PATH) all
 
-%.o: %.c Makefile
-	@echo "${YELLOW} • $(CYAN)COMPILE ${RED}→ $(DARK_GRAY)$< ${WHITE}✓$(DEF_COLOR)"
-	@$(CC) $(CFLAGS) -L./$(FT_PRINTF) -c $< -o $@
+# Build rule for mandatory
+all: $(NAME)
 
-$(NAME):	$(OBJ_SRC) 
-			@$(CC) $(OBJ_SRC) $(LIBS) -o $(NAME) 
-			@echo "\n${YELLOW} ► $(GREEN)$(BOLD)Created $(NAME) correctly$(DEF_COLOR)\n"
+# Clean rule
+clean: 
+	@rm -f $(OBJS)
+	@make -C $(LIBFT_PATH) clean
+	@make -C $(MLX_PATH) clean
 
-clean:
-	@make clean -C $(LIBFT) > /dev/null 2>&1
-	@make clean -C $(FT_PRINTF) > /dev/null 2>&1
-	@$(RM) $(OBJ_SRC) 
-	@find $(LIBMLX)/build -type f ! -name '*.a' -delete
-	@find $(LIBMLX)/build -type d -empty -delete
-	@echo "\n${YELLOW} ¤ $(ORANGE)objects cleaned successfully ${GREEN}✓$(DEF_COLOR)\n"
+# Fclean rule
+fclean: clean
+	@rm -f $(NAME)
+	@make -C $(LIBFT_PATH) fclean
+	@make -C $(MLX_PATH) clean # Cambiado de fclean a clean
 
-fclean: clean	
-	@$(RM) $(NAME)
-	@$(RM) $(LIBFT)/libft.a
-	@$(RM) $(LIBMLX)/build/libmlx42.a
-	@$(RM) $(FT_PRINTF)/Ftprintf.a
-	@echo "${YELLOW} ¤ $(ORANGE)executables cleaned successfully ${GREEN}✓$(DEF_COLOR)\n"
+# Re rule
+re: fclean all
 
-re: fclean all 
-
-.PHONY: all clean fclean re libmlx libft ft_printf
+.PHONY = all clean fclean re libft
