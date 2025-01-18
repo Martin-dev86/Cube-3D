@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cagarci2 <cagarci2@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 15:22:18 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/15 22:06:02 by cagarci2         ###   ########.fr       */
+/*   Updated: 2025/01/18 18:11:41 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <limits.h>
+
 // Constants values for the game
 // Width and height of the map
 // Width and height of the screen
@@ -41,10 +42,10 @@
 # define ROT_SPEED 0.03
 # define PLAYER_RADIUS 0.2
 
-# define NO 'N'
-# define SO 'S'
-# define WO 'W'
-# define EO 'E'
+// # define NO 'N'
+// # define SO 'S'
+// # define WO 'W'
+// # define EO 'E'
 # define WALL '1'
 # define FLOOR '0'
 
@@ -56,6 +57,18 @@ typedef struct s_texture
 	mlx_texture_t	*west;
 	mlx_texture_t	*east;
 }					t_textures;
+
+// For the path or the map elements
+typedef struct s_element
+{
+	char	*north;
+	char	*south;
+	char	*west;
+	char	*east;
+	char	*floor;
+	char	*ceiling;
+}	t_element;
+
 
 // Main structure for the game
 // POSX and POSY are the position of the player
@@ -80,6 +93,7 @@ typedef struct s_game
 	uint32_t		color;
 	int				file_size;
 	int				read_cont;
+	t_element		element;
 }					t_game;
 
 // typedef struct s_game_3d
@@ -131,18 +145,6 @@ typedef struct s_draw_line_params
 	int				start;
 	int				end;
 }					t_draw_line_params;
-
-
-typedef struct s_element
-{
-	char	*north;
-	char	*south;
-	char	*west;
-	char	*east;
-	char	*floor;
-	char	*ceiling;
-}	t_element;
-
 
 // funciones
 void				clear_image(mlx_image_t *image, uint32_t color);

@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 13:38:33 by cagarci2          #+#    #+#             */
-/*   Updated: 2025/01/18 18:03:17 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/18 18:20:32 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ int	check_extension(char *file)
 	int	len;
 
 	len = ft_strlen(file);
-	if (len < 4 || file[len - 1] != 'b' || file[len - 2] != 'u'
-		|| file[len - 3] != 'c' || file[len - 4] != '.')
+	if (len < 4 || file[len - 1] != 'b' || file[len - 2] != 'u' || file[len
+		- 3] != 'c' || file[len - 4] != '.')
 	{
 		printf("Error: Invalid file extension. Expected '.cub'.\n");
 		return (0);
@@ -26,41 +26,60 @@ int	check_extension(char *file)
 	return (1);
 }
 
-int check_header(t_game *game)
+int	check_header(t_game *game)
 {
-    int i;
-    int config_count;
-    char *config_found[6] = {0};
+	int		i;
+	int		config_count;
+	char	*config_found[6] = {0};
 
-    i = 0;
-    config_count = 0;
-    while (game->world_map[i] && config_count < 6)
-    {
-        if (game->world_map[i][0] == 'NO' && !config_found[0])
-            config_found[0] = game->world_map[i];
-        else if (game->world_map[i][0] == 'SO' && !config_found[1])
-            config_found[1] = game->world_map[i];
-        else if (game->world_map[i][0] == 'WE' && !config_found[2])
-            config_found[2] = game->world_map[i];
-        else if (game->world_map[i][0] == 'EA' && !config_found[3])
-            config_found[3] = game->world_map[i];
-        else if (game->world_map[i][0] == 'F' && !config_found[4])
-            config_found[4] = game->world_map[i];
-        else if (game->world_map[i][0] == 'C' && !config_found[5])
-            config_found[5] = game->world_map[i];
-        else if (game->world_map[i][0] != '\n' && game->world_map[i][0] != ' ')
-        {
-            printf("Error: Invalid configuration line: %s\n", game->world_map[i]);
-            exit (1);
-        }
-        i++;
-    }
-    if (config_count < 6)
-    {
-        printf("Error: Missing textures or colors in the header.\n");
-        return (0);
-    }
-    return (1);
+	i = 0;
+	config_count = 0;
+	while (game->world_map[i] && config_count < 6)
+	{
+		if (!strncmp(&game->world_map[i][0], "NO", 2) && !config_found[0])
+		{
+			config_found[0] = game->element.north;
+			config_count++;
+		}
+		else if (!strncmp(&game->world_map[i][0], "SO", 2) && !config_found[1])
+		{
+			config_found[1] = game->element.south;
+			config_count++;
+		}
+		else if (!strncmp(&game->world_map[i][0], "WE", 2) && !config_found[2])
+		{
+			config_found[2] = game->element.west;
+			config_count++;
+		}
+		else if (!strncmp(&game->world_map[i][0], "EA", 2) && !config_found[3])
+		{
+			config_found[3] = game->element.east;
+			config_count++;
+		}
+		else if (!strncmp(&game->world_map[i][0], "F", 1) && !config_found[4])
+		{
+			config_found[4] = game->element.floor;
+			config_count++;
+		}
+		else if (!strncmp(&game->world_map[i][0], "C", 1) && !config_found[5])
+		{
+			config_found[5] = game->element.ceiling;
+			config_count++;
+		}
+		else if (game->world_map[i][0] != '\n' && game->world_map[i][0] != ' ')
+		{
+			printf("Error: Invalid configuration line: %s\n",
+				game->world_map[i]);
+			exit(1);
+		}
+		i++;
+	}
+	if (config_count < 6)
+	{
+		printf("Error: Missing textures or colors in the header.\n");
+		exit(EXIT_FAILURE);
+	}
+	return (1);
 }
 
 char	*get_content(char *line)
@@ -98,7 +117,7 @@ int	check_content(t_game *game, t_element *element)
 		else if (game->world_map[i][0] != '\n')
 		{
 			printf("Error: Invalid line in header: %s\n", game->world_map[i]);
-			return (0);
+			exit(EXIT_FAILURE);
 		}
 		i++;
 	}

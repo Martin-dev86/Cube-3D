@@ -2,7 +2,7 @@
 NO ./Textures/north_texture
 
 WE ./Textures/west_texture
-SO ./Textures/south_texture
+SO ./textures/bluestone.xpm42
 EA ./Textures/east_texture
 
 F 220,100,0
