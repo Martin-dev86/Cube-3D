@@ -6,7 +6,11 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 12:48:34 by cagarci2          #+#    #+#             */
+<<<<<<< HEAD
+/*   Updated: 2024/12/30 12:55:26 by cagarci2         ###   ########.fr       */
+=======
 /*   Updated: 2024/12/11 18:03:24 by jeandrad         ###   ########.fr       */
+>>>>>>> Execute
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +79,24 @@ typedef struct s_game_3d
 	int		file_size;
 	int		read_cont;
 	char	**maps;
+<<<<<<< HEAD
+}	t_game_3d;
+typedef struct s_element
+{
+	char	*north;
+	char	*south;
+	char	*west;
+	char	*east;
+	char	*floor;
+	char	*ceiling;
+}	t_element;
+=======
 } t_game_3d;
+>>>>>>> Master
 
 int	check_extension(char *file);
 int check_header(t_game_3d *game_3d);
-int	size_file(char *file, t_game_3d *game_3d);
+int	size_and_create_map(char *file, t_game_3d *game_3d);
 int	check_error(char input, t_game_3d *game_3d);
 
 #endif

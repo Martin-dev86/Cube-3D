@@ -3,60 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: cagarci2 <cagarci2@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:23:11 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/14 17:45:30 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/15 22:04:56 by cagarci2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Includes/cub3d.h"
 
-char	**read_map_from_file(const char *filename, int *map_height)
-{
-	int		fd;
-	char	**map;
-	char	*line;
-	int		height;
-	char	**new_map;
+// char	**read_map_from_file(const char *filename, int *map_height)
+// {
+// 	int		fd;
+// 	char	**map;
+// 	char	*line;
+// 	int		height;
+// 	char	**new_map;
 
-	fd = open(filename, O_RDONLY);
-	if (fd < 0)
-	{
-		perror("Error al abrir el archivo");
-		return (NULL);
-	}
-	map = NULL;
-	height = 0;
-	int capacity = 100; // Capacidad inicial para 100 líneas
-	map = malloc(capacity * sizeof(char *));
-	if (!map)
-	{
-		perror("Error al asignar memoria");
-		close(fd);
-		return (NULL);
-	}
-	while ((line = get_next_line(fd)) != NULL)
-	{
-		if (height >= capacity)
-		{
-			capacity *= 2;
-			new_map = realloc(map, capacity * sizeof(char *));
-			if (!new_map)
-			{
-				perror("Error al reasignar memoria");
-				free(map);
-				close(fd);
-				return (NULL);
-			}
-			map = new_map;
-		}
-		map[height++] = line;
-	}
-	close(fd);
-	*map_height = height;
-	return (map);
-}
+// 	fd = open(filename, O_RDONLY);
+// 	if (fd < 0)
+// 	{
+// 		perror("Error al abrir el archivo");
+// 		return (NULL);
+// 	}
+// 	map = NULL;
+// 	height = 0;
+// 	int capacity = 100; // Capacidad inicial para 100 líneas
+// 	map = malloc(capacity * sizeof(char *));
+// 	if (!map)
+// 	{
+// 		perror("Error al asignar memoria");
+// 		close(fd);
+// 		return (NULL);
+// 	}
+// 	while ((line = get_next_line(fd)) != NULL)
+// 	{
+// 		if (height >= capacity)
+// 		{
+// 			capacity *= 2;
+// 			new_map = realloc(map, capacity * sizeof(char *));
+// 			if (!new_map)
+// 			{
+// 				perror("Error al reasignar memoria");
+// 				free(map);
+// 				close(fd);
+// 				return (NULL);
+// 			}
+// 			map = new_map;
+// 		}
+// 		map[height++] = line;
+// 	}
+// 	close(fd);
+// 	*map_height = height;
+// 	return (map);
+// }
 
 void	free_map(char **map, int map_height)
 {
@@ -135,23 +135,37 @@ void	set_initial_orientation(t_game *game)
 
 int	main(int argc, char **argv)
 {
-	t_game	game;
-	int		map_height;
-	int		mapWidth;
-	char	**mapData;
+	t_game		game;
+	t_element	element;
+	int			map_height;
+	int			mapWidth;
+	char		**mapData;
 
+	map_height = 0;
 	if (argc != 2)
 	{
 		fprintf(stderr, "Uso: %s <archivo_mapa.ber>\n", argv[0]);
 		return (1);
 	}
-	// Leer el mapa desde el archivo
-	mapData = read_map_from_file(argv[1], &map_height);
+	// Comprobar errores y crear mapa
+	if (check_error(argv[1], &game, &element) != 0)
+	{
+		fprintf(stderr, "Error de mapa");
+		return(1);
+	}
+	mapData = game.world_map; 
 	if (!mapData)
 	{
 		fprintf(stderr, "Error: no se pudo leer el mapa del archivo.\n");
 		return (1);
 	}
+	// Leer el mapa desde el archivo
+	//mapData = read_map_from_file(argv[1], &map_height);
+	// if (!mapData)
+	// {
+	// 	fprintf(stderr, "Error: no se pudo leer el mapa del archivo.\n");
+	// 	return (1);
+	// }
 	mapWidth = strlen(mapData[0]);
 	game.map_height = map_height;
 	game.map_width = mapWidth;

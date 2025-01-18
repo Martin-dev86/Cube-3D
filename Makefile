@@ -5,7 +5,7 @@ NAME = cub3D
 CC = clang
 
 # Compiler flags
-FLAGS = -g -Wall -Werror -Wextra -Iinclude #-fsanitize=address
+FLAGS = -g -Wall -Werror -Wextra -Iinclude -I$(LIBFT) #-fsanitize=address
 
 # GLFW for MLX42 linux
 GLFW = -ldl -lglfw -pthread -lm 
@@ -25,7 +25,7 @@ MLX = $(MLX_PATH)/libmlx42.a
 # Source files for mandatory
 FILES = cub3d.c execute/drawing.c execute/movement.c execute/render.c execute/textures.c\
 		execute/mov_forward.c execute/turn_mov.c execute/side_mov.c execute/key_a.c\
-		execute/wall_texture.c execute/free_textures.c
+		execute/wall_texture.c execute/free_textures.c Parse/check_errors.c
 
 # Object files
 OBJS = $(FILES:.c=.o)

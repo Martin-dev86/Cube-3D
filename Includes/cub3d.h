@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: cagarci2 <cagarci2@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 15:22:18 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/14 17:42:06 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/15 22:06:02 by cagarci2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,14 @@
 # include <stdbool.h>
 # include <stdint.h>
 # include <stdio.h>
-# include <stdlib.h>
 # include <string.h>
+# include <fcntl.h>
+# include <memory.h>
+# include <stdint.h>
+# include <stddef.h>
+# include <stdlib.h>
 # include <unistd.h>
-
+# include <limits.h>
 // Constants values for the game
 // Width and height of the map
 // Width and height of the screen
@@ -36,6 +40,13 @@
 # define MOVE_SPEED 0.1
 # define ROT_SPEED 0.03
 # define PLAYER_RADIUS 0.2
+
+# define NO 'N'
+# define SO 'S'
+# define WO 'W'
+# define EO 'E'
+# define WALL '1'
+# define FLOOR '0'
 
 // For the wall textures
 typedef struct s_texture
@@ -67,7 +78,16 @@ typedef struct s_game
 	int				map_height;
 	char			initial_orientation;
 	uint32_t		color;
+	int				file_size;
+	int				read_cont;
 }					t_game;
+
+// typedef struct s_game_3d
+// {
+// 	int		file_size;
+// 	int		read_cont;
+// 	char	**maps;
+// }	t_game_3d;
 
 typedef struct s_ray
 {
@@ -112,6 +132,18 @@ typedef struct s_draw_line_params
 	int				end;
 }					t_draw_line_params;
 
+
+typedef struct s_element
+{
+	char	*north;
+	char	*south;
+	char	*west;
+	char	*east;
+	char	*floor;
+	char	*ceiling;
+}	t_element;
+
+
 // funciones
 void				clear_image(mlx_image_t *image, uint32_t color);
 void				draw_line(t_game *game, uint32_t color, \
@@ -129,5 +161,9 @@ void				side_mov(mlx_key_data_t keydata, void *param);
 void				draw_wall_with_texture(t_game *game, t_ray *ray, int x,
 						t_lines *lines);
 void				free_textures(t_game *game);
+int					check_extension(char *file);
+int					check_header(t_game *game);
+int					size_and_create_map(char *file, t_game *game);
+int					check_error(char *input, t_game *game, t_element *element);
 
 #endif
