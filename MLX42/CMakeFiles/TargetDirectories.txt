@@ -1,7 +1,7 @@
-/mnt/c/Users/marti/Desktop/cursus42/CUBE3D/Cube-3D/MLX42/CMakeFiles/mlx42.dir
-/mnt/c/Users/marti/Desktop/cursus42/CUBE3D/Cube-3D/MLX42/CMakeFiles/edit_cache.dir
-/mnt/c/Users/marti/Desktop/cursus42/CUBE3D/Cube-3D/MLX42/CMakeFiles/rebuild_cache.dir
-/mnt/c/Users/marti/Desktop/cursus42/CUBE3D/Cube-3D/MLX42/CMakeFiles/list_install_components.dir
-/mnt/c/Users/marti/Desktop/cursus42/CUBE3D/Cube-3D/MLX42/CMakeFiles/install.dir
-/mnt/c/Users/marti/Desktop/cursus42/CUBE3D/Cube-3D/MLX42/CMakeFiles/install/local.dir
-/mnt/c/Users/marti/Desktop/cursus42/CUBE3D/Cube-3D/MLX42/CMakeFiles/install/strip.dir
+/home/saroca-f/prueba/MLX42/CMakeFiles/mlx42.dir
+/home/saroca-f/prueba/MLX42/CMakeFiles/edit_cache.dir
+/home/saroca-f/prueba/MLX42/CMakeFiles/rebuild_cache.dir
+/home/saroca-f/prueba/MLX42/CMakeFiles/list_install_components.dir
+/home/saroca-f/prueba/MLX42/CMakeFiles/install.dir
+/home/saroca-f/prueba/MLX42/CMakeFiles/install/local.dir
+/home/saroca-f/prueba/MLX42/CMakeFiles/install/strip.dir
