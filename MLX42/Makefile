@@ -56,13 +56,11 @@ RM = /usr/bin/cmake -E rm -f
 # Escaping for special characters.
 EQUALS = =
 
-MAKEFILE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
-
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR := $(MAKEFILE_DIR)
+CMAKE_SOURCE_DIR = /home/jeandrad/Desktop/cub3d/MLX42
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR := $(MAKEFILE_DIR)
+CMAKE_BINARY_DIR = /home/jeandrad/Desktop/cub3d/MLX42
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -134,9 +132,9 @@ install/strip/fast: preinstall/fast
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/$(USER)/prueba/MLX42/CMakeFiles /home/$(USER)/prueba/MLX42//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/jeandrad/Desktop/cub3d/MLX42/CMakeFiles /home/jeandrad/Desktop/cub3d/MLX42//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/$(USER)/prueba/MLX42/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/jeandrad/Desktop/cub3d/MLX42/CMakeFiles 0
 .PHONY : all
 
 # The main clean target

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_errors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cagarci2 <cagarci2@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 13:38:33 by cagarci2          #+#    #+#             */
-/*   Updated: 2025/01/15 13:38:33 by cagarci2         ###   ########.fr       */
+/*   Updated: 2025/01/18 18:03:17 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,13 @@ int check_header(t_game *game)
     config_count = 0;
     while (game->world_map[i] && config_count < 6)
     {
-        if (game->world_map[i][0] == 'N' && !config_found[0])
+        if (game->world_map[i][0] == 'NO' && !config_found[0])
             config_found[0] = game->world_map[i];
-        else if (game->world_map[i][0] == 'S' && !config_found[1])
+        else if (game->world_map[i][0] == 'SO' && !config_found[1])
             config_found[1] = game->world_map[i];
-        else if (game->world_map[i][0] == 'W' && !config_found[2])
+        else if (game->world_map[i][0] == 'WE' && !config_found[2])
             config_found[2] = game->world_map[i];
-        else if (game->world_map[i][0] == 'E' && !config_found[3])
+        else if (game->world_map[i][0] == 'EA' && !config_found[3])
             config_found[3] = game->world_map[i];
         else if (game->world_map[i][0] == 'F' && !config_found[4])
             config_found[4] = game->world_map[i];
@@ -51,7 +51,7 @@ int check_header(t_game *game)
         else if (game->world_map[i][0] != '\n' && game->world_map[i][0] != ' ')
         {
             printf("Error: Invalid configuration line: %s\n", game->world_map[i]);
-            return (0);
+            exit (1);
         }
         i++;
     }
