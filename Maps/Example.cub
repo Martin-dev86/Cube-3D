@@ -1,9 +1,9 @@
 
-NO ./textures/north_texture
+NO ./textures/north_texture.xpm42
 
-WE ./textures/west_texture
+WE ./textures/west_texture.xpm42
 SO ./textures/bluestone.xpm42
-EA ./textures/east_texture
+EA ./textures/east_texture.xpm42
 
 F 220,100,0
 C 225,30,0

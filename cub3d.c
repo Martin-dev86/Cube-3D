@@ -6,11 +6,21 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:23:11 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/18 18:51:44 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/18 19:29:04 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Includes/cub3d.h"
+
+void print_parsed_values(t_element *element) 
+{
+    printf("North texture: %s\n", element->north);
+    printf("South texture: %s\n", element->south);
+    printf("West texture: %s\n", element->west);
+    printf("East texture: %s\n", element->east);
+    printf("Floor color: %s\n", element->floor);
+    printf("Ceiling color: %s\n", element->ceiling);
+}
 
 // char	**read_map_from_file(const char *filename, int *map_height)
 // {
@@ -198,6 +208,8 @@ int	main(int argc, char **argv)
 	printf("Entra load walls\n");
 	load_walls(&game);
 	printf("sale load walls\n");
+	printf("Print the values:\n");
+	print_parsed_values(&element);
 	// Establecer la orientación inicial del jugador
 	set_initial_orientation(&game);
 	printf("player orientation done\n");

@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 13:38:33 by cagarci2          #+#    #+#             */
-/*   Updated: 2025/01/18 18:42:08 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/18 19:39:37 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,18 @@ int	check_content(t_game *game, t_element *element)
 	return (1);
 }
 
+void print_map(char **map, int map_height) 
+{
+	int i = 0;
+	printf("Map height is: %i\n", map_height);
+	printf("MAP:\n");
+    while (i < map_height && map[i])
+	{
+        printf("%s\n", map[i]);
+		i++;
+    }
+}
+
 int	size_and_create_map(char *file, t_game *game)
 {
 	int		fd;
@@ -154,6 +166,10 @@ int	size_and_create_map(char *file, t_game *game)
 	map_temp[game->read_cont] = '\0';
 	close(fd);
 	game->world_map = ft_split(map_temp, '\n');
+	// Para debuguear
+	print_map(game->world_map, game->file_size);
+	printf("MAP ENDED\n");
+	// Hasta aquí
 	free(map_temp);
 	return (1);
 }
