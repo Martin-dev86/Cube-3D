@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cagarci2 <cagarci2@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:23:11 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/15 22:04:56 by cagarci2         ###   ########.fr       */
+/*   Updated: 2025/01/18 18:51:44 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	// Comprobar errores y crear mapa
-	if (check_error(argv[1], &game, &element) != 0)
+	if ( (!check_error(argv[1], &game, &element)))
 	{
 		fprintf(stderr, "Error de mapa");
 		return(1);
@@ -166,17 +166,21 @@ int	main(int argc, char **argv)
 	// 	fprintf(stderr, "Error: no se pudo leer el mapa del archivo.\n");
 	// 	return (1);
 	// }
-	mapWidth = strlen(mapData[0]);
+	mapWidth = ft_strlen(mapData[0]);
 	game.map_height = map_height;
 	game.map_width = mapWidth;
+	printf("Mapa leído: %d x %d\n", mapWidth, map_height);
 	game.world_map = initialize_map(mapData, map_height, &game);
+	printf("mapa inicializado\n");
 	if (!game.world_map)
 	{
 		fprintf(stderr, "Error: no se pudo inicializar el mapa.\n");
 		return (1);
 	}
+	printf("Entra\n");
 	// Inicializar el juego a cero todo
 	game.mlx = mlx_init(SCREENWIDTH, SCREENHEIGHT, "Cub3D", true);
+	printf("Entra\n");
 	if (!game.mlx)
 	{
 		fprintf(stderr, "Error: no se pudo inicializar MLX42.\n");
@@ -191,9 +195,12 @@ int	main(int argc, char **argv)
 		free_map(game.world_map, map_height);
 		return (1);
 	}
+	printf("Entra load walls\n");
 	load_walls(&game);
+	printf("sale load walls\n");
 	// Establecer la orientación inicial del jugador
 	set_initial_orientation(&game);
+	printf("player orientation done\n");
 	mlx_loop_hook(game.mlx, &update_and_render, &game);
 	mlx_key_hook(game.mlx, &move_player, &game);
 	mlx_loop(game.mlx);

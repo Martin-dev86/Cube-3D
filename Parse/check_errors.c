@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 13:38:33 by cagarci2          #+#    #+#             */
-/*   Updated: 2025/01/18 18:20:32 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/18 18:42:08 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,32 +36,32 @@ int	check_header(t_game *game)
 	config_count = 0;
 	while (game->world_map[i] && config_count < 6)
 	{
-		if (!strncmp(&game->world_map[i][0], "NO", 2) && !config_found[0])
+		if (!ft_strncmp(&game->world_map[i][0], "NO", 2) && !config_found[0])
 		{
 			config_found[0] = game->element.north;
 			config_count++;
 		}
-		else if (!strncmp(&game->world_map[i][0], "SO", 2) && !config_found[1])
+		else if (!ft_strncmp(&game->world_map[i][0], "SO", 2) && !config_found[1])
 		{
 			config_found[1] = game->element.south;
 			config_count++;
 		}
-		else if (!strncmp(&game->world_map[i][0], "WE", 2) && !config_found[2])
+		else if (!ft_strncmp(&game->world_map[i][0], "WE", 2) && !config_found[2])
 		{
 			config_found[2] = game->element.west;
 			config_count++;
 		}
-		else if (!strncmp(&game->world_map[i][0], "EA", 2) && !config_found[3])
+		else if (!ft_strncmp(&game->world_map[i][0], "EA", 2) && !config_found[3])
 		{
 			config_found[3] = game->element.east;
 			config_count++;
 		}
-		else if (!strncmp(&game->world_map[i][0], "F", 1) && !config_found[4])
+		else if (!ft_strncmp(&game->world_map[i][0], "F", 1) && !config_found[4])
 		{
 			config_found[4] = game->element.floor;
 			config_count++;
 		}
-		else if (!strncmp(&game->world_map[i][0], "C", 1) && !config_found[5])
+		else if (!ft_strncmp(&game->world_map[i][0], "C", 1) && !config_found[5])
 		{
 			config_found[5] = game->element.ceiling;
 			config_count++;
@@ -114,7 +114,7 @@ int	check_content(t_game *game, t_element *element)
 			element->floor = get_content(game->world_map[i]);
 		else if (game->world_map[i][0] == 'C')
 			element->ceiling = get_content(game->world_map[i]);
-		else if (game->world_map[i][0] != '\n')
+		else if (game->world_map[i][0] != '\n' && game->world_map[i][0] != ' ')
 		{
 			printf("Error: Invalid line in header: %s\n", game->world_map[i]);
 			exit(EXIT_FAILURE);
@@ -136,7 +136,7 @@ int	size_and_create_map(char *file, t_game *game)
 	if (fd < 0)
 	{
 		printf("Error: Cannot open file %s.\n", file);
-		return (0);
+		exit (EXIT_FAILURE);
 	}
 	while (game->read_cont > 0)
 	{
@@ -160,13 +160,13 @@ int	size_and_create_map(char *file, t_game *game)
 
 int	check_error(char *input, t_game *game, t_element *element)
 {
-	if (!(check_extension(input)))
+	if (!check_extension(input))
 		return (0);
-	if (!(size_and_create_map(input, game)))
+	if (!size_and_create_map(input, game))
 		return (0);
-	if (!(check_header(game)))
+	if (!check_header(game))
 		return (0);
-	if (!(check_content(game, element)))
+	if (!check_content(game, element))
 		return (0);
 	return (1);
 }

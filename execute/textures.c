@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 18:30:26 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/18 18:09:13 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/18 18:50:45 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,21 @@ void	load_walls(t_game *game)
 	if (!xpm)
 		error("texture not found", game);
 	game->textures.north = &xpm->texture;
-	xpm = mlx_load_xpm42(game->element.south);
+	printf("Texture north loaded\n");
+	xpm = mlx_load_xpm42("textures/neon_wall2.xpm42");
+	printf("Texture south xmp42 succcess\n");
 	if (!xpm)
 		error("texture not found", game);
 	game->textures.south = &xpm->texture;
+	printf("Texture south loaded\n");
 	xpm = mlx_load_xpm42("textures/neon_wall3.xpm42");
 	if (!xpm)
 		error("texture not found", game);
 	game->textures.west = &xpm->texture;
 	xpm = mlx_load_xpm42("textures/neon_broken_wall.xpm42");
+	printf("Texture east loaded\n");
 	if (!xpm)
 		error("texture not found", game);
 	game->textures.east = &xpm->texture;
+	printf("Textures loaded\n");
 }
