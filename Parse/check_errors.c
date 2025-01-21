@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 13:38:33 by cagarci2          #+#    #+#             */
-/*   Updated: 2025/01/18 19:39:37 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/21 18:08:04 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,37 +36,37 @@ int	check_header(t_game *game)
 	config_count = 0;
 	while (game->world_map[i] && config_count < 6)
 	{
-		if (!ft_strncmp(&game->world_map[i][0], "NO", 2) && !config_found[0])
+		if (!ft_strncmp(&game->map[i][0], "NO", 2) && !config_found[0])
 		{
 			config_found[0] = game->element.north;
 			config_count++;
 		}
-		else if (!ft_strncmp(&game->world_map[i][0], "SO", 2) && !config_found[1])
+		else if (!ft_strncmp(&game->map[i][0], "SO", 2) && !config_found[1])
 		{
 			config_found[1] = game->element.south;
 			config_count++;
 		}
-		else if (!ft_strncmp(&game->world_map[i][0], "WE", 2) && !config_found[2])
+		else if (!ft_strncmp(&game->map[i][0], "WE", 2) && !config_found[2])
 		{
 			config_found[2] = game->element.west;
 			config_count++;
 		}
-		else if (!ft_strncmp(&game->world_map[i][0], "EA", 2) && !config_found[3])
+		else if (!ft_strncmp(&game->map[i][0], "EA", 2) && !config_found[3])
 		{
 			config_found[3] = game->element.east;
 			config_count++;
 		}
-		else if (!ft_strncmp(&game->world_map[i][0], "F", 1) && !config_found[4])
+		else if (!ft_strncmp(&game->map[i][0], "F", 1) && !config_found[4])
 		{
 			config_found[4] = game->element.floor;
 			config_count++;
 		}
-		else if (!ft_strncmp(&game->world_map[i][0], "C", 1) && !config_found[5])
+		else if (!ft_strncmp(&game->map[i][0], "C", 1) && !config_found[5])
 		{
 			config_found[5] = game->element.ceiling;
 			config_count++;
 		}
-		else if (game->world_map[i][0] != '\n' && game->world_map[i][0] != ' ')
+		else if (game->map[i][0] != '\n' && game->map[i][0] != ' ')
 		{
 			printf("Error: Invalid configuration line: %s\n",
 				game->world_map[i]);
@@ -97,31 +97,31 @@ char	*get_content(char *line)
 
 int	check_content(t_game *game, t_element *element)
 {
-	int	i;
+    int	i;
 
-	i = 0;
-	while (game->world_map[i] && game->world_map[i][0] != '1')
-	{
-		if (game->world_map[i][0] == 'N')
-			element->north = get_content(game->world_map[i]);
-		else if (game->world_map[i][0] == 'S')
-			element->south = get_content(game->world_map[i]);
-		else if (game->world_map[i][0] == 'W')
-			element->west = get_content(game->world_map[i]);
-		else if (game->world_map[i][0] == 'E')
-			element->east = get_content(game->world_map[i]);
-		else if (game->world_map[i][0] == 'F')
-			element->floor = get_content(game->world_map[i]);
-		else if (game->world_map[i][0] == 'C')
-			element->ceiling = get_content(game->world_map[i]);
-		else if (game->world_map[i][0] != '\n' && game->world_map[i][0] != ' ')
-		{
-			printf("Error: Invalid line in header: %s\n", game->world_map[i]);
-			exit(EXIT_FAILURE);
-		}
-		i++;
-	}
-	return (1);
+    i = 0;
+    while (game->map[i] && game->map[i][0] != '1')
+    {
+        if (game->map[i][0] == 'N' && game->map[i][1] == 'O')
+            element->north = get_content(game->map[i]);
+        else if (game->map[i][0] == 'S' && game->map[i][1] == 'O')
+            element->south = get_content(game->map[i]);
+        else if (game->map[i][0] == 'W' && game->map[i][1] == 'E')
+            element->west = get_content(game->map[i]);
+        else if (game->map[i][0] == 'E' && game->map[i][1] == 'A')
+            element->east = get_content(game->map[i]);
+        else if (game->map[i][0] == 'F')
+            element->floor = get_content(game->map[i]);
+        else if (game->map[i][0] == 'C')
+            element->ceiling = get_content(game->map[i]);
+        else if (game->map[i][0] != '\n' && game->map[i][0] != ' ')
+        {
+            printf("Error: Invalid line in header: %s\n", game->world_map[i]);
+            exit(EXIT_FAILURE);
+        }
+        i++;
+    }
+    return (1);
 }
 
 void print_map(char **map, int map_height) 
@@ -165,9 +165,9 @@ int	size_and_create_map(char *file, t_game *game)
 	game->read_cont = read(fd, map_temp, game->file_size);
 	map_temp[game->read_cont] = '\0';
 	close(fd);
-	game->world_map = ft_split(map_temp, '\n');
+	game->map = ft_split(map_temp, '\n');
 	// Para debuguear
-	print_map(game->world_map, game->file_size);
+	print_map(game->map, game->file_size);
 	printf("MAP ENDED\n");
 	// Hasta aquí
 	free(map_temp);

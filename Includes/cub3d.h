@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 15:22:18 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/18 18:11:41 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/21 18:12:29 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ typedef struct s_game
 	double			dir_y;
 	double			plane_x;
 	double			plane_y;
+	char 			**map;
 	char			**world_map;
 	int				map_width;
 	int				map_height;
@@ -167,5 +168,8 @@ int					check_extension(char *file);
 int					check_header(t_game *game);
 int					size_and_create_map(char *file, t_game *game);
 int					check_error(char *input, t_game *game, t_element *element);
-
+void 				create_map(t_game *game);
+//solo para debuggeo
+void print_map(char **map, int map_height);
+//borrar
 #endif

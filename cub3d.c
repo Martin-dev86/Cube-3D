@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:23:11 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/18 19:29:04 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/21 18:17:59 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,52 +21,6 @@ void print_parsed_values(t_element *element)
     printf("Floor color: %s\n", element->floor);
     printf("Ceiling color: %s\n", element->ceiling);
 }
-
-// char	**read_map_from_file(const char *filename, int *map_height)
-// {
-// 	int		fd;
-// 	char	**map;
-// 	char	*line;
-// 	int		height;
-// 	char	**new_map;
-
-// 	fd = open(filename, O_RDONLY);
-// 	if (fd < 0)
-// 	{
-// 		perror("Error al abrir el archivo");
-// 		return (NULL);
-// 	}
-// 	map = NULL;
-// 	height = 0;
-// 	int capacity = 100; // Capacidad inicial para 100 líneas
-// 	map = malloc(capacity * sizeof(char *));
-// 	if (!map)
-// 	{
-// 		perror("Error al asignar memoria");
-// 		close(fd);
-// 		return (NULL);
-// 	}
-// 	while ((line = get_next_line(fd)) != NULL)
-// 	{
-// 		if (height >= capacity)
-// 		{
-// 			capacity *= 2;
-// 			new_map = realloc(map, capacity * sizeof(char *));
-// 			if (!new_map)
-// 			{
-// 				perror("Error al reasignar memoria");
-// 				free(map);
-// 				close(fd);
-// 				return (NULL);
-// 			}
-// 			map = new_map;
-// 		}
-// 		map[height++] = line;
-// 	}
-// 	close(fd);
-// 	*map_height = height;
-// 	return (map);
-// }
 
 void	free_map(char **map, int map_height)
 {
@@ -148,8 +102,6 @@ int	main(int argc, char **argv)
 	t_game		game;
 	t_element	element;
 	int			map_height;
-	int			mapWidth;
-	char		**mapData;
 
 	map_height = 0;
 	if (argc != 2)
@@ -163,34 +115,23 @@ int	main(int argc, char **argv)
 		fprintf(stderr, "Error de mapa");
 		return(1);
 	}
-	mapData = game.world_map; 
-	if (!mapData)
+	create_map(&game);
+	printf("mapa creado\n");
+	print_map(game.world_map, game.map_height);
+	if (!game.world_map)
 	{
-		fprintf(stderr, "Error: no se pudo leer el mapa del archivo.\n");
+		fprintf(stderr, "Error: no se pudo inicializar el mapa.\n");
 		return (1);
 	}
-	// Leer el mapa desde el archivo
-	//mapData = read_map_from_file(argv[1], &map_height);
-	// if (!mapData)
-	// {
-	// 	fprintf(stderr, "Error: no se pudo leer el mapa del archivo.\n");
-	// 	return (1);
-	// }
-	mapWidth = ft_strlen(mapData[0]);
-	game.map_height = map_height;
-	game.map_width = mapWidth;
-	printf("Mapa leído: %d x %d\n", mapWidth, map_height);
-	game.world_map = initialize_map(mapData, map_height, &game);
+	game.world_map = initialize_map(game.world_map, game.map_height, &game);
 	printf("mapa inicializado\n");
 	if (!game.world_map)
 	{
 		fprintf(stderr, "Error: no se pudo inicializar el mapa.\n");
 		return (1);
 	}
-	printf("Entra\n");
 	// Inicializar el juego a cero todo
 	game.mlx = mlx_init(SCREENWIDTH, SCREENHEIGHT, "Cub3D", true);
-	printf("Entra\n");
 	if (!game.mlx)
 	{
 		fprintf(stderr, "Error: no se pudo inicializar MLX42.\n");
@@ -205,18 +146,12 @@ int	main(int argc, char **argv)
 		free_map(game.world_map, map_height);
 		return (1);
 	}
-	printf("Entra load walls\n");
 	load_walls(&game);
-	printf("sale load walls\n");
-	printf("Print the values:\n");
 	print_parsed_values(&element);
-	// Establecer la orientación inicial del jugador
 	set_initial_orientation(&game);
-	printf("player orientation done\n");
 	mlx_loop_hook(game.mlx, &update_and_render, &game);
 	mlx_key_hook(game.mlx, &move_player, &game);
 	mlx_loop(game.mlx);
-	// Liberar recursos
 	free_map(game.world_map, map_height);
 	free_textures(&game);
 	mlx_terminate(game.mlx);
