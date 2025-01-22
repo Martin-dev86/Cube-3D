@@ -1,0 +1,7 @@
+falta jugador
+pared sin cerrar
+2 jugadores
+espacios dentro del mapa
+Segmentation falta WE
+Salto de linea dentro del mapa
+doble NO

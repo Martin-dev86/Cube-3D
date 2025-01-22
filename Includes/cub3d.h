@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: cagarci2 <cagarci2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 15:22:18 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/22 17:23:46 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/22 19:16:01 by cagarci2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ void				draw_wall_with_texture(t_game *game, t_ray *ray, int x,
 						t_lines *lines);
 void				free_textures(t_game *game);
 int					check_extension(char *file);
-int					check_header(t_game *game);
+int					check_header(t_game *game, t_element *element);
 int					size_and_create_map(char *file, t_game *game);
 int					check_error(char *input, t_game *game, t_element *element);
 void 				create_map(t_game *game);
