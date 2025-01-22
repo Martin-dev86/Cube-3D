@@ -6,18 +6,21 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 16:50:08 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/21 18:16:23 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/22 17:04:21 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/cub3d.h"
+
+#include "../Includes/cub3d.h"
+
 void get_map_size(t_game *game)
 {
     int i;
 
     i = 0;
     game->map_height = 0;
-    while (game->world_map[i])
+    while (game->map[i])
     {
         game->map_height++;
         i++;
@@ -34,7 +37,7 @@ void get_map_width(t_game *game)
     i = 0;
     width = 0;
     m_width = 0;
-    while(game->map[i])
+    while (game->map[i])
     {
         j = 0;
         while (game->map[i][j])
@@ -57,34 +60,38 @@ void create_map(t_game *game)
     int i;
     int j;
 
-    // Asegúrate de que game->map no sea NULL
-    if (!game->map)
+    get_map_size(game);
+    get_map_width(game);
+
+    game->world_map = malloc(game->map_height * sizeof(char *));
+    if (!game->world_map)
     {
-        printf("Error: game->map is NULL\n");
-        return;
+        fprintf(stderr, "Error: Memory allocation failed for world_map.\n");
+        exit(EXIT_FAILURE);
     }
 
-    // Inicializa game->world_map con el tamaño adecuado
-    game->world_map = malloc(game->map_height * sizeof(char *));
     for (i = 0; i < game->map_height; i++)
     {
         game->world_map[i] = malloc(game->map_width * sizeof(char));
+        if (!game->world_map[i])
+        {
+            fprintf(stderr, "Error: Memory allocation failed for world_map[%d].\n", i);
+            for (int k = 0; k < i; k++)
+                free(game->world_map[k]);
+            free(game->world_map);
+            exit(EXIT_FAILURE);
+        }
     }
 
-    i = 0;
+    i = 6;
     while (game->map[i])
     {
         j = 0;
         while (game->map[i][j])
         {
-            game->world_map[i][j] = game->map[i][j];
+            game->world_map[i - 6][j] = game->map[i][j];
             j++;
         }
         i++;
     }
-    printf("Map created\n");
-    get_map_size(game);
-    printf("Map size got %d\n", game->map_height);
-    get_map_width(game);
-    printf("Map width got %d\n", game->map_width);
 }

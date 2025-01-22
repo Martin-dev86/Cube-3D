@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:23:11 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/21 18:17:59 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/22 16:58:45 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,33 +36,32 @@ void	free_map(char **map, int map_height)
 
 char	**initialize_map(char **mapData, int map_height, t_game *game)
 {
-	char	**map;
+    char	**map;
 
-	map = malloc(map_height * sizeof(char *));
-	if (!map)
-		return (NULL);
-	for (int i = 0; i < map_height; i++)
-	{
-		map[i] = strdup(mapData[i]);
-		if (!map[i])
-		{
-			free_map(map, i);
-			return (NULL);
-		}
-		for (int j = 0; j < ft_strlen(mapData[i]); j++)
-		{
-			if (map[i][j] == 'N' || map[i][j] == 'S' || map[i][j] == 'E'
-				|| map[i][j] == 'W')
-			{
-				game->pos_x = j + 0.5;
-				game->pos_y = i + 0.5;
-				game->initial_orientation = map[i][j];
-				map[i][j] = '0';
-					// Reemplazar la posición inicial con un espacio vacío
-			}
-		}
-	}
-	return (map);
+    map = malloc(map_height * sizeof(char *));
+    if (!map)
+        return (NULL);
+    for (int i = 0; i < map_height; i++)
+    {
+        map[i] = strdup(mapData[i]);
+        if (!map[i])
+        {
+            free_map(map, i);
+            return (NULL);
+        }
+        for (int j = 0; j < ft_strlen(mapData[i]); j++)
+        {
+            if (map[i][j] == 'N' || map[i][j] == 'S' || map[i][j] == 'E'
+                || map[i][j] == 'W')
+            {
+                game->pos_x = j + 0.5;
+                game->pos_y = i + 0.5;
+                game->initial_orientation = map[i][j];
+                map[i][j] = '0';
+            }
+        }
+    }
+    return (map);
 }
 
 void	set_initial_orientation(t_game *game)
@@ -115,8 +114,9 @@ int	main(int argc, char **argv)
 		fprintf(stderr, "Error de mapa");
 		return(1);
 	}
+	printf("mapa creado 1 \n");
 	create_map(&game);
-	printf("mapa creado\n");
+	printf("mapa creado 2 \n");
 	print_map(game.world_map, game.map_height);
 	if (!game.world_map)
 	{
@@ -148,8 +148,11 @@ int	main(int argc, char **argv)
 	}
 	load_walls(&game);
 	print_parsed_values(&element);
+	printf("Textures loaded\n");
 	set_initial_orientation(&game);
+	printf("Textures loaded\n");
 	mlx_loop_hook(game.mlx, &update_and_render, &game);
+	printf("Impreso\n");
 	mlx_key_hook(game.mlx, &move_player, &game);
 	mlx_loop(game.mlx);
 	free_map(game.world_map, map_height);
