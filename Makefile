@@ -17,7 +17,7 @@ LIBFT_PATH = ./Library/Libft
 LIBFT = $(LIBFT_PATH)/libft.a
 
 # Source files for mlx42
-MLX_PATH = ./MLX42
+MLX_PATH = ./Library/MLX42
 
 # Compiled mlx42
 MLX = $(MLX_PATH)/libmlx42.a

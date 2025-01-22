@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 15:22:18 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/21 18:12:29 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/22 17:23:46 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define CUB3D_H
 
 # include "../Library/Libft/libft.h"
-# include "../MLX42/include/MLX42/MLX42.h"
+# include "../Library/MLX42/include/MLX42/MLX42.h"
 # include <math.h>
 # include <stdbool.h>
 # include <stdint.h>
@@ -42,10 +42,7 @@
 # define ROT_SPEED 0.03
 # define PLAYER_RADIUS 0.2
 
-// # define NO 'N'
-// # define SO 'S'
-// # define WO 'W'
-// # define EO 'E'
+
 # define WALL '1'
 # define FLOOR '0'
 
@@ -96,13 +93,6 @@ typedef struct s_game
 	int				read_cont;
 	t_element		element;
 }					t_game;
-
-// typedef struct s_game_3d
-// {
-// 	int		file_size;
-// 	int		read_cont;
-// 	char	**maps;
-// }	t_game_3d;
 
 typedef struct s_ray
 {
@@ -156,7 +146,7 @@ void				update_and_render(void *param);
 char				**initialize_map(char *mapData[], int mapHeight,
 						t_game *game);
 void				free_map(char **map, int mapHeight);
-void				load_walls(t_game *game);
+void				load_walls(t_game *game, t_element *element);
 void				move_forward(t_game *game, double moveSpeed);
 void				turn_mov(mlx_key_data_t keydata, void *param);
 void				key_a(mlx_key_data_t keydata, void *param);

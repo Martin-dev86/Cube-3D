@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:23:11 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/22 16:58:45 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/22 17:23:27 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ int	main(int argc, char **argv)
 		free_map(game.world_map, map_height);
 		return (1);
 	}
-	load_walls(&game);
+	load_walls(&game, &element);
 	print_parsed_values(&element);
 	printf("Textures loaded\n");
 	set_initial_orientation(&game);
