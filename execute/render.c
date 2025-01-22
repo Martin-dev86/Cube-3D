@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:26:30 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/14 16:10:51 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/22 18:47:05 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	draw_floor_and_ceiling(t_game *game, int x)
 	params.x = x;
 	params.start = 0;
 	params.end = SCREENHEIGHT / 2;
-	draw_line(game, 0x87CEEBFF, &params);
+	draw_line(game, 0xB87CEEFF, &params);
 	params.start = SCREENHEIGHT / 2;
 	params.end = SCREENHEIGHT;
 	draw_line(game, 0x228B22FF, &params);
