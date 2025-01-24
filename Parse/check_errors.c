@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 13:38:33 by cagarci2          #+#    #+#             */
-/*   Updated: 2025/01/21 18:08:04 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/24 14:44:39 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	check_header(t_game *game)
 
 	i = 0;
 	config_count = 0;
-	while (game->world_map[i] && config_count < 6)
+	while (game->map[i] && config_count < 6)
 	{
 		if (!ft_strncmp(&game->map[i][0], "NO", 2) && !config_found[0])
 		{

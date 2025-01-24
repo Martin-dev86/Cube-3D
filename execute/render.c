@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:26:30 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/22 18:47:05 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/24 14:33:16 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,17 +83,17 @@ void	init_ray(t_ray *ray, t_game *game, int x)
 
 // Function to draw the floor and the ceiling
 // Solid color for the floor and the ceiling
-void	draw_floor_and_ceiling(t_game *game, int x)
+void draw_floor_and_ceiling(t_game *game, int x)
 {
-	t_draw_line_params	params;
+    t_draw_line_params params;
 
-	params.x = x;
-	params.start = 0;
-	params.end = SCREENHEIGHT / 2;
-	draw_line(game, 0xB87CEEFF, &params);
-	params.start = SCREENHEIGHT / 2;
-	params.end = SCREENHEIGHT;
-	draw_line(game, 0x228B22FF, &params);
+    params.x = x;
+    params.start = 0;
+    params.end = SCREENHEIGHT / 2;
+    draw_line(game, game->floor, &params);
+    params.start = SCREENHEIGHT / 2;
+    params.end = SCREENHEIGHT;
+    draw_line(game, game->ceiling, &params);
 }
 
 // Main function to render the game

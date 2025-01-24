@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 18:30:26 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/22 17:27:46 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/24 14:45:21 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,4 @@ void	load_walls(t_game *game, t_element *elem)
 	if (!xpm)
 		error("texture not found", game);
 	game->textures.east = &xpm->texture;
-	printf("Textures loaded\n");
 }

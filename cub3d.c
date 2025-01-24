@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:23:11 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/22 17:23:27 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/24 15:00:22 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,15 +108,12 @@ int	main(int argc, char **argv)
 		fprintf(stderr, "Uso: %s <archivo_mapa.ber>\n", argv[0]);
 		return (1);
 	}
-	// Comprobar errores y crear mapa
 	if ( (!check_error(argv[1], &game, &element)))
 	{
 		fprintf(stderr, "Error de mapa");
 		return(1);
 	}
-	printf("mapa creado 1 \n");
 	create_map(&game);
-	printf("mapa creado 2 \n");
 	print_map(game.world_map, game.map_height);
 	if (!game.world_map)
 	{
@@ -148,11 +145,14 @@ int	main(int argc, char **argv)
 	}
 	load_walls(&game, &element);
 	print_parsed_values(&element);
-	printf("Textures loaded\n");
 	set_initial_orientation(&game);
 	printf("Textures loaded\n");
+	get_hex_codes(&game, &element);
+	printf("Ceiling and floor loaded\n");
 	mlx_loop_hook(game.mlx, &update_and_render, &game);
-	printf("Impreso\n");
+	// printf("Impreso\n");
+	// printf("Floor: %s\n", game.element.floor);
+	// printf("Ceiling: %s\n", game.element.ceiling);	
 	mlx_key_hook(game.mlx, &move_player, &game);
 	mlx_loop(game.mlx);
 	free_map(game.world_map, map_height);

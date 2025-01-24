@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 15:22:18 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/22 17:23:46 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/24 14:58:50 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ typedef struct s_game
 	int				map_height;
 	char			initial_orientation;
 	uint32_t		color;
+	uint32_t		floor;
+	uint32_t		ceiling;
 	int				file_size;
 	int				read_cont;
 	t_element		element;
@@ -159,6 +161,9 @@ int					check_header(t_game *game);
 int					size_and_create_map(char *file, t_game *game);
 int					check_error(char *input, t_game *game, t_element *element);
 void 				create_map(t_game *game);
+void				get_hex_codes(t_game *game, t_element *element);
+
+
 //solo para debuggeo
 void print_map(char **map, int map_height);
 //borrar
