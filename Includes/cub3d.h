@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 15:22:18 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/24 14:58:50 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/25 16:04:39 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,17 @@
 
 # include "../Library/Libft/libft.h"
 # include "../Library/MLX42/include/MLX42/MLX42.h"
+# include <fcntl.h>
+# include <limits.h>
 # include <math.h>
+# include <memory.h>
 # include <stdbool.h>
+# include <stddef.h>
 # include <stdint.h>
 # include <stdio.h>
-# include <string.h>
-# include <fcntl.h>
-# include <memory.h>
-# include <stdint.h>
-# include <stddef.h>
 # include <stdlib.h>
+# include <string.h>
 # include <unistd.h>
-# include <limits.h>
 
 // Constants values for the game
 // Width and height of the map
@@ -41,7 +40,6 @@
 # define MOVE_SPEED 0.1
 # define ROT_SPEED 0.03
 # define PLAYER_RADIUS 0.2
-
 
 # define WALL '1'
 # define FLOOR '0'
@@ -58,14 +56,13 @@ typedef struct s_texture
 // For the path or the map elements
 typedef struct s_element
 {
-	char	*north;
-	char	*south;
-	char	*west;
-	char	*east;
-	char	*floor;
-	char	*ceiling;
-}	t_element;
-
+	char			*north;
+	char			*south;
+	char			*west;
+	char			*east;
+	char			*floor;
+	char			*ceiling;
+}					t_element;
 
 // Main structure for the game
 // POSX and POSY are the position of the player
@@ -83,7 +80,7 @@ typedef struct s_game
 	double			dir_y;
 	double			plane_x;
 	double			plane_y;
-	char 			**map;
+	char			**map;
 	char			**world_map;
 	int				map_width;
 	int				map_height;
@@ -141,7 +138,7 @@ typedef struct s_draw_line_params
 
 // funciones
 void				clear_image(mlx_image_t *image, uint32_t color);
-void				draw_line(t_game *game, uint32_t color, \
+void				draw_line(t_game *game, uint32_t color,
 						t_draw_line_params *params);
 void				move_player(mlx_key_data_t keydata, void *param);
 void				update_and_render(void *param);
@@ -160,11 +157,10 @@ int					check_extension(char *file);
 int					check_header(t_game *game);
 int					size_and_create_map(char *file, t_game *game);
 int					check_error(char *input, t_game *game, t_element *element);
-void 				create_map(t_game *game);
+void				create_map(t_game *game);
 void				get_hex_codes(t_game *game, t_element *element);
 
-
-//solo para debuggeo
-void print_map(char **map, int map_height);
-//borrar
+// solo para debuggeo
+void		print_map(char **map, int map_height);
+// borrar
 #endif
