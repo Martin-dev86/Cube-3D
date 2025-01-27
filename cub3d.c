@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: cagarci2 <cagarci2@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:23:11 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/22 17:23:27 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/28 00:03:10 by cagarci2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,7 @@ int	main(int argc, char **argv)
 	mlx_loop_hook(game.mlx, &update_and_render, &game);
 	printf("Impreso\n");
 	mlx_key_hook(game.mlx, &move_player, &game);
+	printf("FALLA AQUI ==== *******mlx_loop********\n");
 	mlx_loop(game.mlx);
 	free_map(game.world_map, map_height);
 	free_textures(&game);
