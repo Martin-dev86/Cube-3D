@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 13:38:33 by cagarci2          #+#    #+#             */
-/*   Updated: 2025/01/28 15:19:15 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/28 17:32:27 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	check_extension(char *file)
 
 	len = ft_strlen(file);
 	if (len < 4 || file[len - 1] != 'b' || file[len - 2] != 'u' || file[len
-			- 3] != 'c' || file[len - 4] != '.')
+		- 3] != 'c' || file[len - 4] != '.')
 	{
 		printf("Error: Invalid file extension. Expected '.cub'.\n");
 		return (0);
@@ -40,8 +40,8 @@ char	*get_content(char *line)
 }
 int	check_header(t_game *game, t_element *element)
 {
-	int		i;
-	int		config_count;
+	int	i;
+	int	config_count;
 
 	i = 0;
 	config_count = 0;
@@ -91,11 +91,9 @@ int	check_header(t_game *game, t_element *element)
 		}
 		else if (game->world_map[i][0] != '\n' && game->world_map[i][0] != ' ')
 		{
-	 		printf("Error: Invalid configuration line\n");
+			printf("Error: Invalid configuration line\n");
 			exit(1);
 		}
-		printf("TEXTURA MAPA FUERA === %s\n", game->world_map[i]);
-		printf("ESTE ES EL COUNT === %d\n", config_count);
 		i++;
 	}
 	if (config_count < 6)
@@ -105,7 +103,6 @@ int	check_header(t_game *game, t_element *element)
 	}
 	return (1);
 }
-
 
 int	check_maps(t_game *game)
 {
@@ -118,63 +115,44 @@ int	check_maps(t_game *game)
 	i = 6;
 	while (game->world_map[i])
 	{
-		printf("MAPA === %s\n", game->world_map[i]);
 		j = 0;
 		while (game->world_map[i][j])
 		{
 			if (strspn(game->world_map[i], " ") == strlen(game->world_map[i]))
-				continue;
+				continue ;
 			while (game->world_map[i][j])
 			{
 				if (game->world_map[i][j] == 'E')
 					exit_count++;
 				else if (game->world_map[i][j] == '0')
 				{
-				// Verificar que 0 esté completamente rodeado por 1 o 0
-					if (i == 0 || !game->world_map[i + 1] || j == 0 || !game->world_map[i][j + 1] ||
-						game->world_map[i - 1][j] == ' ' || game->world_map[i + 1][j] == ' ' ||
-						game->world_map[i][j - 1] == ' ' || game->world_map[i][j + 1] == ' ')
-					{
-						printf("Error: El mapa no está cerrado o hay un espacio adyacente a '0'.\n");
-						exit(EXIT_FAILURE);
-					}
-					if (i == 0 || !game->world_map[i + 1] || j == 0 || !game->world_map[i][j + 1] ||
-						game->world_map[i - 1][j] == '\n' || game->world_map[i + 1][j] == '\n' ||
-						game->world_map[i][j - 1] == '\n' || game->world_map[i][j + 1] == '\n')
-					{
-						printf("Error: El mapa no está cerrado o hay un espacio adyacente a '0'.\n");
-						exit(EXIT_FAILURE);
-					}
+					// Verificar que 0 esté completamente rodeado por 1 o 0
+					if (i == 0 || !game->world_map[i + 1] || j == 0
+						|| !game->world_map[i][j + 1] || game->world_map[i
+						- 1][j] == ' ' || game->world_map[i + 1][j] == ' '
+						|| game->world_map[i][j - 1] == ' '
+						|| game->world_map[i][j + 1] == ' ')
+						ft_error("Error: Map not closed\n", game);
+					if (i == 0 || !game->world_map[i + 1] || j == 0
+						|| !game->world_map[i][j + 1] || game->world_map[i
+						- 1][j] == '\n' || game->world_map[i + 1][j] == '\n'
+						|| game->world_map[i][j - 1] == '\n'
+						|| game->world_map[i][j + 1] == '\n')
+						ft_error("Error: Map not closed\n", game);
 				}
-				else if (game->world_map[i][j] != '1' && game->world_map[i][j] != ' ' && game->world_map[i][j] != 'E')
-				{
-					printf("Error: Caracter inválido en el mapa. %s\n", game->world_map[i]);
-					exit(EXIT_FAILURE);
-				}
+				else if (game->world_map[i][j] != '1'
+					&& game->world_map[i][j] != ' '
+					&& game->world_map[i][j] != 'E')
+					ft_error("Error: Invalid character in the map\n", game);
 				j++;
 			}
 		}
 		i++;
 	}
 	// Validar que haya exactamente un 'E'
-		if (exit_count != 1)
-		{
-			printf("Error: Debe haber exactamente una 'E'.\n");
-			exit(EXIT_FAILURE);
-		}
+	if (exit_count != 1)
+		ft_error("Error: Invalid number of players\n", game);
 	return (1);
-}
-
-void print_map(char **map, int map_height) 
-{
-	int i = 0;
-	printf("Map height is: %i\n", map_height);
-	printf("MAP:\n");
-    while (i < map_height && map[i])
-	{
-        printf("%s\n", map[i]);
-		i++;
-    }
 }
 
 int	size_and_create_map(char *file, t_game *game)
@@ -187,30 +165,24 @@ int	size_and_create_map(char *file, t_game *game)
 	game->read_cont = 1;
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
-	{
-		printf("Error: Cannot open file %s.\n", file);
-		exit (EXIT_FAILURE);
-	}
+		ft_error("Error: File not found.", game);
 	while (game->read_cont > 0)
 	{
 		game->read_cont = read(fd, buffer, sizeof(buffer));
 		if (game->read_cont < 0)
-			return (close(fd), printf("Error: Reading error.\n"), 0);
+			{
+				close(fd);
+				ft_error("Error: File reading failed.", game);
+			}
 		game->file_size += game->read_cont;
 	}
 	close(fd);
-	map_temp = malloc(game->file_size + 1);
-	if (!map_temp)
-		return (printf("Error: Memory allocation failed.\n"), 0);
+	map_temp = p_calloc(game->file_size + 1, sizeof(char));
 	fd = open(file, O_RDONLY);
 	game->read_cont = read(fd, map_temp, game->file_size);
 	map_temp[game->read_cont] = '\0';
 	close(fd);
 	game->world_map = ft_split(map_temp, '\n');
-	//Para debuguear
-	print_map(game->world_map, game->file_size);
-	printf("MAP ENDED\n");
-	//Hasta aquí
 	free(map_temp);
 	return (1);
 }
@@ -222,7 +194,7 @@ int	check_error(char *input, t_game *game, t_element *element)
 	if (!size_and_create_map(input, game))
 		return (0);
 	if (!check_maps(game))
-	 	return (0);
+		return (0);
 	if (!check_header(game, element))
 		return (0);
 	return (1);
