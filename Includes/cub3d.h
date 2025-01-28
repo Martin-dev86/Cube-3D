@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cagarci2 <cagarci2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 15:22:18 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/28 18:43:56 by cagarci2         ###   ########.fr       */
+/*   Updated: 2025/01/28 19:31:28 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,8 @@ void				get_hex_codes(t_game *game, t_element *element);
 void				*p_calloc(size_t count, size_t size);
 void				free_map(char **map, int map_height);
 void				ft_error(const char *message, t_game *game);
+void				set_initial_orientation(t_game *game);
+
 
 
 // solo para debuggeo

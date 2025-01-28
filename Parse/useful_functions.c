@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 19:54:39 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/28 15:36:23 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/28 18:26:49 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	free_map(char **map, int map_height)
 // Protected calloc function
 void	*p_calloc(size_t count, size_t size)
 {
-	void *ptr;
+	void	*ptr;
 
 	ptr = ft_calloc(count, size);
 	if (!ptr)
@@ -42,6 +42,15 @@ void	*p_calloc(size_t count, size_t size)
 void	ft_error(const char *message, t_game *game)
 {
 	printf("Error: %s\n", message);
+	free_map(game->world_map, game->map_height);
+	free_textures(game);
+	exit(1);
+}
+
+void	ft_error_mlx(const char *message, t_game *game)
+{
+	printf("Error: %s\n", message);
+	mlx_terminate(game->mlx);
 	free_map(game->world_map, game->map_height);
 	free_textures(game);
 	exit(1);

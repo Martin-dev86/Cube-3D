@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 18:47:49 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/28 14:46:43 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/28 18:04:47 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,7 @@ int	*get_rgb_codes(const char *rgb)
 	i = 0;
 	j = 0;
 	value = 0;
-	rgb_codes = malloc(3 * sizeof(int));
-	if (!rgb_codes)
-		return (NULL);
+	rgb_codes = p_calloc(3, sizeof(int));
 	while (rgb[i] != '\0' && j < 3)
 	{
 		if (rgb[i] >= '0' && rgb[i] <= '9')
@@ -78,19 +76,12 @@ void	get_hex_codes(t_game *game, t_element *element)
 
 	rgb_floor = get_rgb_codes(element->floor);
 	if (!rgb_floor)
-	{
-		printf("Error getting the color for the floor.\n");
-		exit(EXIT_FAILURE);
-	}
+		ft_error("Error getting the color for the floor.\n", game);
 	game->floor = rgb_to_uint32(rgb_floor);
 	free(rgb_floor);
 	rgb_ceiling = get_rgb_codes(element->ceiling);
 	if (!rgb_ceiling)
-	{
-		printf("Error getting the color for the ceiling.\n");
-		exit(EXIT_FAILURE);
-	}
+		ft_error("Error getting the color for the ceiling.\n", game);
 	game->ceiling = rgb_to_uint32(rgb_ceiling);
 	free(rgb_ceiling);
 }
-
