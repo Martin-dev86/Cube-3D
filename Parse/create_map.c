@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_map.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: cagarci2 <cagarci2@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 16:50:08 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/22 17:04:21 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/27 23:58:11 by cagarci2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void get_map_size(t_game *game)
 
     i = 0;
     game->map_height = 0;
-    while (game->map[i])
+    while (game->world_map[i])
     {
         game->map_height++;
         i++;
@@ -37,10 +37,10 @@ void get_map_width(t_game *game)
     i = 0;
     width = 0;
     m_width = 0;
-    while (game->map[i])
+    while (game->world_map[i])
     {
         j = 0;
-        while (game->map[i][j])
+        while (game->world_map[i][j])
         {
             width++;
             j++;
@@ -62,7 +62,6 @@ void create_map(t_game *game)
 
     get_map_size(game);
     get_map_width(game);
-
     game->world_map = malloc(game->map_height * sizeof(char *));
     if (!game->world_map)
     {
@@ -82,14 +81,13 @@ void create_map(t_game *game)
             exit(EXIT_FAILURE);
         }
     }
-
     i = 6;
-    while (game->map[i])
+    while (game->world_map[i])
     {
         j = 0;
-        while (game->map[i][j])
+        while (game->world_map[i][j])
         {
-            game->world_map[i - 6][j] = game->map[i][j];
+            game->world_map[i - 6][j] = game->world_map[i][j];
             j++;
         }
         i++;
