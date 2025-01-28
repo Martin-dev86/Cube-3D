@@ -6,7 +6,7 @@
 /*   By: cagarci2 <cagarci2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 13:38:33 by cagarci2          #+#    #+#             */
-/*   Updated: 2025/01/28 17:57:41 by cagarci2         ###   ########.fr       */
+/*   Updated: 2025/01/28 18:58:42 by cagarci2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,29 +122,34 @@ int	check_maps(t_game *game)
 				continue ;
 			while (game->world_map[i][j])
 			{
-				if (game->world_map[i][j] == 'E')
+				printf("%c\n", game->world_map[i][j]);
+				if (game->world_map[i][j] == 'E' ||
+						game->world_map[i][j] == 'S' ||
+							game->world_map[i][j] == 'W' ||
+								game->world_map[i][j] == 'N')
 					exit_count++;
-				else if (game->world_map[i][j] == '0' || game->world_map[i][j] == '0' ||
-					game->world_map[i][j] == '0' || game->world_map[i][j] == '0' ||
-						game->world_map[i][j] == '0')
+				if (game->world_map[i][j] == 'S' ||
+							game->world_map[i][j] == '0' ||
+								game->world_map[i][j] == 'W' ||
+									game->world_map[i][j] == 'N' ||
+										game->world_map[i][j] == 'E')
 				{
-					// Verificar que 0 esté completamente rodeado por 1 o 0
 					if (!game->world_map[i + 1] || !game->world_map[i][j + 1] ||
 						game->world_map[i - 1][j] == ' ' ||
 							game->world_map[i + 1][j] == ' ' ||
 								game->world_map[i][j - 1] == ' ' ||
 									game->world_map[i][j + 1] == ' ')
 						ft_error("Error: Map not closed\n", game);
-					if (!game->world_map[i + 1] || j == 0
-						|| !game->world_map[i][j + 1] || game->world_map[i
-						- 1][j] == '\n' || game->world_map[i + 1][j] == '\n'
-						|| game->world_map[i][j - 1] == '\n'
-						|| game->world_map[i][j + 1] == '\n')
+					if (!game->world_map[i + 1] || !game->world_map[i][j + 1] ||
+						game->world_map[i - 1][j] == '\n' ||
+							game->world_map[i + 1][j] == '\n' ||
+								game->world_map[i][j - 1] == '\n' ||
+									game->world_map[i][j + 1] == '\n')
 						ft_error("Error: Map not closed\n", game);
 				}
-				else if (game->world_map[i][j] != '1'
-					&& game->world_map[i][j] != ' '
-					&& game->world_map[i][j] != 'E')
+				else if (game->world_map[i][j] != '1' || game->world_map[i][j] != ' ' ||
+							game->world_map[i][j] != 'N' || game->world_map[i][j] != 'W' ||
+								game->world_map[i][j] != 'S' || game->world_map[i][j] != 'E')
 					ft_error("Error: Invalid character in the map\n", game);
 				j++;
 			}
@@ -171,10 +176,10 @@ int	size_and_create_map(char *file, t_game *game)
 	{
 		game->read_cont = read(fd, buffer, sizeof(buffer));
 		if (game->read_cont < 0)
-			{
-				close(fd);
-				ft_error("Error: File reading failed.", game);
-			}
+		{
+			close(fd);
+			ft_error("Error: File reading failed.", game);
+		}
 		game->file_size += game->read_cont;
 	}
 	close(fd);
