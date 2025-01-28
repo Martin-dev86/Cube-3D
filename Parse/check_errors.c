@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_errors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: cagarci2 <cagarci2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 13:38:33 by cagarci2          #+#    #+#             */
-/*   Updated: 2025/01/28 17:32:27 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/28 17:57:41 by cagarci2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,16 +124,18 @@ int	check_maps(t_game *game)
 			{
 				if (game->world_map[i][j] == 'E')
 					exit_count++;
-				else if (game->world_map[i][j] == '0')
+				else if (game->world_map[i][j] == '0' || game->world_map[i][j] == '0' ||
+					game->world_map[i][j] == '0' || game->world_map[i][j] == '0' ||
+						game->world_map[i][j] == '0')
 				{
 					// Verificar que 0 esté completamente rodeado por 1 o 0
-					if (i == 0 || !game->world_map[i + 1] || j == 0
-						|| !game->world_map[i][j + 1] || game->world_map[i
-						- 1][j] == ' ' || game->world_map[i + 1][j] == ' '
-						|| game->world_map[i][j - 1] == ' '
-						|| game->world_map[i][j + 1] == ' ')
+					if (!game->world_map[i + 1] || !game->world_map[i][j + 1] ||
+						game->world_map[i - 1][j] == ' ' ||
+							game->world_map[i + 1][j] == ' ' ||
+								game->world_map[i][j - 1] == ' ' ||
+									game->world_map[i][j + 1] == ' ')
 						ft_error("Error: Map not closed\n", game);
-					if (i == 0 || !game->world_map[i + 1] || j == 0
+					if (!game->world_map[i + 1] || j == 0
 						|| !game->world_map[i][j + 1] || game->world_map[i
 						- 1][j] == '\n' || game->world_map[i + 1][j] == '\n'
 						|| game->world_map[i][j - 1] == '\n'
@@ -149,7 +151,6 @@ int	check_maps(t_game *game)
 		}
 		i++;
 	}
-	// Validar que haya exactamente un 'E'
 	if (exit_count != 1)
 		ft_error("Error: Invalid number of players\n", game);
 	return (1);
