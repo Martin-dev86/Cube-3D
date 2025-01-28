@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 13:38:33 by cagarci2          #+#    #+#             */
-/*   Updated: 2025/01/28 14:43:01 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/28 15:19:15 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,44 +46,43 @@ int	check_header(t_game *game, t_element *element)
 	i = 0;
 	config_count = 0;
 	while (game->world_map[i] && config_count < 6)
-	while (config_count != 6)
 	{
-		if (ft_strncmp(&game->world_map[i][0], "NO ", 3) == 0 && !element->north)
+		if (ft_strncmp(&game->world_map[i][0], "NO ", 3) == 0)
 		{
 			config_count++;
 			element->north = get_content(game->world_map[i]);
 			printf("ESTE ES 1\n");
 			printf("TEXTURA MAPA === %s\n", game->world_map[i]);
 		}
-		else if (ft_strncmp(&game->world_map[i][0], "SO ", 3) == 0 && !element->south)
+		else if (ft_strncmp(&game->world_map[i][0], "SO ", 3) == 0)
 		{
 			config_count++;
 			element->south = get_content(game->world_map[i]);
 			printf("ESTE ES 2\n");
 			printf("TEXTURA MAPA === %s\n", game->world_map[i]);
 		}
-		else if (ft_strncmp(&game->world_map[i][0], "WE ", 3) == 0 && !element->west)
+		else if (ft_strncmp(&game->world_map[i][0], "WE ", 3) == 0)
 		{
 			config_count++;
 			element->west = get_content(game->world_map[i]);
 			printf("ESTE ES 3\n");
 			printf("TEXTURA MAPA === %s\n", game->world_map[i]);
 		}
-		else if (ft_strncmp(&game->world_map[i][0], "EA ", 3) == 0 && !element->east)
+		else if (ft_strncmp(&game->world_map[i][0], "EA ", 3) == 0)
 		{
 			config_count++;
 			element->east = get_content(game->world_map[i]);
 			printf("ESTE ES 4\n");
 			printf("TEXTURA MAPA === %s\n", game->world_map[i]);
 		}
-		else if (ft_strncmp(&game->world_map[i][0], "F ", 2) == 0 && !element->floor)
+		else if (ft_strncmp(&game->world_map[i][0], "F ", 2) == 0)
 		{
 			config_count++;
 			element->floor = get_content(game->world_map[i]);
 			printf("ESTE ES 5\n");
 			printf("TEXTURA MAPA === %s\n", game->world_map[i]);
 		}
-		else if (ft_strncmp(&game->world_map[i][0], "C ", 2) == 0 && !element->ceiling)
+		else if (ft_strncmp(&game->world_map[i][0], "C ", 2) == 0)
 		{
 			config_count++;
 			element->ceiling = get_content(game->world_map[i]);

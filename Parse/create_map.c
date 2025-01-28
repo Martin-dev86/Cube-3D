@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 16:50:08 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/28 14:52:42 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/28 14:58:47 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,23 +60,12 @@ void	create_map(t_game *game)
 
 	get_map_size(game);
 	get_map_width(game);
-	game->map = ft_calloc(game->map_height, sizeof(char *));
-	if (!game->map)
+	game->map = p_calloc(game->map_height, sizeof(char *));
+	i = 0;
+	while (i < game->map_height)
 	{
-		printf("Error: Memory allocation failed for world_map.\n");
-		exit(EXIT_FAILURE);
-	}
-	for (i = 0; i < game->map_height; i++)
-	{
-		game->map[i] = ft_calloc(game->map_width, sizeof(char));   
-		if (!game->map[i])
-		{
-			printf("Error: Memory allocation failed for world_map[%d].\n", i);
-			for (int k = 0; k < i; k++)
-				free(game->world_map[k]);
-			free(game->world_map);
-			exit(EXIT_FAILURE);
-		}
+		game->map[i] = p_calloc(game->map_width, sizeof(char));
+		i++;
 	}
 	i = 6;
 	while (game->world_map[i])
