@@ -1,7 +1,0 @@
-falta jugador------repair
-pared sin cerrar
-2 jugadores------repair
-espacios dentro del mapa------repair
-Segmentation falta WE------repair
-Salto de linea dentro del mapa
-doble we ------repair
