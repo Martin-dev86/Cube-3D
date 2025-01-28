@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:23:11 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/28 12:07:39 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/28 14:48:24 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	create_map(&game);
+	printf("MAP HEIGHT: %d\n", game.map_height);
 	print_map(game.world_map, game.map_height);
 	if (!game.world_map)
 	{
@@ -150,9 +151,12 @@ int	main(int argc, char **argv)
 	print_parsed_values(&element);
 	set_initial_orientation(&game);
 	get_hex_codes(&game, &element);
+	printf("HEX CODES\n");
+	printf("FLOOR: %X\n", game.floor);
+	printf("CEILING: %X\n", game.ceiling);
+	printf("FALLA AQUI ==== *******mlx_loop********\n");
 	mlx_loop_hook(game.mlx, &update_and_render, &game);
 	mlx_key_hook(game.mlx, &move_player, &game);
-	printf("FALLA AQUI ==== *******mlx_loop********\n");
 	mlx_loop(game.mlx);
 	free_map(game.world_map, map_height);
 	free_textures(&game);

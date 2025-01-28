@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 18:47:49 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/25 16:00:04 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/28 14:46:43 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,3 +93,4 @@ void	get_hex_codes(t_game *game, t_element *element)
 	game->ceiling = rgb_to_uint32(rgb_ceiling);
 	free(rgb_ceiling);
 }
+
