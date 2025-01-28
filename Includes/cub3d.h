@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 15:22:18 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/28 12:08:16 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/28 15:35:58 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,9 @@ int					check_error(char *input, t_game *game, t_element *element);
 void				create_map(t_game *game);
 void				get_hex_codes(t_game *game, t_element *element);
 void				*p_calloc(size_t count, size_t size);
+void				free_map(char **map, int map_height);
+void				ft_error(const char *message, t_game *game);
+
 
 // solo para debuggeo
 void				print_map(char **map, int map_height);

@@ -6,33 +6,11 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:23:11 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/28 14:48:24 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/28 15:38:50 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Includes/cub3d.h"
-
-void	print_parsed_values(t_element *element)
-{
-	printf("North texture: %s\n", element->north);
-	printf("South texture: %s\n", element->south);
-	printf("West texture: %s\n", element->west);
-	printf("East texture: %s\n", element->east);
-	printf("Floor color: %s\n", element->floor);
-	printf("Ceiling color: %s\n", element->ceiling);
-}
-
-void	free_map(char **map, int map_height)
-{
-	int	i;
-
-	i = 0;
-	while (i < map_height)
-	{
-		free(map[i]);
-		i++;
-	}
-}
 
 char	**initialize_map(char **mapData, int map_height, t_game *game)
 {
@@ -44,7 +22,7 @@ char	**initialize_map(char **mapData, int map_height, t_game *game)
 	i = 0;
 	while (i < map_height)
 	{
-		map[i] = strdup(mapData[i]);
+		map[i] = ft_strdup(mapData[i]);
 		if (!map[i])
 		{
 			free_map(map, i);
@@ -108,53 +86,27 @@ int	main(int argc, char **argv)
 
 	map_height = 0;
 	if (argc != 2)
-	{
-		printf("Uso: %s <archivo_mapa.ber>\n", argv[0]);
-		return (1);
-	}
+		ft_error("Error: Invalid number of arguments.", &game);
 	if ((!check_error(argv[1], &game, &element)))
-	{
-		printf("Error de mapa");
-		return (1);
-	}
+		ft_error("Error: Invalid map.", &game);
 	create_map(&game);
-	printf("MAP HEIGHT: %d\n", game.map_height);
-	print_map(game.world_map, game.map_height);
 	if (!game.world_map)
-	{
-		printf("Error: no se pudo inicializar el mapa.\n");
-		return (1);
-	}
+		ft_error("Error: Cannot create the map.", &game);
 	game.world_map = initialize_map(game.world_map, game.map_height, &game);
-	printf("mapa inicializado\n");
 	if (!game.world_map)
-	{
-		printf("Error: no se pudo inicializar el mapa.\n");
-		return (1);
-	}
+		ft_error("Error: Cannot initialize the map.", &game);
 	game.mlx = mlx_init(SCREENWIDTH, SCREENHEIGHT, "Cub3D", true);
-	if (!game.mlx)
-	{
-		printf("Error: no se pudo inicializar MLX42.\n");
-		free_map(game.world_map, map_height);
-		return (1);
-	}
+	if(!game.mlx)
+		ft_error("Error: Cannot initialize the mlx.", &game);
 	game.image = mlx_new_image(game.mlx, SCREENWIDTH, SCREENHEIGHT);
 	if (!game.image)
 	{
-		printf("Error: no se pudo crear la imagen.\n");
 		mlx_terminate(game.mlx);
-		free_map(game.world_map, map_height);
-		return (1);
+		ft_error("Error: Cannot create the image.", &game);
 	}
 	load_walls(&game, &element);
-	print_parsed_values(&element);
 	set_initial_orientation(&game);
 	get_hex_codes(&game, &element);
-	printf("HEX CODES\n");
-	printf("FLOOR: %X\n", game.floor);
-	printf("CEILING: %X\n", game.ceiling);
-	printf("FALLA AQUI ==== *******mlx_loop********\n");
 	mlx_loop_hook(game.mlx, &update_and_render, &game);
 	mlx_key_hook(game.mlx, &move_player, &game);
 	mlx_loop(game.mlx);

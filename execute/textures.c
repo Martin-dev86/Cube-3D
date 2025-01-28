@@ -6,19 +6,11 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 18:30:26 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/28 12:08:02 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/28 15:36:14 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/cub3d.h"
-
-// Function to exit with and error message
-void	error(const char *message, t_game *game)
-{
-	fprintf(stderr, "Error: %s\n", message);
-	free_map(game->world_map, game->map_height);
-	exit(1);
-}
 
 // Function to load the textures of the walls
 // the format is xpm42 for better performance
@@ -28,22 +20,18 @@ void	load_walls(t_game *game, t_element *elem)
 
 	xpm = mlx_load_xpm42(elem->north);
 	if (!xpm)
-		error("texture not found1", game);
+		ft_error("texture not found1", game);
 	game->textures.north = &xpm->texture;
-	printf("Texture north loaded\n");
 	xpm = mlx_load_xpm42(elem->south);
-	printf("Texture south xmp42 succcess\n");
 	if (!xpm)
-		error("texture not found2", game);
+		ft_error("texture not found2", game);
 	game->textures.south = &xpm->texture;
-	printf("Texture south loaded\n");
 	xpm = mlx_load_xpm42(elem->west);
 	if (!xpm)
-		error("texture not found3", game);
+		ft_error("texture not found3", game);
 	game->textures.west = &xpm->texture;
 	xpm = mlx_load_xpm42(elem->east);
-	printf("Texture east loaded\n");
 	if (!xpm)
-		error("texture not found4", game);
+		ft_error("texture not found4", game);
 	game->textures.east = &xpm->texture;
 }

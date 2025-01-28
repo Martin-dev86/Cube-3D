@@ -1,26 +1,48 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   p_calloc.c                                         :+:      :+:    :+:   */
+/*   useful_functions.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 19:54:39 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/25 19:55:11 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/28 15:36:23 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/cub3d.h"
 
+void	free_map(char **map, int map_height)
+{
+	int	i;
+
+	i = 0;
+	while (i < map_height)
+	{
+		free(map[i]);
+		i++;
+	}
+}
+
+// Protected calloc function
 void	*p_calloc(size_t count, size_t size)
 {
 	void *ptr;
 
-	ptr = calloc(count, size);
+	ptr = ft_calloc(count, size);
 	if (!ptr)
 	{
 		printf("Error: Memory allocation failed.\n");
 		exit(1);
 	}
 	return (ptr);
+}
+
+// Function to exit with and error message
+void	ft_error(const char *message, t_game *game)
+{
+	printf("Error: %s\n", message);
+	free_map(game->world_map, game->map_height);
+	free_textures(game);
+	exit(1);
 }
