@@ -6,11 +6,19 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:23:11 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/28 15:38:50 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/28 19:44:26 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Includes/cub3d.h"
+
+void	initial_orient(t_game *game, char **map, int i, int j)
+{
+	game->pos_x = j + 0.5;
+	game->pos_y = i + 0.5;
+	game->initial_orientation = map[i][j];
+	map[i][j] = '0';
+}
 
 char	**initialize_map(char **mapData, int map_height, t_game *game)
 {
@@ -33,12 +41,7 @@ char	**initialize_map(char **mapData, int map_height, t_game *game)
 		{
 			if (map[i][j] == 'N' || map[i][j] == 'S' || map[i][j] == 'E'
 				|| map[i][j] == 'W')
-			{
-				game->pos_x = j + 0.5;
-				game->pos_y = i + 0.5;
-				game->initial_orientation = map[i][j];
-				map[i][j] = '0';
-			}
+				initial_orient(game, map, i, j);
 			j++;
 		}
 		i++;
@@ -46,35 +49,26 @@ char	**initialize_map(char **mapData, int map_height, t_game *game)
 	return (map);
 }
 
-void	set_initial_orientation(t_game *game)
+void	initial_check(int argc, char **argv, t_game *game, t_element *element)
 {
-	if (game->initial_orientation == 'N')
+	if (argc != 2)
+		ft_error("Error: Invalid number of arguments.", game);
+	if ((!check_error(argv[1], game, element)))
+		ft_error("Error: Invalid map.", game);
+	create_map(game);
+	if (!game->world_map)
+		ft_error("Error: Cannot create the map.", game);
+	game->world_map = initialize_map(game->world_map, game->map_height, game);
+	if (!game->world_map)
+		ft_error("Error: Cannot initialize the map.", game);
+	game->mlx = mlx_init(SCREENWIDTH, SCREENHEIGHT, "Cub3D", true);
+	if (!game->mlx)
+		ft_error("Error: Cannot initialize the mlx.", game);
+	game->image = mlx_new_image(game->mlx, SCREENWIDTH, SCREENHEIGHT);
+	if (!game->image)
 	{
-		game->dir_x = 0;
-		game->dir_y = -1;
-		game->plane_x = 0.66;
-		game->plane_y = 0;
-	}
-	else if (game->initial_orientation == 'S')
-	{
-		game->dir_x = 0;
-		game->dir_y = 1;
-		game->plane_x = -0.66;
-		game->plane_y = 0;
-	}
-	else if (game->initial_orientation == 'E')
-	{
-		game->dir_x = 1;
-		game->dir_y = 0;
-		game->plane_x = 0;
-		game->plane_y = 0.66;
-	}
-	else if (game->initial_orientation == 'W')
-	{
-		game->dir_x = -1;
-		game->dir_y = 0;
-		game->plane_x = 0;
-		game->plane_y = -0.66;
+		mlx_terminate(game->mlx);
+		ft_error("Error: Cannot create the image.", game);
 	}
 }
 
@@ -85,25 +79,7 @@ int	main(int argc, char **argv)
 	int			map_height;
 
 	map_height = 0;
-	if (argc != 2)
-		ft_error("Error: Invalid number of arguments.", &game);
-	if ((!check_error(argv[1], &game, &element)))
-		ft_error("Error: Invalid map.", &game);
-	create_map(&game);
-	if (!game.world_map)
-		ft_error("Error: Cannot create the map.", &game);
-	game.world_map = initialize_map(game.world_map, game.map_height, &game);
-	if (!game.world_map)
-		ft_error("Error: Cannot initialize the map.", &game);
-	game.mlx = mlx_init(SCREENWIDTH, SCREENHEIGHT, "Cub3D", true);
-	if(!game.mlx)
-		ft_error("Error: Cannot initialize the mlx.", &game);
-	game.image = mlx_new_image(game.mlx, SCREENWIDTH, SCREENHEIGHT);
-	if (!game.image)
-	{
-		mlx_terminate(game.mlx);
-		ft_error("Error: Cannot create the image.", &game);
-	}
+	initial_check(argc, argv, &game, &element);
 	load_walls(&game, &element);
 	set_initial_orientation(&game);
 	get_hex_codes(&game, &element);

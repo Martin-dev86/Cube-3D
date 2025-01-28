@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_errors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cagarci2 <cagarci2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 13:38:33 by cagarci2          #+#    #+#             */
-/*   Updated: 2025/01/28 18:58:42 by cagarci2         ###   ########.fr       */
+/*   Updated: 2025/01/28 19:36:42 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,10 +147,10 @@ int	check_maps(t_game *game)
 									game->world_map[i][j + 1] == '\n')
 						ft_error("Error: Map not closed\n", game);
 				}
-				else if (game->world_map[i][j] != '1' || game->world_map[i][j] != ' ' ||
-							game->world_map[i][j] != 'N' || game->world_map[i][j] != 'W' ||
-								game->world_map[i][j] != 'S' || game->world_map[i][j] != 'E')
-					ft_error("Error: Invalid character in the map\n", game);
+				// else if (game->world_map[i][j] != '1' || game->world_map[i][j] != ' ' ||
+				// 			game->world_map[i][j] != 'N' || game->world_map[i][j] != 'W' ||
+				// 				game->world_map[i][j] != 'S' || game->world_map[i][j] != 'E')
+				// 	ft_error("Error: Invalid character in the map\n", game);
 				j++;
 			}
 		}

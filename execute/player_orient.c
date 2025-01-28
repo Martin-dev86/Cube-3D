@@ -6,13 +6,13 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:07:02 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/28 18:10:01 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/28 19:46:01 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/cub3d.h"
 
-void	set_initial_orientation_NS(t_game *game)
+void	set_initial_orientation_ns(t_game *game)
 {
 	if (game->initial_orientation == 'N')
 	{
@@ -30,7 +30,7 @@ void	set_initial_orientation_NS(t_game *game)
 	}
 }
 
-void	set_initial_orientatio_WE(t_game *game)
+void	set_initial_orientatio_we(t_game *game)
 {
 	if (game->initial_orientation == 'E')
 	{
@@ -50,6 +50,6 @@ void	set_initial_orientatio_WE(t_game *game)
 
 void	set_initial_orientation(t_game *game)
 {
-	set_initial_orientation_NS(game);
-	set_initial_orientatio_WE(game);
+	set_initial_orientation_ns(game);
+	set_initial_orientatio_we(game);
 }
