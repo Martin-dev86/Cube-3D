@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 13:38:33 by cagarci2          #+#    #+#             */
-/*   Updated: 2025/01/28 19:36:42 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/28 19:54:43 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,43 +51,31 @@ int	check_header(t_game *game, t_element *element)
 		{
 			config_count++;
 			element->north = get_content(game->world_map[i]);
-			printf("ESTE ES 1\n");
-			printf("TEXTURA MAPA === %s\n", game->world_map[i]);
 		}
 		else if (ft_strncmp(&game->world_map[i][0], "SO ", 3) == 0)
 		{
 			config_count++;
 			element->south = get_content(game->world_map[i]);
-			printf("ESTE ES 2\n");
-			printf("TEXTURA MAPA === %s\n", game->world_map[i]);
 		}
 		else if (ft_strncmp(&game->world_map[i][0], "WE ", 3) == 0)
 		{
 			config_count++;
 			element->west = get_content(game->world_map[i]);
-			printf("ESTE ES 3\n");
-			printf("TEXTURA MAPA === %s\n", game->world_map[i]);
 		}
 		else if (ft_strncmp(&game->world_map[i][0], "EA ", 3) == 0)
 		{
 			config_count++;
 			element->east = get_content(game->world_map[i]);
-			printf("ESTE ES 4\n");
-			printf("TEXTURA MAPA === %s\n", game->world_map[i]);
 		}
 		else if (ft_strncmp(&game->world_map[i][0], "F ", 2) == 0)
 		{
 			config_count++;
 			element->floor = get_content(game->world_map[i]);
-			printf("ESTE ES 5\n");
-			printf("TEXTURA MAPA === %s\n", game->world_map[i]);
 		}
 		else if (ft_strncmp(&game->world_map[i][0], "C ", 2) == 0)
 		{
 			config_count++;
 			element->ceiling = get_content(game->world_map[i]);
-			printf("ESTE ES 6\n");
-			printf("TEXTURA MAPA === %s\n", game->world_map[i]);
 		}
 		else if (game->world_map[i][0] != '\n' && game->world_map[i][0] != ' ')
 		{
@@ -147,10 +135,10 @@ int	check_maps(t_game *game)
 									game->world_map[i][j + 1] == '\n')
 						ft_error("Error: Map not closed\n", game);
 				}
-				// else if (game->world_map[i][j] != '1' || game->world_map[i][j] != ' ' ||
-				// 			game->world_map[i][j] != 'N' || game->world_map[i][j] != 'W' ||
-				// 				game->world_map[i][j] != 'S' || game->world_map[i][j] != 'E')
-				// 	ft_error("Error: Invalid character in the map\n", game);
+				else if (game->world_map[i][j] != '1' && game->world_map[i][j] != ' ' &&
+							game->world_map[i][j] != 'N' && game->world_map[i][j] != 'W' &&
+								game->world_map[i][j] != 'S' && game->world_map[i][j] != 'E')
+					ft_error("Error: Invalid character in the map\n", game);
 				j++;
 			}
 		}
