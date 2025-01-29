@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 13:38:33 by cagarci2          #+#    #+#             */
-/*   Updated: 2025/01/29 16:39:35 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/29 16:46:40 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	check_maps(t_game *game)
 	while (game->world_map[i])
 	{
 		j = 0;
+		// FIX THIS functions Crack!
 		if (strspn(game->world_map[i], " ") == strlen(game->world_map[i]))
 			continue ;
 		while (game->world_map[i][j])
