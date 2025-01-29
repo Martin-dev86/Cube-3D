@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:23:11 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/29 19:49:21 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/29 20:38:41 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	**initialize_map(char **mapData, int map_height, t_game *game)
 		map[i] = ft_strdup(mapData[i]);
 		if (!map[i])
 		{
-			free_map(map);
+			free_w_map(map);
 			return (NULL);
 		}
 		j = 0;
@@ -46,7 +46,7 @@ char	**initialize_map(char **mapData, int map_height, t_game *game)
 		}
 		i++;
 	}
-	return (free_map(mapData), map);
+	return (free_w_map(mapData), map);
 }
 
 void	initial_check(int argc, char **argv, t_game *game, t_element *element)
@@ -87,6 +87,7 @@ int	main(int argc, char **argv)
 	mlx_terminate(game.mlx);
 	free_textures(&game);
 	free_element(&element);
-	free_map(game.world_map);
+	free_map(game.map, game.map_height);
+	free_w_map(game.world_map);
 	return (0);
 }

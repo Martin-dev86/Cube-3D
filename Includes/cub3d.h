@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 15:22:18 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/29 20:07:27 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/29 20:32:40 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,7 @@ int					check_error(char *input, t_game *game, t_element *element);
 void				create_map(t_game *game);
 void				get_hex_codes(t_game *game, t_element *element);
 void				*p_calloc(size_t count, size_t size);
-void				free_map(char **map);
+void				free_w_map(char **map);
 void				ft_error(const char *message, t_game *game);
 void				set_initial_orientation(t_game *game);
 int					player_check(t_game *game, int i, int j);
@@ -173,5 +173,7 @@ int					check_extension(char *file);
 char				*get_content(char *line);
 int					compare_and_assign(t_game *game, t_element *element, int i);
 void				free_element(t_element *element);
+void				free_map(char **map, int map_height);
+
 
 #endif
