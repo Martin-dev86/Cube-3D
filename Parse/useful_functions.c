@@ -3,25 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   useful_functions.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: cagarci2 <cagarci2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 19:54:39 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/29 16:39:58 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/29 19:03:33 by cagarci2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/cub3d.h"
 
-void	free_map(char **map, int map_height)
+void	free_map(char **map)
 {
 	int	i;
 
 	i = 0;
-	while (i < map_height)
+	if (!map[i])
+		return ;
+	while (map[i])
 	{
 		free(map[i]);
 		i++;
 	}
+	free(map);
 }
 
 // Protected calloc function
@@ -43,7 +46,7 @@ void	ft_error(const char *message, t_game *game)
 {
 	printf("Error: %s\n", message);
 	if (game->world_map || game->map_height)
-		free_map(game->world_map, game->map_height);
+		free_map(game->world_map);
 	if (game->mlx)
 		mlx_terminate(game->mlx);
 	if (game)
@@ -55,7 +58,25 @@ void	ft_error_mlx(const char *message, t_game *game)
 {
 	printf("Error: %s\n", message);
 	mlx_terminate(game->mlx);
-	free_map(game->world_map, game->map_height);
+	free_map(game->world_map);
 	free_textures(game);
 	exit(1);
+}
+
+void	free_element(t_element *element)
+{
+	if (element == NULL)
+		return ;
+	if (element->north)
+		free(element->north);
+	if (element->south)
+		free(element->south);
+	if (element->west)
+		free(element->west);
+	if (element->east)
+		free(element->east);
+	if (element->floor)
+		free(element->floor);
+	if (element->ceiling)
+		free(element->ceiling);
 }

@@ -43,11 +43,11 @@ $(NAME): $(LIBFT) $(MLX) $(OBJS)
 
 # Build rule for libft
 $(LIBFT):
-	@make -C $(LIBFT_PATH) all
+	@make --no-print-directory -C $(LIBFT_PATH) all
 
 # Build rule for mlx42
 $(MLX):
-	@make -C $(MLX_PATH) all
+	@make -C $(MLX_PATH) > /dev/null 2>&1 all
 
 # Build rule for mandatory
 all: $(NAME)
@@ -55,8 +55,8 @@ all: $(NAME)
 # Clean rule
 clean: 
 	@rm -f $(OBJS)
-	@make -C $(LIBFT_PATH) clean
-	@make -C $(MLX_PATH) clean
+	@make -C $(LIBFT_PATH) > /dev/null 2>&1 clean
+	@make -C $(MLX_PATH) > /dev/null 2>&1 clean
 
 # Fclean rule
 fclean: clean

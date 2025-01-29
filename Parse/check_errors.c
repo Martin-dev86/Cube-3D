@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_errors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: cagarci2 <cagarci2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 13:38:33 by cagarci2          #+#    #+#             */
-/*   Updated: 2025/01/29 16:46:40 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/29 18:35:57 by cagarci2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ int	check_maps(t_game *game)
 	{
 		j = 0;
 		// FIX THIS functions Crack!
-		if (strspn(game->world_map[i], " ") == strlen(game->world_map[i]))
-			continue ;
+		// if (strspn(game->world_map[i], " ") == strlen(game->world_map[i]))
+		// 	continue ;
 		while (game->world_map[i][j])
 		{
 			exit_count = player_and_map_check(game, i, j, exit_count);
@@ -93,7 +93,8 @@ int	size_and_create_map(char *file, t_game *game)
 	map_temp[game->read_cont] = '\0';
 	close(fd);
 	game->world_map = ft_split(map_temp, '\n');
-	return (free(map_temp), 1);
+	free(map_temp);
+	return (1);
 }
 
 int	check_error(char *input, t_game *game, t_element *element)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: cagarci2 <cagarci2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:23:11 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/29 16:50:44 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/29 19:06:43 by cagarci2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	**initialize_map(char **mapData, int map_height, t_game *game)
 		map[i] = ft_strdup(mapData[i]);
 		if (!map[i])
 		{
-			free_map(map, i);
+			free_map(map);
 			return (NULL);
 		}
 		j = 0;
@@ -46,7 +46,7 @@ char	**initialize_map(char **mapData, int map_height, t_game *game)
 		}
 		i++;
 	}
-	return (map);
+	return (free_map(mapData), map);
 }
 
 void	initial_check(int argc, char **argv, t_game *game, t_element *element)
@@ -76,9 +76,7 @@ int	main(int argc, char **argv)
 {
 	t_game		game;
 	t_element	element;
-	int			map_height;
 
-	map_height = 0;
 	initial_check(argc, argv, &game, &element);
 	load_walls(&game, &element);
 	set_initial_orientation(&game);
@@ -86,9 +84,10 @@ int	main(int argc, char **argv)
 	mlx_loop_hook(game.mlx, &update_and_render, &game);
 	mlx_key_hook(game.mlx, &move_player, &game);
 	mlx_loop(game.mlx);
-	free_map(game.world_map, map_height);
-	free_map(game.map, game.map_height);
+	free_map(game.world_map);
+	//free_map(game.map);
 	free_textures(&game);
+	free_element(&element);
 	mlx_terminate(game.mlx);
 	return (0);
 }

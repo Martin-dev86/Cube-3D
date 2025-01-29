@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   movement.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: cagarci2 <cagarci2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:27:00 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/14 16:08:32 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/29 18:25:08 by cagarci2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	escape_key(mlx_key_data_t keydata, void *param)
 	if (keydata.key == MLX_KEY_ESCAPE)
 	{
 		mlx_close_window(game->mlx);
-		free_map(game->world_map, game->map_height);
+		free_map(game->world_map);
 		exit(0);
 	}
 }

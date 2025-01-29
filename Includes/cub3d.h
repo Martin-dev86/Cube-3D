@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: cagarci2 <cagarci2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 15:22:18 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/29 16:34:19 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/29 18:27:13 by cagarci2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,6 @@ void				move_player(mlx_key_data_t keydata, void *param);
 void				update_and_render(void *param);
 char				**initialize_map(char *mapData[], int mapHeight,
 						t_game *game);
-void				free_map(char **map, int mapHeight);
 void				load_walls(t_game *game, t_element *element);
 void				move_forward(t_game *game, double moveSpeed);
 void				turn_mov(mlx_key_data_t keydata, void *param);
@@ -160,7 +159,7 @@ int					check_error(char *input, t_game *game, t_element *element);
 void				create_map(t_game *game);
 void				get_hex_codes(t_game *game, t_element *element);
 void				*p_calloc(size_t count, size_t size);
-void				free_map(char **map, int map_height);
+void				free_map(char **map);
 void				ft_error(const char *message, t_game *game);
 void				set_initial_orientation(t_game *game);
 int					player_check(t_game *game, int i, int j);
@@ -173,5 +172,6 @@ int					player_and_map_check(t_game *game, int i, int j,
 int					check_extension(char *file);
 char				*get_content(char *line);
 int					compare_and_assign(t_game *game, t_element *element, int i);
+void				free_element(t_element *element);
 
 #endif
