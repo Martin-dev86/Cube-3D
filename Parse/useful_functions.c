@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   useful_functions.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cagarci2 <cagarci2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 19:54:39 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/29 19:03:33 by cagarci2         ###   ########.fr       */
+/*   Updated: 2025/01/29 19:43:38 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	free_map(char **map)
 	int	i;
 
 	i = 0;
-	if (!map[i])
+	if (!map)
 		return ;
 	while (map[i])
 	{

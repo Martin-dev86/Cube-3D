@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   movement.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cagarci2 <cagarci2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:27:00 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/29 18:25:08 by cagarci2         ###   ########.fr       */
+/*   Updated: 2025/01/29 20:08:08 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,24 +55,32 @@ void	move_backward(t_game *game, double moveSpeed)
 }
 
 // Function to move the player forward and backwards
-void	foward_and_back_mov(mlx_key_data_t keydata, void *param)
+void	foward_and_back_mov(void *param)
 {
 	t_game	*game;
 	double	move_speed;
 
 	game = (t_game *)param;
 	move_speed = MOVE_SPEED;
-	if (keydata.key == MLX_KEY_W)
+	if (mlx_is_key_down(game->mlx, MLX_KEY_W))
 		move_forward(game, move_speed);
-	if (keydata.key == MLX_KEY_S)
+	if (mlx_is_key_down(game->mlx, MLX_KEY_S))
 		move_backward(game, move_speed);
 }
 
-// Función para mover al jugador
+// Function to move the player
 void	move_player(mlx_key_data_t keydata, void *param)
 {
-	escape_key(keydata, param);
-	foward_and_back_mov(keydata, param);
-	side_mov(keydata, param);
+	t_game	*game;
+
+	game = (t_game *)param;
+	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
+		escape_key(keydata, param);
+	if (mlx_is_key_down(game->mlx, MLX_KEY_W) || mlx_is_key_down(game->mlx,
+			MLX_KEY_S))
+		foward_and_back_mov(param);
+	if (mlx_is_key_down(game->mlx, MLX_KEY_A) || mlx_is_key_down(game->mlx,
+			MLX_KEY_D))
+		side_mov(param);
 	turn_mov(keydata, param);
 }

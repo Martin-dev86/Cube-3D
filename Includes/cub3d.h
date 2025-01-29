@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cagarci2 <cagarci2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 15:22:18 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/29 18:27:13 by cagarci2         ###   ########.fr       */
+/*   Updated: 2025/01/29 20:07:27 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ void				load_walls(t_game *game, t_element *element);
 void				move_forward(t_game *game, double moveSpeed);
 void				turn_mov(mlx_key_data_t keydata, void *param);
 void				key_a(mlx_key_data_t keydata, void *param);
-void				side_mov(mlx_key_data_t keydata, void *param);
+void				side_mov(void *param);
 void				draw_wall_with_texture(t_game *game, t_ray *ray, int x,
 						t_lines *lines);
 void				free_textures(t_game *game);

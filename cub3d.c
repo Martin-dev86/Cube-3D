@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cagarci2 <cagarci2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:23:11 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/29 19:06:43 by cagarci2         ###   ########.fr       */
+/*   Updated: 2025/01/29 19:49:21 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,9 @@ int	main(int argc, char **argv)
 	mlx_loop_hook(game.mlx, &update_and_render, &game);
 	mlx_key_hook(game.mlx, &move_player, &game);
 	mlx_loop(game.mlx);
-	free_map(game.world_map);
-	//free_map(game.map);
+	mlx_terminate(game.mlx);
 	free_textures(&game);
 	free_element(&element);
-	mlx_terminate(game.mlx);
+	free_map(game.world_map);
 	return (0);
 }
