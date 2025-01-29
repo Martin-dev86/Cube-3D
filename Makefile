@@ -27,6 +27,7 @@ FILES = cub3d.c execute/drawing.c execute/movement.c execute/render.c execute/te
 		execute/mov_forward.c execute/turn_mov.c execute/side_mov.c execute/key_a.c\
 		execute/wall_texture.c execute/free_textures.c Parse/check_errors.c Parse/create_map.c\
 		Parse/solid_codes.c Parse/useful_functions.c execute/player_orient.c\
+		Parse/check_map_helpers.c Parse/map_checks.c
 
 # Object files
 OBJS = $(FILES:.c=.o)

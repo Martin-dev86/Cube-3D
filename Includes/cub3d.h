@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 15:22:18 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/28 19:31:28 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/29 16:34:19 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,9 +163,15 @@ void				*p_calloc(size_t count, size_t size);
 void				free_map(char **map, int map_height);
 void				ft_error(const char *message, t_game *game);
 void				set_initial_orientation(t_game *game);
+int					player_check(t_game *game, int i, int j);
+int					check_is_closed(t_game *game, int i, int j);
+int					check_spaces(t_game *game, int i, int j);
+int					check_newline(t_game *game, int i, int j);
+int					check_invalid_char(t_game *game, int i, int j);
+int					player_and_map_check(t_game *game, int i, int j,
+						int exit_count);
+int					check_extension(char *file);
+char				*get_content(char *line);
+int					compare_and_assign(t_game *game, t_element *element, int i);
 
-
-
-// solo para debuggeo
-// borrar
 #endif
