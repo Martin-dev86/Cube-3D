@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 15:22:18 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/29 20:32:40 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/01/31 13:11:30 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,22 @@ typedef struct s_draw_line_params
 	int				end;
 }					t_draw_line_params;
 
-// funciones
+// Parse functions
+int					check_extension(char *file);
+int					check_header(t_game *game, t_element *element);
+int					check_error(char *input, t_game *game, t_element *element);
+void				get_hex_codes(t_game *game, t_element *element);
+int					player_check(t_game *game, int i, int j);
+int					check_is_closed(t_game *game, int i, int j);
+int					check_spaces(t_game *game, int i, int j);
+int					check_newline(t_game *game, int i, int j);
+int					check_invalid_char(t_game *game, int i, int j);
+int					player_and_map_check(t_game *game, int i, int j,
+						int exit_count);
+char				*get_content(char *line);
+int					compare_and_assign(t_game *game, t_element *element, int i);
+
+// Game functions
 void				clear_image(mlx_image_t *image, uint32_t color);
 void				draw_line(t_game *game, uint32_t color,
 						t_draw_line_params *params);
@@ -151,29 +166,18 @@ void				key_a(mlx_key_data_t keydata, void *param);
 void				side_mov(void *param);
 void				draw_wall_with_texture(t_game *game, t_ray *ray, int x,
 						t_lines *lines);
-void				free_textures(t_game *game);
-int					check_extension(char *file);
-int					check_header(t_game *game, t_element *element);
 int					size_and_create_map(char *file, t_game *game);
-int					check_error(char *input, t_game *game, t_element *element);
 void				create_map(t_game *game);
-void				get_hex_codes(t_game *game, t_element *element);
-void				*p_calloc(size_t count, size_t size);
-void				free_w_map(char **map);
-void				ft_error(const char *message, t_game *game);
 void				set_initial_orientation(t_game *game);
-int					player_check(t_game *game, int i, int j);
-int					check_is_closed(t_game *game, int i, int j);
-int					check_spaces(t_game *game, int i, int j);
-int					check_newline(t_game *game, int i, int j);
-int					check_invalid_char(t_game *game, int i, int j);
-int					player_and_map_check(t_game *game, int i, int j,
-						int exit_count);
-int					check_extension(char *file);
-char				*get_content(char *line);
-int					compare_and_assign(t_game *game, t_element *element, int i);
+
+// Free functions
+void				free_textures(t_game *game);
+void				free_w_map(char **map);
 void				free_element(t_element *element);
 void				free_map(char **map, int map_height);
 
+// Useful functions
+void				*p_calloc(size_t count, size_t size);
+void				ft_error(const char *message, t_game *game);
 
 #endif
