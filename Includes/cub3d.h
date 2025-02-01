@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 15:22:18 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/31 13:11:30 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/02/01 15:05:57 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ char				**initialize_map(char *mapData[], int mapHeight,
 						t_game *game);
 void				load_walls(t_game *game, t_element *element);
 void				move_forward(t_game *game, double moveSpeed);
-void				turn_mov(mlx_key_data_t keydata, void *param);
+void				turn_mov(void *param);
 void				key_a(mlx_key_data_t keydata, void *param);
 void				side_mov(void *param);
 void				draw_wall_with_texture(t_game *game, t_ray *ray, int x,

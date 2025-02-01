@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:27:00 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/29 20:32:53 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/02/01 15:06:12 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,5 +82,5 @@ void	move_player(mlx_key_data_t keydata, void *param)
 	if (mlx_is_key_down(game->mlx, MLX_KEY_A) || mlx_is_key_down(game->mlx,
 			MLX_KEY_D))
 		side_mov(param);
-	turn_mov(keydata, param);
+	turn_mov(param);
 }
