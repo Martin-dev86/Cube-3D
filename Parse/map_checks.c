@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 16:11:31 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/29 16:41:34 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/02/01 18:54:24 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,9 @@ int	player_and_map_check(t_game *game, int i, int j, int exit_count)
 	if (check_is_closed(game, i, j) == 1)
 	{
 		if (check_spaces(game, i, j) == 1)
-			ft_error("Map not closed\n", game);
+			ft_error("Map not closed or player outside the map\n", game);
 		if (check_newline(game, i, j) == 1)
-			ft_error("Map not closed\n", game);
+			ft_error("Map not closed or player outside the map\n", game);
 	}
 	else if (check_invalid_char(game, i, j) == 1)
 		ft_error("Invalid character in the map\n", game);
