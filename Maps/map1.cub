@@ -1,9 +1,9 @@
-NO ./textures/neon_wall2.xpm42
-WE ./textures/purplestone.xpm42
-SO ./textures/bluestone.xpm42
-EA ./textures/wood.xpm42
-F 176,224,230
-C 138,43,226
+NO /home/jeandrad/Desktop/cub3d/textures/256x256/256_Cement 01.xpm42
+WE textures/256x256/256_Cement 02.xpm42
+SO textures/256x256/256_Cement 01.xpm42
+EA textures/256x256/256_Cement 04.xpm42
+F 169,169,169
+C 128,128,128
 
 1111111111111
 1000000000001

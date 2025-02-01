@@ -1,7 +1,7 @@
-NO textures/256x256/256_Brick 02.xpm
-WE textures/256x256/256_Brick 04.xpm
-SO textures/256x256/256_Brick 04.xpm
-EA textures/256x256/256_Brick 03.xpm
+NO textures/256x256/256_Marble 01.xpm42
+WE textures/256x256/256_Marble 01.xpm42
+SO textures/256x256/256_Marble 02.xpm42
+EA textures/256x256/256_Marble 02.xpm42
 
 F 210,180,140
 C 210,105,30
