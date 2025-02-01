@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_errors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cagarci2 <cagarci2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 13:38:33 by cagarci2          #+#    #+#             */
-/*   Updated: 2025/01/29 18:35:57 by cagarci2         ###   ########.fr       */
+/*   Updated: 2025/02/01 15:11:11 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,6 @@ int	check_maps(t_game *game)
 	while (game->world_map[i])
 	{
 		j = 0;
-		// FIX THIS functions Crack!
-		// if (strspn(game->world_map[i], " ") == strlen(game->world_map[i]))
-		// 	continue ;
 		while (game->world_map[i][j])
 		{
 			exit_count = player_and_map_check(game, i, j, exit_count);
