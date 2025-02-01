@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 15:22:18 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/02/01 15:05:57 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/02/01 17:58:20 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,9 @@ typedef struct s_draw_line_params
 	int				start;
 	int				end;
 }					t_draw_line_params;
+
+// Initialization functions
+void				init_all(t_game *game, t_element *element);
 
 // Parse functions
 int					check_extension(char *file);

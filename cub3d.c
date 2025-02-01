@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:23:11 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/29 20:38:41 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/02/01 17:58:57 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ int	main(int argc, char **argv)
 	t_game		game;
 	t_element	element;
 
+	init_all(&game, &element);
 	initial_check(argc, argv, &game, &element);
 	load_walls(&game, &element);
 	set_initial_orientation(&game);
