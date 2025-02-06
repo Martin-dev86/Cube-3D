@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 18:47:49 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/01/28 18:04:47 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/02/06 15:18:59 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,38 @@ int	check_number(char *str)
 			return (0);
 		i++;
 	}
+	if (ft_strlen(str) > 3)
+		return (0);
 	if (ft_atoi(str) < 0 || ft_atoi(str) > 255)
 		return (0);
 	return (1);
+}
+
+// Function to check the values of the floor and ceiling
+// it uses a pointer because of norminette
+int	check_numbers(const char *str)
+{
+	int	num_count;
+	int	value;
+
+	num_count = 0;
+	while (*str)
+	{
+		if (ft_isdigit(*str))
+		{
+			value = 0;
+			while (ft_isdigit(*str))
+				value = value * 10 + (*str++ - '0');
+			if (value < 0 || value > 255)
+				return (0);
+			num_count++;
+		}
+		else if (*str == ',')
+			str++;
+		else
+			return (0);
+	}
+	return (num_count == 3);
 }
 
 // Function to convert an RGB string to an array of three integers
@@ -69,12 +98,17 @@ uint32_t	rgb_to_uint32(int *rgb)
 	return (color);
 }
 
+// Function to get the hexadecimal codes for the floor and ceiling
 void	get_hex_codes(t_game *game, t_element *element)
 {
 	int	*rgb_floor;
 	int	*rgb_ceiling;
 
 	rgb_floor = get_rgb_codes(element->floor);
+	if (check_numbers(element->floor) == 0)
+		ft_error("getting the color for the floor.\n", game);
+	if (check_numbers(element->ceiling) == 0)
+		ft_error("getting the color for the ceiling.\n", game);
 	if (!rgb_floor)
 		ft_error("Error getting the color for the floor.\n", game);
 	game->floor = rgb_to_uint32(rgb_floor);
