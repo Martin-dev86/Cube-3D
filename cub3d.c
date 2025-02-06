@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:23:11 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/02/01 17:58:57 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/02/06 14:10:17 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,23 +52,23 @@ char	**initialize_map(char **mapData, int map_height, t_game *game)
 void	initial_check(int argc, char **argv, t_game *game, t_element *element)
 {
 	if (argc != 2)
-		ft_error("Error: Invalid number of arguments.", game);
+		ft_error("Invalid number of arguments.", game);
 	if ((!check_error(argv[1], game, element)))
-		ft_error("Error: Invalid map.", game);
+		ft_error("Invalid map.", game);
 	create_map(game);
 	if (!game->world_map)
-		ft_error("Error: Cannot create the map.", game);
+		ft_error("Cannot create the map.", game);
 	game->world_map = initialize_map(game->world_map, game->map_height, game);
 	if (!game->world_map)
-		ft_error("Error: Cannot initialize the map.", game);
+		ft_error("Cannot initialize the map.", game);
 	game->mlx = mlx_init(SCREENWIDTH, SCREENHEIGHT, "Cub3D", true);
 	if (!game->mlx)
-		ft_error("Error: Cannot initialize the mlx.", game);
+		ft_error("Cannot initialize the mlx.", game);
 	game->image = mlx_new_image(game->mlx, SCREENWIDTH, SCREENHEIGHT);
 	if (!game->image)
 	{
 		mlx_terminate(game->mlx);
-		ft_error("Error: Cannot create the image.", game);
+		ft_error("Cannot create the image.", game);
 	}
 }
 

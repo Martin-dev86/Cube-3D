@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 13:38:33 by cagarci2          #+#    #+#             */
-/*   Updated: 2025/02/01 15:11:11 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/02/06 14:10:37 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	check_header(t_game *game, t_element *element)
 		i++;
 	}
 	if (config_count < 6)
-		ft_error("Error: Missing configuration\n", game);
+		ft_error("Missing configuration\n", game);
 	return (1);
 }
 
@@ -50,7 +50,7 @@ int	check_maps(t_game *game)
 		i++;
 	}
 	if (exit_count != 1)
-		ft_error("Error: Invalid number of players\n", game);
+		ft_error("Invalid number of players\n", game);
 	return (1);
 }
 
@@ -63,14 +63,14 @@ int	calculate_file_size(char *file, t_game *game)
 	game->read_cont = 1;
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
-		ft_error("Error: File not found.", game);
+		ft_error("File not found.", game);
 	while (game->read_cont > 0)
 	{
 		game->read_cont = read(fd, buffer, sizeof(buffer));
 		if (game->read_cont < 0)
 		{
 			close(fd);
-			ft_error("Error: File reading failed.", game);
+			ft_error("File reading failed.", game);
 		}
 		game->file_size += game->read_cont;
 	}

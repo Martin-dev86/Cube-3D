@@ -6,7 +6,7 @@
 /*   By: jeandrad <jeandrad@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 16:11:31 by jeandrad          #+#    #+#             */
-/*   Updated: 2025/02/01 18:54:24 by jeandrad         ###   ########.fr       */
+/*   Updated: 2025/02/06 14:10:44 by jeandrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	compare_and_assign(t_game *game, t_element *element, int i)
 	else if (ft_strncmp(&game->world_map[i][0], "C ", 2) == 0)
 		element->ceiling = get_content(game->world_map[i]);
 	else if (game->world_map[i][0] != '\n' && game->world_map[i][0] != ' ')
-		ft_error("Error: Invalid configuration\n", game);
+		ft_error("Invalid configuration\n", game);
 	return (1);
 }
 
